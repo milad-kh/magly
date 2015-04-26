@@ -1,0 +1,69 @@
+  <ion-side-menus>
+  <!-- Center content -->
+  <ion-side-menu-content>
+  <ion-header-bar align-title="center" class="bar-positive">
+    <div class="buttons">
+      <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
+    </div>
+    <h1 class="title">www.summits.ir</h1>
+  </ion-header-bar>
+
+    <ion-content>
+      <div ng-show="showArticleList">
+      <ion-list style="direction:rtl">    
+        <ion-item class="item item-thumbnail-right" href="#" ng-repeat="post in posts">
+          <img src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
+          <h2 ng-bind="post.post_title"></h2>
+          <p ng-bind="post.post_content"></p>
+        </ion-item>
+      </ion-list>
+      <!-- <ion-infinite-scroll
+        on-infinite="loadmore()"
+        distance="1%"
+        >
+      </ion-infinite-scroll> -->
+    </div>
+    <div ng-show="showUpdateMessage">
+      <div class="card">
+        <div class="item item-text-wrap">
+          احتمالا بار اول است که از این برنامه استفاده میکنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
+        </div>
+      </div>
+      <button class="button button-balanced" ng-click="fillLocalWithData()">
+        دریافت مقاله ها
+      </button>
+    </div>
+    </ion-content>
+
+    <ion-footer-bar align-title="right" class="bar-assertive">
+  
+  <div class="buttons" align="left">
+    <button class="button" ng-click="showScope()">show scope</button>
+  </div>
+  <div class="buttons" align="left">
+    <button class="button" ng-click="showActionsheet()">action sheet</button>
+  </div>
+  
+</ion-footer-bar>
+  </ion-side-menu-content>
+
+  <!-- Left menu -->
+  <ion-side-menu side="left">
+  <ion-header-bar align-title="center" class="bar-positive">   
+    <h1 class="title">لیست دسته ها</h1>    
+  </ion-header-bar>
+    <ion-content>
+       <ion-list>  
+          <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
+            <p>همه ی مقالات</p>
+          </ion-item>  
+          <ion-item ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" class="item item-thumbnail-left" href="#" ng-repeat="category in categories">
+            <p ng-bind="category.cat_name"></p>
+          </ion-item>  
+          <ion-item ng-click="filterPostsByCategory(355)" class="item item-thumbnail-left" href="#">
+            <p>بیوگرافی اسطوره های IT</p>
+          </ion-item>
+        </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>
