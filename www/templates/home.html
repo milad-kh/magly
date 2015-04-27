@@ -7,17 +7,18 @@
     </div>
    
   </ion-header-bar>
-
     <ion-content>
       <div ng-show="showArticleList">
       <ion-list style="direction:rtl">    
-        <ion-item class="item item-thumbnail-right" href="#" ng-repeat="post in posts">
-          {{$index}}
-          
-          <img src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
-          <h2 ng-bind="post.post_title"></h2>
-          <p ng-bind="post.post_content"></p>
-        <img src="img/milad.jpg" ng-show="vaz" />
+        <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts">          
+          <!-- the box of POST here -->
+          <img ng-show="true" src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
+
+          <h2  ng-show="true" ng-bind="post.post_title"></h2>
+          <p   ng-show="true" ng-bind="post.post_content"></p>
+          <!-- the box of ADS is here  -->
+          <img ng-show="!true" src="img/milad.jpg" />
+
         </ion-item>
       </ion-list>
       <!-- <ion-infinite-scroll

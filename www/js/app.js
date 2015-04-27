@@ -52,6 +52,25 @@
         }
       })
 
+      .state('post', {
+        url: '/post/:postID',
+        views: {
+          'post': {
+            templateUrl: 'templates/post.html',
+            controller: function($http, $scope, $stateParams){
+              $http({
+                method: 'GET',
+                url:'http://www.summits.ir/apiToMobile/getPostByID.php'
+              }).success(function(data,status,headers,config){
+                $scope.postInfoObject = data;
+              }).error(function(data,status,headers,config){
+                console.log('error in get categories');
+              });              
+            }
+            }
+        }
+      })
+
       .state('aboutus', {
         url: '/aboutus',
         views: {
@@ -92,11 +111,16 @@
   Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
      
-    $scope.vaz = true;
-    //console.log($ionicSideMenuDelegate);
     $scope.toggleSidemenu = function()
     {
       $ionicSideMenuDelegate.toggleLeft();
+    }
+
+    $scope.displaySinglePost = function(postID)
+    {      
+      $state.go('post',({
+        postID:postID
+      }));
     }
 
     $scope.showActionsheet = function() {    
