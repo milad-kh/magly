@@ -60,6 +60,15 @@
             }
         }
       })
+
+      .state('signup', {
+        url: '/signup',
+        views: {
+          'signup': {
+            templateUrl: 'templates/signup.html'
+            }
+        }
+      })
       
       .state('ourservices', {
         url: '/ourservices',
@@ -82,6 +91,8 @@
    */
   Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
+     
+    $scope.vaz = true;
     //console.log($ionicSideMenuDelegate);
     $scope.toggleSidemenu = function()
     {
@@ -93,7 +104,7 @@
       $ionicActionSheet.show({
          buttons: [
            { text: 'درباره ی ما' },
-           { text: 'تماس با ما' },
+           { text: 'ثبت نام' },
            { text: 'خدمات ما برای شما' },
            { text: 'دسه های مقالات' },
            { text: 'به روز رسانی برنامه' }
@@ -108,7 +119,7 @@
                 $state.go('aboutus');
               break;
               case 1:
-                $state.go('contactus');
+                $state.go('signup');
               break;
               case 2:
                 $state.go('ourservices');
@@ -266,15 +277,6 @@
         $scope.posts = currentCategoryPosts;
       }
       $ionicSideMenuDelegate.toggleLeft();
-    },
-
-    $scope.showScope = function()
-    {
-      //ng.forEach($scope.posts, function(val){
-        var a = $scope.posts[0].post_content;
-        a.replace("[caption][/caption]", "");
-        console.log($scope.posts[0].post_content);
-      //})
     }
   }
   ;
