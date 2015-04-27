@@ -43,6 +43,16 @@
         }
       })
 
+      .state('favoriteList', {
+        url: '/favoriteList',
+        views: {
+          'favoriteList': {
+            templateUrl: 'templates/favoriteList.html',
+            controller: Controller
+            }
+        }
+      })
+
       .state('contactus', {
         url: '/contactus',
         views: {
@@ -57,7 +67,7 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($http, $scope, $stateParams){
+            controller: function($http, $scope, $stateParams, $ionicActionSheet){
               $http({
                 method: 'GET',
                 url:'http://www.summits.ir/apiToMobile/getPostByID.php'
@@ -65,7 +75,44 @@
                 $scope.postInfoObject = data;
               }).error(function(data,status,headers,config){
                 console.log('error in get categories');
-              });              
+              });      
+
+              $scope.showActionsheetForPost = function() {    
+       // Show the action sheet
+      $ionicActionSheet.show({
+         buttons: [
+           { text: 'like' },
+           { text: 'کامنت' },
+           { text: 'اضافه به لیست دلخواه' }           
+         ],
+         // destructiveText: 'Delete',
+         titleText: 'قصد انجام چه کاری دارید؟',
+         cancelText: 'بستن',
+         buttonClicked: function(index) {
+           switch (index)
+           {
+              case 0:
+                $state.go('aboutus');
+              break;
+              case 1:
+                $state.go('signup');
+              break;
+              case 2:
+                $state.go('ourservices');
+              break;
+              case 3:
+                console.log('آپدیت مقالات');
+              break;
+              case 4:
+                console.log('آپدیت مقالات');
+              break;
+           }
+           console.log(index);
+           return true;
+         }
+       });
+    };
+
             }
             }
         }
@@ -130,8 +177,9 @@
            { text: 'درباره ی ما' },
            { text: 'ثبت نام' },
            { text: 'خدمات ما برای شما' },
-           { text: 'دسه های مقالات' },
-           { text: 'به روز رسانی برنامه' }
+           { text: 'دسته های مقالات' },
+           { text: 'به روز رسانی برنامه' },
+           { text: 'مشاهده لیست دلخواه' }
          ],
          // destructiveText: 'Delete',
          titleText: 'قصد انجام چه کاری دارید؟',
@@ -153,6 +201,9 @@
               break;
               case 4:
                 console.log('آپدیت مقالات');
+              break;
+              case 5:
+                $state.go('favoriteList');
               break;
            }
            console.log(index);
