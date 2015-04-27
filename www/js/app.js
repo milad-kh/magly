@@ -53,6 +53,16 @@
         }
       })
 
+      .state('search', {
+        url: '/search',
+        views: {
+          'search': {
+            templateUrl: 'templates/search.html',
+            controller: Controller
+            }
+        }
+      })
+
       .state('contactus', {
         url: '/contactus',
         views: {
@@ -179,7 +189,8 @@
            { text: 'خدمات ما برای شما' },
            { text: 'دسته های مقالات' },
            { text: 'به روز رسانی برنامه' },
-           { text: 'مشاهده لیست دلخواه' }
+           { text: 'مشاهده لیست دلخواه' },
+           { text: 'جستجوی مقالات' }
          ],
          // destructiveText: 'Delete',
          titleText: 'قصد انجام چه کاری دارید؟',
@@ -204,6 +215,9 @@
               break;
               case 5:
                 $state.go('favoriteList');
+              break;
+              case 6:
+                $state.go('search');
               break;
            }
            console.log(index);
