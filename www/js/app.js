@@ -80,7 +80,7 @@
             controller: function($http, $scope, $stateParams, $ionicActionSheet){
               $http({
                 method: 'GET',
-                url:'http://www.summits.ir/apiToMobile/getPostByID.php'
+                url:'http://www.magly.ir/HybridAppAPI/getPostByID.php'
               }).success(function(data,status,headers,config){
                 $scope.postInfoObject = data;
               }).error(function(data,status,headers,config){
@@ -230,7 +230,7 @@
     {
       $http({
         method: 'GET',
-        url:'http://www.summits.ir/apiToMobile/showCategoryList.php'
+        url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'
       }).success(function(data,status,headers,config){
         $scope.categories = data;
       }).error(function(data,status,headers,config){
@@ -279,7 +279,7 @@
       // we should- find last article ID in summits.ir
       $http({
       method: 'GET',
-      url:'http://www.summits.ir/apiToMobile/lastPostID.php'
+      url:'http://www.magly.ir/HybridAppAPI/lastPostID.php'
       }).success(function(data,status,headers,config){
         console.log('biggest ID on net is : '+data);
         if (data > lastPostIdInLocal)
@@ -309,7 +309,7 @@
       console.log('last post id:', lastPostIdInLocal);
       $http({
         method: 'GET',
-        url:'http://www.summits.ir/apiToMobile/updateMyPosts.php?startPostID='+lastPostIdInLocal
+        url:'http://www.magly.ir/HybridAppAPI/updateMyPosts.php?startPostID='+lastPostIdInLocal
       }).success(function(data,status,headers,config){
         console.log('new data is :',data);
         var newPosts = data.concat($scope.posts);
@@ -328,7 +328,7 @@
     {
       $http({
         method: 'GET',
-        url:'http://www.summits.ir/apiToMobile/showPostList.php?catID=0'
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0'
       }).success(function(data,status,headers,config){
         
         $localstorage.setObject('posts', data);

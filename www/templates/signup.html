@@ -1,32 +1,35 @@
-<div class="list">
-  
-  <label class="item item-input item-floating-label">
-    <span class="input-label">First Name</span>
-    <input type="text" placeholder="First Name">
-  </label>
-  
-  <label class="item item-input item-floating-label">
-    <span class="input-label">Last Name</span>
-    <input type="text" placeholder="Last Name">
-  </label>
+<ion-side-menus>
+<ion-side-menu-content>
+<ion-header-bar align-title="center" class="bar-positive">
+  <div class="buttons">
+    <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
+  </div>
+</ion-header-bar>
+<ion-content>
 
-  <label class="item item-input item-floating-label">
-    <span class="input-label">Email</span>
-    <input type="text" placeholder="Email">
-  </label>
+  <div class="list">
+    <label class="item item-input item-floating-label">
+      <span class="input-label">First Name</span>
+      <input type="text" placeholder="First Name">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Last Name</span>
+      <input type="text" placeholder="Last Name">
+    </label>
+    <label class="item item-input item-floating-label">
+      <span class="input-label">Email</span>
+      <input type="text" placeholder="Email">
+    </label>
+    <button class="button button-block button-positive">
+      Block Button
+    </button>
+  </div>
 
-  <label class="toggle">
-   <input type="checkbox">
-   <div class="track">
-     <div class="handle"></div>
-   </div>
-  </label>
-
-  <li class="item item-checkbox">
-     <label class="checkbox">
-       <input type="checkbox">
-     </label>
-     Flux Capacitor
-  </li>
-  
-</div>
+</ion-content>
+<ion-footer-bar align-title="right" class="bar-assertive">
+  <div class="buttons" align="left">
+    <button class="button" ng-click="">Magly</button>
+  </div>
+</ion-footer-bar>
+</ion-side-menu-content>
+</ion-side-menus>
