@@ -1,6 +1,7 @@
 <ion-side-menus>
 <ion-side-menu-content>
 <ion-header-bar align-title="center" class="bar-positive">
+
   <div class="buttons">
     <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
   </div>
@@ -20,9 +21,19 @@
       <span class="input-label">Email</span>
       <input type="text" placeholder="Email">
     </label>
-    <button class="button button-block button-positive">
-      Block Button
+
+    <button class="button button-block button-balanced">
+      sign up
     </button>
+
+    <div class="list">
+      <div class="item range range-positive">
+        <i class="icon ion-ios-sunny-outline"></i>
+        <input type="range" name="volume" min="0" max="100" value="33">
+        <i class="icon ion-ios-sunny"></i>
+      </div>
+    </div>
+
   </div>
 
 </ion-content>

@@ -77,16 +77,33 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($http, $scope, $stateParams, $ionicActionSheet){
-              $http({
-                method: 'GET',
-                url:'http://www.magly.ir/HybridAppAPI/getPostByID.php'
-              }).success(function(data,status,headers,config){
-                $scope.postInfoObject = data;
-              }).error(function(data,status,headers,config){
-                console.log('error in get categories');
-              });      
+            controller: function($http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup){
+              
+              $scope.addToFavorite = function(event)
+              {                       
+                // event.preventDefault();
+                // event.stopPropagation();
+                // show the message    
+                var alertPopup = $ionicPopup.alert({
+                  title: 'Added to favorites!',
+                  template: 'this article added to your favorite list :)'
+                });
+                // we can do more here
+                alertPopup.then(function(res) {
+                  console.log('Thank you for not eating my delicious ice cream cone');
+                });               
+              };
 
+              console.log($stateParams);              
+              $scope.posts = $localstorage.getObject('posts');
+              console.log($scope.posts);
+              _.each($scope.posts, function(value){
+                if (value.ID == $stateParams.postID)
+                {
+                  $scope.post = value;
+                  console.log($scope.post);
+                }
+              })
               $scope.showActionsheetForPost = function() {    
        // Show the action sheet
       $ionicActionSheet.show({
