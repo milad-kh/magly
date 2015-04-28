@@ -14,7 +14,7 @@
   init = function ()
   {
     ng
-    .module('starter', ['localStorage', 'ui.router', 'ionic'])
+    .module('starter', ['localStorage', 'ui.router', 'ionic', 'ngCordova'])
     .run(function($ionicPlatform)
     {
       $ionicPlatform.ready(function() {
@@ -77,8 +77,13 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup){
+            controller: function($cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup){
               
+              $scope.shareAnywhere = function() {
+                console.log($cordovaSocialSharing);
+                $cordovaSocialSharing.shareViaEmail('hi','subject','a.gmail.com','b@gmail.com','e@gmail.com');
+              }
+
               $scope.addToFavorite = function(event)
               {                       
                 // event.preventDefault();
