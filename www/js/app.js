@@ -77,12 +77,59 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup){
+            controller: function($cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
               
+                $scope.likeThisPost = function()
+                {
+                  var alertPopup = $ionicPopup.alert({
+                    title: 'Don\'t eat that!',
+                    template: 'It might taste good'
+                  });
+                  alertPopup.then(function(res) {
+                    console.log('Thank you for not eating my delicious ice cream cone');
+                 });
+                };
+
+                $scope.showPopup = function() {
+                $scope.data = {}
+
+                // An elaborate, custom popup
+                var myPopup = $ionicPopup.show({
+                  template: '<input type="text" autofocus ng-model="data.email">',
+                  title: 'ایمیل را وارد کنید',
+                  // subTitle: 'your friend email',
+                  scope: $scope,
+                  buttons: [
+                    { text: 'لغو' },
+                    {
+                      text: '<b>بفرست</b>',
+                      type: 'button-positive',
+                      onTap: function(e) {
+                        if ($scope.data.email != '')
+                        {
+                          $http({
+                            method: 'GET',
+                            url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?PostID='+$stateParams.postID+'&email='+$scope.data.email
+                          }).success(function(data,status,headers,config){
+                            console.log(data);
+                          }).error(function(data,status,headers,config){
+                            console.log('error in update!');
+                          });                            
+                        }
+                      }
+                    }
+                  ]
+                });
+                myPopup.then(function(res) {
+                  if ($scope.data.email == '')
+                    console.log('Tapped!', res);
+                });
+              };
+
               $scope.shareAnywhere = function() {
                 console.log($cordovaSocialSharing);
                 $cordovaSocialSharing.shareViaEmail('hi','subject','a.gmail.com','b@gmail.com','e@gmail.com');
-              }
+              };
 
               $scope.addToFavorite = function(event)
               {                       
