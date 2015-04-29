@@ -2,10 +2,15 @@
   <!-- Center content -->
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
-    <div class="buttons">
-      <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
-    </div>
-   
+  <div class="buttons">
+    <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
+  </div>
+  <label class="item item-input">
+  <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="text" placeholder="جستجو کنید">
+  </label> 
+
+
   </ion-header-bar>
     <ion-content>
       <div ng-show="showArticleList">

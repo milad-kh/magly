@@ -72,13 +72,27 @@
         }
       })
 
+      .state('comment', {
+        url: '/post/:postID/comment',
+        views: {
+          'comment': {
+            templateUrl: 'templates/comments.html'
+            }
+        }
+      })
+
       .state('post', {
         url: '/post/:postID',
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
+            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
               
+                $scope.goToCommentState = function()
+                {
+                  $state.go('comment',({postID:$stateParams.postID}));
+                };
+
                 $scope.likeThisPost = function()
                 {
                   var alertPopup = $ionicPopup.alert({
