@@ -7,7 +7,7 @@
   </div>
   <label class="item item-input">
   <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="text" placeholder="جستجو کنید">
+    <input type="text" placeholder="جستجو کنید" ng-model="query">
   </label> 
 
 
@@ -15,7 +15,7 @@
     <ion-content>
       <div ng-show="showArticleList">
       <ion-list style="direction:rtl">    
-        <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts">          
+        <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts | filter:query">          
           <!-- the box of POST here -->
           <img ng-show="true" src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
 
@@ -26,11 +26,11 @@
 
         </ion-item>
       </ion-list>
-      <!-- <ion-infinite-scroll
+      <ion-infinite-scroll
         on-infinite="loadmore()"
         distance="1%"
         >
-      </ion-infinite-scroll> -->
+      </ion-infinite-scroll>
     </div>
     <div ng-show="showUpdateMessage">
       <div class="card">
@@ -65,6 +65,9 @@
        <ion-list>  
           <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
             <p>همه ی مقالات</p>
+          </ion-item>
+          <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
+            <p>پر بازدیدترین ها</p>
           </ion-item>  
           <ion-item ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" class="item item-thumbnail-left" href="#" ng-repeat="category in categories">
             <p ng-bind="category.cat_name"></p>
@@ -73,6 +76,37 @@
             <p>بیوگرافی اسطوره های IT</p>
           </ion-item>
         </ion-list>
+        <!-- we must use this code -->
+    <!-- <div class="list">
+
+  <a class="item item-icon-left" href="#">
+    <i class="icon ion-email"></i>
+    Check mail
+  </a>
+
+  <a class="item item-icon-left item-icon-right" href="#">
+    <i class="icon ion-chatbubble-working"></i>
+    Call Ma
+    <i class="icon ion-ios-telephone-outline"></i>
+  </a>
+
+  <a class="item item-icon-left" href="#">
+    <i class="icon ion-mic-a"></i>
+    Record album
+    <span class="item-note">
+      Grammy
+    </span>
+  </a>
+
+  <a class="item item-icon-left" href="#">
+    <i class="icon ion-person-stalker"></i>
+    Friends
+    <span class="badge badge-assertive">0</span>
+  </a>
+
+</div> -->
+
+
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>
