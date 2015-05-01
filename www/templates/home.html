@@ -21,13 +21,15 @@
           <h2 ng-bind="post.post_title"></h2>
           <p ng-bind="post.post_content"></p>
           <!-- the box of ADS is here  -->
-          <img ng-if="$index % 5 == 0" src="img/milad.jpg" />
+          <img ng-if="$index % 5 == 0" src="img/ads.jpg"  />
 
         </ion-item>
       </ion-list>
       <ion-infinite-scroll
         on-infinite="loadmore()"
         distance="1%"
+        icon="ion-loading-c"
+        
         >
       </ion-infinite-scroll>
     </div>
