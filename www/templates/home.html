@@ -3,7 +3,7 @@
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
   <div class="buttons">
-    <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
+    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenu()">دسته های مقالات</button>
   </div>
   <label class="item item-input">
   <i class="icon ion-ios-search placeholder-icon"></i>
@@ -17,9 +17,9 @@
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts | filter:query" >          
           <!-- the box of POST here -->
           
-          <img src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
-          <h2 ng-bind="post.post_title"></h2>
-          <p ng-bind="post.post_content"></p>
+          <img src="{{post.thumbnail}}">
+          <h2 ng-bind="post.post_title" class="titrtge"></h2>
+          <p class="yekan">محتوا</p>
           <!-- the box of ADS is here  -->
           <img ng-if="$index % 5 == 0" src="img/ads.jpg"  />
 
@@ -29,7 +29,7 @@
         on-infinite="loadmore()"
         distance="1%"
         icon="ion-loading-c"
-        
+
         >
       </ion-infinite-scroll>
     </div>
@@ -45,13 +45,10 @@
     </div>
     </ion-content>
 
-    <ion-footer-bar align-title="right" class="bar-assertive">
+    <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
   
-  <div class="buttons" align="left">
-    <button class="button" ng-click="showScope()">show scope</button>
-  </div>
-  <div class="buttons" align="left">
-    <button class="button" ng-click="showActionsheet()">Magly</button>
+  <div class="buttons" align="center">
+    <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
   </div>
   
 </ion-footer-bar>
@@ -60,53 +57,27 @@
   <!-- Left menu -->
   <ion-side-menu side="left">
   <ion-header-bar align-title="center" class="bar-positive">   
-    <h1 class="title">لیست دسته ها</h1>    
+    <h1 class="title iraniansans">لیست دسته ها</h1>    
   </ion-header-bar>
     <ion-content>
-       <ion-list>  
-          <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
-            <p>همه ی مقالات</p>
-          </ion-item>
-          <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
-            <p>پر بازدیدترین ها</p>
-          </ion-item>  
-          <ion-item ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" class="item item-thumbnail-left" href="#" ng-repeat="category in categories">
-            <p ng-bind="category.cat_name"></p>
-          </ion-item>  
-          <ion-item ng-click="filterPostsByCategory(355)" class="item item-thumbnail-left" href="#">
-            <p>بیوگرافی اسطوره های IT</p>
-          </ion-item>
-        </ion-list>
-        <!-- we must use this code -->
-    <!-- <div class="list">
 
-  <a class="item item-icon-left" href="#">
-    <i class="icon ion-email"></i>
-    Check mail
-  </a>
+      <div class="list">
+        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+          <i class="icon ion-email"></i>
+          همه ی مقالات
+        </a>
 
-  <a class="item item-icon-left item-icon-right" href="#">
-    <i class="icon ion-chatbubble-working"></i>
-    Call Ma
-    <i class="icon ion-ios-telephone-outline"></i>
-  </a>
+        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+          <i class="icon ion-email"></i>
+          {{category.cat_name}}
+        </a>
 
-  <a class="item item-icon-left" href="#">
-    <i class="icon ion-mic-a"></i>
-    Record album
-    <span class="item-note">
-      Grammy
-    </span>
-  </a>
+        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+          <i class="icon ion-email"></i>
+          پر بازدیدتزین ها
+        </a>
 
-  <a class="item item-icon-left" href="#">
-    <i class="icon ion-person-stalker"></i>
-    Friends
-    <span class="badge badge-assertive">0</span>
-  </a>
-
-</div> -->
-
+      </div>
 
     </ion-content>
   </ion-side-menu>

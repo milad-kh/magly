@@ -13,13 +13,13 @@
 
   <div class="item item-avatar">
     <img ng-src="{{post.thumbnail}}">
-    <h2>{{post.post_title}}</h2>
+    <h2 class="yekan">{{post.post_title}}</h2>
     <p>{{post.post_date}}</p>
   </div>
 
   <div class="item item-text-wrap">
     <img class="full-image" ng-src="{{post.thumbnail}}">
-    <p ng-bind-html="post.post_content">      
+    <p class="koodak" ng-bind-html="post.post_content">      
     </p>
     <p>
       <a href="#" class="subdued">1 Like</a>
@@ -32,19 +32,19 @@
       <!-- the box of POST here -->
       <img ng-show="true" src="{{post.thumbnail}}">
 
-      <h2  ng-show="true" ng-bind="post.post_title"></h2>
-      <p   ng-show="true" ng-bind="post.post_content"></p>
+      <h2  ng-show="true" ng-bind="post.post_title" class="iraniansans"></h2>
+      <p   ng-show="true" ng-bind="post.post_content" class="yekan"></p>
       <!-- the box of ADS is here  -->
       <img ng-show="!true" src="img/milad.jpg" />
 
     </ion-item>
   </ion-list>
-	<button class="button button-positive" ng-click="showPopup()">
+	<button class="button button-positive yekan" ng-click="showPopup()">
   ایمیل کردن این مقاله به یک دوست
 </button>
-<div class="bar bar-header bar-calm" ng-click="shareAnywhere()">
+<!-- <div class="bar bar-header bar-calm" ng-click="shareAnywhere()">
   <h1 class="title">share to social</h1>
-</div>
+</div> -->
 
   <div class="item tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" ng-href="" ng-click="likeThisPost()">

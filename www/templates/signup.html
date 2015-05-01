@@ -8,23 +8,25 @@
 </ion-header-bar>
 <ion-content>
 
-  <div class="list">
-    <label class="item item-input item-floating-label">
-      <span class="input-label">First Name</span>
-      <input type="text" placeholder="First Name">
+  <div class="list list-inset">
+    <label class="item item-input item-floating-label" style="direction:rtl">
+      <span class="input-label iraniansans" style="padding-right:16px">نام</span>
+      <input type="text" class="iraniansans" placeholder="نام" style="padding-right:16px">
     </label>
-    <label class="item item-input item-floating-label">
-      <span class="input-label">Last Name</span>
-      <input type="text" placeholder="Last Name">
+    
+    <label class="item item-input item-floating-label" style="direction:rtl">
+      <span class="input-label iraniansans" style="padding-right:16px">نام خانوادگی</span>
+      <input type="text" class="iraniansans" style="padding-right:16px" placeholder="نام خانوادگی">
     </label>
+
     <label class="item item-input item-floating-label">
       <span class="input-label">Email</span>
       <input type="text" placeholder="Email">
     </label>
-
-    <button class="button button-block button-balanced">
-      sign up
-    </button>
+  
+    <button class="iraniansans button button-block button-balanced">
+      ثبت نام
+    </button>    
 
     <div class="list">
       <div class="item range range-positive">
@@ -37,10 +39,12 @@
   </div>
 
 </ion-content>
-<ion-footer-bar align-title="right" class="bar-assertive">
-  <div class="buttons" align="left">
-    <button class="button" ng-click="">Magly</button>
+<ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
+  
+  <div class="buttons" align="center">
+    <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
   </div>
+  
 </ion-footer-bar>
 </ion-side-menu-content>
 </ion-side-menus>
