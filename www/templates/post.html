@@ -26,6 +26,19 @@
       <a href="#" class="subdued">5 Comments</a>
     </p>
   </div>
+  <p>مطالب مرتبط</p>
+  <ion-list style="direction:rtl">    
+    <ion-item ng-repeat="item in [1,2,3,4,5]" ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#">          
+      <!-- the box of POST here -->
+      <img ng-show="true" src="{{post.thumbnail}}">
+
+      <h2  ng-show="true" ng-bind="post.post_title"></h2>
+      <p   ng-show="true" ng-bind="post.post_content"></p>
+      <!-- the box of ADS is here  -->
+      <img ng-show="!true" src="img/milad.jpg" />
+
+    </ion-item>
+  </ion-list>
 	<button class="button button-positive" ng-click="showPopup()">
   ایمیل کردن این مقاله به یک دوست
 </button>

@@ -250,7 +250,7 @@
    */
   Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
-     
+    
     $scope.toggleSidemenu = function()
     {
       $ionicSideMenuDelegate.toggleLeft();
@@ -272,8 +272,7 @@
            { text: 'خدمات ما برای شما' },
            { text: 'دسته های مقالات' },
            { text: 'به روز رسانی برنامه' },
-           { text: 'مشاهده لیست دلخواه' },
-           { text: 'جستجوی مقالات' }
+           { text: 'مشاهده لیست دلخواه' }
          ],
          // destructiveText: 'Delete',
          titleText: 'قصد انجام چه کاری دارید؟',

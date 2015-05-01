@@ -6,12 +6,12 @@
     <title></title>
 
     <link rel="stylesheet" href="http://code.ionicframework.com/1.0.0-beta.7/css/ionic.css" />
+    <link rel="stylesheet" href="css/animate.css">
     <script src="http://code.ionicframework.com/1.0.0-beta.7/js/ionic.bundle.js"></script>
-
     <script src="js/ng-cordova.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
-
+    
     <!-- your app's js -->    
     <script src="js/localstorageService.js"></script>
     <script src="underscore.js"></script>
@@ -19,14 +19,16 @@
     <script src="js/app.js"></script>
     
   </head>
-    <body ng-app="starter">
-    <div ui-view name="aboutus"></div>
-    <div ui-view name="home"></div>
-    <div ui-view name="signup"></div>
-    <div ui-view name="post"></div>
-    <div ui-view name="favoriteList"></div>
-    <div ui-view name="search"></div>
-    <div ui-view name="comment"></div>
+    <body ng-app="starter">    
+        <div>    
+            <div ui-view name="aboutus"></div>
+            <div ui-view name="home"></div>
+            <div ui-view name="signup"></div>
+            <div ui-view name="post"></div>
+            <div ui-view name="favoriteList"></div>
+            <div ui-view name="search"></div>
+            <div class="well" ui-view name="comment"></div>    
+        </div>
   </body>
 
 </html>
