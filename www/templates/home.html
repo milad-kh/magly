@@ -13,7 +13,15 @@
   </ion-header-bar>
     <ion-content>
       <div ng-show="showArticleList">
-      <ion-list style="direction:rtl">    
+      
+      <ion-infinite-scroll
+        on-infinite="loadMoreDataForTop()"
+        distance="10%"
+        icon="ion-loading-c"
+        >
+      </ion-infinite-scroll>
+
+      <ion-list style="direction:rtl" on-drag-down="setDirectionForScroll('up')" on-drag-up="setDirectionForScroll('down')">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts | filter:query" >          
           <!-- the box of POST here -->
           
@@ -25,33 +33,36 @@
 
         </ion-item>
       </ion-list>
+
       <ion-infinite-scroll
-        on-infinite="loadmore()"
+        on-infinite="loadMoreDataForDown()"
         distance="1%"
         icon="ion-loading-c"
-
         >
       </ion-infinite-scroll>
+
     </div>
     <div ng-show="showUpdateMessage">
       <div class="card">
-        <div class="item item-text-wrap">
-          احتمالا بار اول است که از این برنامه استفاده میکنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
+        <div class="item item-text-wrap yekan" style="direction:rtl">
+          احتمالا بار اول است که از این برنامه استفاده می کنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
         </div>
       </div>
-      <button class="button button-balanced" ng-click="fillLocalWithData()">
-        دریافت مقاله ها
-      </button>
+      
+      <div class="buttons" align="center">
+        <button class="button button-large button-balanced icon ion-refresh yekan" ng-click="fillLocalWithData()"> به روز رسانی</button>
+      </div>      
     </div>
+    
     </ion-content>
 
     <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
   
-  <div class="buttons" align="center">
-    <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
-  </div>
-  
-</ion-footer-bar>
+      <div class="buttons" align="center">
+        <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
+      </div>
+      
+    </ion-footer-bar>
   </ion-side-menu-content>
 
   <!-- Left menu -->
@@ -78,6 +89,23 @@
         </a>
 
       </div>
+
+    </ion-content>
+  </ion-side-menu>
+  <ion-side-menu side="right">
+  <ion-header-bar align-title="center" class="bar-positive">   
+    <h1 class="title iraniansans">تنظیمات</h1>    
+  </ion-header-bar>
+    <ion-content>
+
+    <div class="card">
+      <div class="item item-text-wrap">
+        تعداد پست های دریافتی هنگام اسکرول به سمت بالا
+      </div>
+      <div class="item item-text-wrap">
+        تعداد پست های دریافتی هنگام اسکرول به سمت پایین
+      </div>
+    </div>
 
     </ion-content>
   </ion-side-menu>

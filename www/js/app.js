@@ -87,7 +87,7 @@
           'post': {
             templateUrl: 'templates/post.html',
             controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
-              
+                              
                 $scope.goToCommentState = function()
                 {
                   $state.go('comment',({postID:$stateParams.postID}));
@@ -251,6 +251,46 @@
   Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
     
+    $scope.getMaxOfArray = function(numArray) {
+      return Math.max.apply(null, numArray);
+    }    
+
+    $scope.loadMoreDataForTop = function()
+    {
+      var IDarray = [];
+      // step 1 : find biggest post ID in local
+      ng.forEach($scope.posts, function(value){
+        IDarray.push(value.ID);        
+      });
+      var biggestID = $scope.getMaxOfArray(IDarray);      
+      // step 2 : Ajax request to server
+        $http({
+          method: 'GET',
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestID='+biggestID,
+          cache: false
+        }).success(function(data,status,headers,config){
+          console.log('biggest post is', data);
+        }).error(function(data,status,headers,config){
+          console.log('error in get categories');
+        });
+      // step 3 : Add to scope.posts
+        //$scope.push(data);
+      // step 4 : Arrange scope.posts object ASC
+       // $scope.reArrangePosts();
+    }    
+
+
+
+    $scope.loadMoreDataForDown = function()
+    {
+
+    }
+
+    $scope.reArrangePosts = function()
+    {
+      // here we should Arrange by ASC
+    }
+
     $scope.toggleSidemenu = function()
     {
       $ionicSideMenuDelegate.toggleLeft();
@@ -269,10 +309,13 @@
          buttons: [
            { text: 'درباره ی ما' },
            { text: 'ثبت نام' },
-           { text: 'خدمات ما برای شما' },
+           { text: 'نمایش اسکوپ' },
            { text: 'دسته های مقالات' },
            { text: 'به روز رسانی برنامه' },
-           { text: 'مشاهده لیست دلخواه' }
+           { text: 'مشاهده لیست دلخواه' },
+           { text: 'داده های بالا' },
+           { text: 'داده های پایین' }
+
          ],
          // destructiveText: 'Delete',
          titleText: 'قصد انجام چه کاری دارید؟',
@@ -287,7 +330,7 @@
                 $state.go('signup');
               break;
               case 2:
-                $state.go('ourservices');
+                console.log($scope);
               break;
               case 3:
                 console.log('آپدیت مقالات');
@@ -299,7 +342,10 @@
                 $state.go('favoriteList');
               break;
               case 6:
-                $state.go('search');
+                $scope.loadMoreDataForTop();
+              break;
+              case 7:
+                $scope.loadMoreDataForDown();
               break;
            }
            console.log(index);
@@ -410,7 +456,8 @@
     {
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0'
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0',
+        cache: true
       }).success(function(data,status,headers,config){
         
         $localstorage.setObject('posts', data);
