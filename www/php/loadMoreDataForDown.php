@@ -1,9 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 require_once("../wp-load.php");
+
 $biggestIDinLocal= $_GET['biggestIDinLocal'];
-$number_to_get_post = 5;
+$number_to_get_post = 10;
 // fetch lastest posts ID
 $args = array(
 	'posts_per_page'   => 1,
@@ -24,16 +25,22 @@ $args = array(
 );
 
 $most_recent_post = get_posts($args);
-for ($i=($biggestIDinLocal + 1);$i < $most_recent_post[0]->ID;$i++)
-{  
-  $currentPost = get_post($i);
-  if ($currentPost->post_status == 'publish')
+/*
+print_r($biggestIDinLocal);
+print_r($most_recent_post[0]->ID);
+$currentPost = get_post(4679);
+print_r($currentPost);
+*/
+
+for ($i=$biggestIDinLocal;$i < $most_recent_post[0]->[ID];$i++)
+{
+  
+  echo ($i);
+  /*$currentPost = get_post($i);
+  print_r($currentPost);*/
+  /*if ($currentPost[post_status] == 'publish ')
   {
-    if ($k < $number_to_get_post)
-     {
-       $posts_array[] = $currentPost;  
-       $k++;
-     }  
-  }
+  	$posts_array[] = $currentPost;  
+  }*/
 }
-echo json_encode($posts_array);
+//echo json_encode($posts_array);

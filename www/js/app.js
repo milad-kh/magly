@@ -255,6 +255,10 @@
       return Math.max.apply(null, numArray);
     }    
 
+    $scope.getMinOfArray = function(numArray) {
+      return Math.min.apply(null, numArray);
+    }
+
     $scope.loadMoreDataForTop = function()
     {
       console.log('top');
@@ -270,11 +274,13 @@
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
         }).success(function(data,status,headers,config){
-          console.log('new posts are', data);
-          // add new posts to local list of posts
-          $scope.posts.push(data);
+    
+          jsonArray1 = $scope.posts.concat(data);
+          console.log(jsonArray1);
+          $scope.posts = jsonArray1;
+          console.log($scope.posts);
           // also replace localStorage posts lists with new lists
-          
+
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
         }).finally(function() {
@@ -288,6 +294,29 @@
     $scope.loadMoreDataForDown = function()
     {
       console.log('down');
+      var IDarray = [];
+      // step 1 : find biggest post ID in local
+      ng.forEach($scope.posts, function(value){
+        IDarray.push(value.ID);        
+      });
+      var smallestID = $scope.getMinOfArray(IDarray);      
+      // step 2 : Ajax request to server
+        $http({
+          method: 'GET',
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal='+biggestID,
+          cache: false
+        }).success(function(data,status,headers,config){
+          console.log('posts are', data);
+          // add new posts to local list of posts
+          
+          //$scope.posts.push(data);
+          // also replace localStorage posts lists with new lists
+          
+        }).error(function(data,status,headers,config){
+          console.log('error in get categories');
+        });      
+      // step 4 : Arrange scope.posts object ASC
+       // $scope.reArrangePosts();
     }
 
     $scope.reArrangePosts = function()
