@@ -12,14 +12,13 @@
 
   </ion-header-bar>
     <ion-content>
-      <div ng-show="showArticleList">
-      
-      <ion-infinite-scroll
-        on-infinite="loadMoreDataForTop()"
-        distance="10%"
-        icon="ion-loading-c"
-        >
-      </ion-infinite-scroll>
+    <ion-refresher
+      pulling-text="در حال بارگیری پست های جدید..."
+      on-refresh="loadMoreDataForTop()"
+      disable-pulling-rotation
+      >
+    </ion-refresher>
+      <div ng-show="showArticleList">            
 
       <ion-list style="direction:rtl" on-drag-down="setDirectionForScroll('up')" on-drag-up="setDirectionForScroll('down')">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts | filter:query" >          
@@ -70,6 +69,7 @@
   <ion-header-bar align-title="center" class="bar-positive">   
     <h1 class="title iraniansans">لیست دسته ها</h1>    
   </ion-header-bar>
+    
     <ion-content>
 
       <div class="list">

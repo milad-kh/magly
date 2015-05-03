@@ -257,6 +257,7 @@
 
     $scope.loadMoreDataForTop = function()
     {
+      console.log('top');
       var IDarray = [];
       // step 1 : find biggest post ID in local
       ng.forEach($scope.posts, function(value){
@@ -266,24 +267,27 @@
       // step 2 : Ajax request to server
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestID='+biggestID,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
         }).success(function(data,status,headers,config){
-          console.log('biggest post is', data);
+          console.log('new posts are', data);
+          // add new posts to local list of posts
+          $scope.posts.push(data);
+          // also replace localStorage posts lists with new lists
+          
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
-        });
-      // step 3 : Add to scope.posts
-        //$scope.push(data);
+        }).finally(function() {
+       // Stop the ion-refresher from spinning
+         $scope.$broadcast('scroll.refreshComplete');
+        });      
       // step 4 : Arrange scope.posts object ASC
        // $scope.reArrangePosts();
     }    
 
-
-
     $scope.loadMoreDataForDown = function()
     {
-
+      console.log('down');
     }
 
     $scope.reArrangePosts = function()
