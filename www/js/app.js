@@ -86,15 +86,7 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
-                console.log('moteghayer : ', $stateParams);              
-                _.each($scope.posts, function(value){
-                  if (value.ID == $stateParams.postID)
-                  {
-                    $scope.post = value;
-                    console.log($scope.post);
-                  }
-                })
+            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){                
                 $scope.goToCommentState = function()
                 {
                   $state.go('comment',({postID:$stateParams.postID}));
@@ -169,7 +161,7 @@
 
               //console.log($stateParams);              
               $scope.posts = $localstorage.getObject('posts');
-              //console.log($scope.posts);
+              console.log($scope.posts);
               _.each($scope.posts, function(value){
                 if (value.ID == $stateParams.postID)
                 {
@@ -321,8 +313,6 @@
           // console.log(jsonArray1);
           $scope.posts = jsonArray1;
           $localstorage.setObject('posts', $scope.posts);
-          console.log('posts :', $scope.posts);
-          console.log('localstorage :', $localstorage.getObject('posts'));
           // add new posts to local list of posts
           
           //$scope.posts.push(data);
