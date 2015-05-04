@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 require_once("../wp-load.php");
 $catID = $_GET['catID'];
 $args = array(
-	'posts_per_page'   => 10,
+	'posts_per_page'   => 15,
 	'offset'           => 0,
 	'category'         => '',
 	'category_name'    => '',

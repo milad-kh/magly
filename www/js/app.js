@@ -261,7 +261,7 @@
 
     $scope.loadMoreDataForTop = function()
     {
-      console.log('top');
+      // console.log('top');
       var IDarray = [];
       // step 1 : find biggest post ID in local
       ng.forEach($scope.posts, function(value){
@@ -276,9 +276,10 @@
         }).success(function(data,status,headers,config){
     
           jsonArray1 = $scope.posts.concat(data);
-          console.log(jsonArray1);
+          // console.log(jsonArray1);
           $scope.posts = jsonArray1;
-          console.log($scope.posts);
+          // console.log($scope.posts);
+          $localstorage.setObject($scope.posts);
           // also replace localStorage posts lists with new lists
 
         }).error(function(data,status,headers,config){
@@ -293,20 +294,26 @@
 
     $scope.loadMoreDataForDown = function()
     {
-      console.log('down');
+      // console.log('down');
       var IDarray = [];
       // step 1 : find biggest post ID in local
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
       });
-      var smallestID = $scope.getMinOfArray(IDarray);      
+      var smallestID = $scope.getMinOfArray(IDarray); 
+      // console.log('smallestID is :', smallestID);     
       // step 2 : Ajax request to server
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal='+biggestID,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID,
           cache: false
         }).success(function(data,status,headers,config){
-          console.log('posts are', data);
+          // console.log('older posts are', data);
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+          jsonArray1 = $scope.posts.concat(data);
+          // console.log(jsonArray1);
+          $scope.posts = jsonArray1;
+          $localstorage.setObject($scope.posts);
           // add new posts to local list of posts
           
           //$scope.posts.push(data);

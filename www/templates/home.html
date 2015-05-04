@@ -35,7 +35,7 @@
 
       <ion-infinite-scroll
         on-infinite="loadMoreDataForDown()"
-        distance="1%"
+        distance="50%"
         icon="ion-loading-c"
         >
       </ion-infinite-scroll>
@@ -69,9 +69,14 @@
   <ion-header-bar align-title="center" class="bar-positive">   
     <h1 class="title iraniansans">لیست دسته ها</h1>    
   </ion-header-bar>
-    
+      
     <ion-content>
-
+    <ion-refresher
+      pulling-text="بررسی وجود دسته های جدید..."
+      on-refresh="loadMoreDataForTop()"
+      disable-pulling-rotation
+      >
+    </ion-refresher>
       <div class="list">
         <a ng-click="filterPostsByCategory('all')" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
           <i class="icon ion-email"></i>
