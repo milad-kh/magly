@@ -22,8 +22,7 @@
 
       <ion-list style="direction:rtl" on-drag-down="setDirectionForScroll('up')" on-drag-up="setDirectionForScroll('down')">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts | filter:query" >          
-          <!-- the box of POST here -->
-          
+          <!-- the box of POST here -->          
           <img src="{{post.thumbnail}}">
           <h2 ng-bind="post.post_title" class="titrtge"></h2>
           <p  ng-bind="post.post_content" class="yekan"></p>

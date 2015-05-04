@@ -5,7 +5,6 @@
     <div class="buttons">
       <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
     </div>
-   
   </ion-header-bar>
     <ion-content>
 
@@ -19,7 +18,7 @@
 
   <div class="item item-text-wrap">
     <img class="full-image" ng-src="{{post.thumbnail}}">
-    <p class="koodak" ng-bind-html="post.post_content">      
+    <p class="koodak" ng-bind-html="post.post_content">
     </p>
     <p>
       <a href="#" class="subdued">1 Like</a>
@@ -27,7 +26,7 @@
     </p>
   </div>
   <p>مطالب مرتبط</p>
-  <ion-list style="direction:rtl">    
+  <ion-list style="direction:rtl">
     <ion-item ng-repeat="item in [1,2,3,4,5]" ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#">          
       <!-- the box of POST here -->
       <img ng-show="true" src="{{post.thumbnail}}">
