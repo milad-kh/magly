@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
@@ -33,3 +34,5 @@ for($i = 0;$i < count($posts_array);$i++)
 };
 
 echo json_encode($posts_array);
+=======
+>>>>>>> parent of d19d48f... server side code

@@ -1,9 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Cache-Control: post-check=0, pre-check=0", false);
-header("Pragma: no-cache");
 require_once("../wp-load.php");
 $biggestIDinLocal= $_GET['biggestIDinLocal'];
 $number_to_get_post = 5;
@@ -39,13 +36,4 @@ for ($i=($biggestIDinLocal + 1);$i < $most_recent_post[0]->ID;$i++)
      }  
   }
 }
-// add thumbnail to posts
-for($i = 0;$i < count($posts_array);$i++)
-{	
-	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);	
-	$thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-	$catId=get_the_category($posts_array[$i]->ID);
-	$posts_array[$i]->catId = $catId;
-	$posts_array[$i]->thumbnail = $thumb_url[0];
-};
 echo json_encode($posts_array);
