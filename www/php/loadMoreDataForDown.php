@@ -22,11 +22,11 @@ for ($i=($smallestIDinLocal-1);$i>0;$i--)
 }
 // add thumbnail to posts
 for($i = 0;$i < count($posts_array);$i++)
-{	
-	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);	
-	$thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-	$catId=get_the_category($posts_array[$i]->ID);
-	$posts_array[$i]->catId = $catId;
-	$posts_array[$i]->thumbnail = $thumb_url[0];
+{ 
+  $post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID); 
+  $thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
+  $catId=get_the_category($posts_array[$i]->ID);
+  $posts_array[$i]->catId = $catId;
+  $posts_array[$i]->thumbnail = $thumb_url[0];
 };
 echo json_encode($posts_array);

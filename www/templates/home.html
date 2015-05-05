@@ -25,7 +25,7 @@
           <!-- the box of POST here -->          
           <img src="{{post.thumbnail}}">
           <h2 ng-bind="post.post_title" class="titrtge"></h2>
-          <p  ng-bind="post.post_content" class="yekan"></p>
+          <p class="yekan">محتوا</p>
           <!-- the box of ADS is here  -->
           <img ng-if="$index % 5 == 0" src="img/ads.jpg"  />
 
@@ -87,7 +87,7 @@
           {{category.cat_name}}
         </a>
 
-        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+        <a ng-click="mostVisitedPosts()" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
           <i class="icon ion-email"></i>
           پر بازدیدتزین ها
         </a>

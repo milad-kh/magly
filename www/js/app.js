@@ -76,8 +76,34 @@
         url: '/post/:postID/comment',
         views: {
           'comment': {
-            templateUrl: 'templates/comments.html'
+            templateUrl: 'templates/comments.html',
+            controller: function($scope)
+            {
+              $scope.sendComment = function()
+              {
+                $http({
+                  method: 'GET',
+                  url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=4672'
+                }).success(function(data,status,headers,config){
+                  console.log(data);
+                }).error(function(data,status,headers,config){
+                  console.log('error in update!');
+                });
+              };
+
+              $scope.sendLike = function()
+              {
+                $http({
+                  method: 'GET',
+                  url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID=4672'
+                }).success(function(data,status,headers,config){
+                  console.log(data);
+                }).error(function(data,status,headers,config){
+                  console.log('error in update!');
+                });
+              };
             }
+          }
         }
       })
 
@@ -86,7 +112,8 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){                
+            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
+                              
                 $scope.goToCommentState = function()
                 {
                   $state.go('comment',({postID:$stateParams.postID}));
@@ -159,14 +186,14 @@
                 });               
               };
 
-              //console.log($stateParams);              
+              console.log($stateParams);              
               $scope.posts = $localstorage.getObject('posts');
               console.log($scope.posts);
               _.each($scope.posts, function(value){
                 if (value.ID == $stateParams.postID)
                 {
                   $scope.post = value;
-                  //console.log($scope.post);
+                  console.log($scope.post);
                 }
               })
               $scope.showActionsheetForPost = function() {    
@@ -249,7 +276,21 @@
    */
   Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
-    
+
+    $scope.mostVisitedPosts = function()
+    {
+      $http({
+          method: 'GET',
+          url:'http://www.magly.ir/HybridAppAPI/mostVisitedPosts.php',
+          cache: false
+        }).success(function(data,status,headers,config){          
+          console.log(data);
+          $scope.posts = data;          
+        }).error(function(data,status,headers,config){
+          console.log('error in get categories');
+        });
+    }
+
     $scope.getMaxOfArray = function(numArray) {
       return Math.max.apply(null, numArray);
     }    
@@ -272,13 +313,12 @@
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
-        }).success(function(data,status,headers,config){
-    
+        }).success(function(data,status,headers,config){    
           jsonArray1 = $scope.posts.concat(data);
           // console.log(jsonArray1);
           $scope.posts = jsonArray1;
           // console.log($scope.posts);
-          $localstorage.setObject($scope.posts);
+          // $localstorage.setObject('posts', $scope.posts);
           // also replace localStorage posts lists with new lists
 
         }).error(function(data,status,headers,config){
@@ -308,11 +348,11 @@
           cache: false
         }).success(function(data,status,headers,config){
           // console.log('older posts are', data);
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-          jsonArray1 = $scope.posts.concat(data);
-          // console.log(jsonArray1);
+          $scope.$broadcast('scroll.infiniteScrollComplete');          
+          jsonArray1 = $scope.posts.concat(data);          
+          console.log(jsonArray1);
           $scope.posts = jsonArray1;
-          $localstorage.setObject('posts', $scope.posts);
+          /*$localstorage.setObject('posts', $scope.posts);*/
           // add new posts to local list of posts
           
           //$scope.posts.push(data);
@@ -336,8 +376,7 @@
     }
 
     $scope.displaySinglePost = function(postID)
-    {
-      console.log('inam id ',postID);
+    {      
       $state.go('post',({
         postID:postID
       }));
@@ -414,11 +453,12 @@
      */
     $scope.doesLocalHasData = function()
     {
-      var localData = $localstorage.getObject('posts');
+      /*var localData = $localstorage.getObject('posts');
       if (_.isEmpty(localData))
         return false;
       else
-        return true;
+        return true;*/
+      return false;
     };
 
     if ($scope.doesLocalHasData())
@@ -467,28 +507,6 @@
     $scope.isUpdateAvailable();
 
     /**
-     * [updateArticles description]
-     * @return {[type]} [description]
-     */
-    $scope.updateArticles = function()
-    {
-      var
-      lastPostIdInLocal = $localstorage.getObject('posts')[0].ID;
-      console.log('last post id:', lastPostIdInLocal);
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/updateMyPosts.php?startPostID='+lastPostIdInLocal
-      }).success(function(data,status,headers,config){
-        console.log('new data is :',data);
-        var newPosts = data.concat($scope.posts);
-        $scope.posts = newPosts;
-        $localstorage.setObject('posts', $scope.posts);
-      }).error(function(data,status,headers,config){
-        console.log('error in update!');
-      });
-    };
-
-    /**
      * [fillLocalWithData description]
      * @return {[type]} [description]
      */
@@ -496,17 +514,13 @@
     {
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0',
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&a=3',
         cache: true
-      }).success(function(data,status,headers,config){
-        
-        $localstorage.setObject('posts', data);
-        $scope.posts = $localstorage.getObject('posts');
-        
-        console.log('local is full of data');
+      }).success(function(data,status,headers,config){                
+        $scope.posts = data;    
+        console.log(data);
         $scope.showUpdateMessage = false;
         $scope.showArticleList = true;
-
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
       });

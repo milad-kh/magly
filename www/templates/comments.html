@@ -7,7 +7,7 @@
   </ion-header-bar>
     <ion-content>
 		<div class="list">
-	    <a class="item item-avatar" href="#" ng-repeat="item in [1,2,3,4,5]">
+	    <a class="item item-avatar" href="#" ng-repeat="item in [1,2,3]">
 	      <img src="img/milad.jpg" style="border-radius:50%">
 	      <h2>Venkman</h2>
 	      <p>Back off, man. I'm a scientist.</p>
@@ -27,11 +27,16 @@
     </label>
 
     <label class="item item-input item-floating-label">
+      <span class="input-label">website:</span>
+      <input type="url" placeholder="website">
+    </label>
+
+    <label class="item item-input item-floating-label">
       <span class="input-label">Comment:</span>
       <input type="text" placeholder="comment">
     </label>
 
-    <button class="button button-block button-balanced">
+    <button ng-click="sendComment()" class="button button-large button-balanced">
       send comment
     </button>
 
