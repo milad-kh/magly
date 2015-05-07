@@ -53,6 +53,16 @@
         }
       })
 
+      .state('signin', {
+        url: '/signin',
+        views: {
+          'signin': {
+            templateUrl: 'templates/signin.html',
+            controller: signinController
+            }
+        }
+      })
+
       .state('search', {
         url: '/search',
         views: {
@@ -251,6 +261,7 @@
         views: {
           'signup': {
             templateUrl: 'templates/signup.html'
+            controller: signupController
             }
         }
       })
@@ -268,14 +279,55 @@
     });
   },
   
+  signupController = function ()
+  {
+    $scope.username = 'milad';
+    $scope.password = '123';
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/signup.php?username='+$scope.username+'&password='+$scope.password,
+        cache: false
+        }).success(function(data,status,headers,config){          
+          console.log(data);
+          
+        }).error(function(data,status,headers,config){
+          console.log('error in get categories');
+        });
+  },
+
+  signinController = function($scope)
+  {
+    $scope.signin = function()
+    {
+      $scope.username = 'milad';
+      $scope.password = '123';
+      $http({
+          method: 'GET',
+          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+$scope.password,
+          cache: false
+        }).success(function(data,status,headers,config){          
+          console.log(data);
+          
+        }).error(function(data,status,headers,config){
+          console.log('error in get categories');
+        });
+    }
+  },
+
   /**
    * [Controller description]
    * @param {[type]} $localstorage [description]
    * @param {[type]} $scope        [description]
    * @param {[type]} $http         [description]
    */
-  Controller = function($state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
+  Controller = function($ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
+    $scope.test = function (){
+      $ionicBackdrop.retain();
+      $timeout(function() {
+        $ionicBackdrop.release();
+      }, 1000);
+    }
 
     $scope.mostVisitedPosts = function()
     {
@@ -393,7 +445,8 @@
            { text: 'به روز رسانی برنامه' },
            { text: 'مشاهده لیست دلخواه' },
            { text: 'داده های بالا' },
-           { text: 'داده های پایین' }
+           { text: 'داده های پایین' },
+           { text: 'تست' }
 
          ],
          // destructiveText: 'Delete',
@@ -425,6 +478,9 @@
               break;
               case 7:
                 $scope.loadMoreDataForDown();
+              break;
+              case 8:
+                $scope.test();
               break;
            }
            console.log(index);

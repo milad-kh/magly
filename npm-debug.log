@@ -1,0 +1,87 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'ionic-material' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 warn package.json summitmobile@1.0.0 No repository field.
+6 verbose readDependencies using package.json deps
+7 verbose cache add [ 'ionic-material', null ]
+8 verbose cache add name=undefined spec="ionic-material" args=["ionic-material",null]
+9 verbose parsed url { protocol: null,
+9 verbose parsed url   slashes: null,
+9 verbose parsed url   auth: null,
+9 verbose parsed url   host: null,
+9 verbose parsed url   port: null,
+9 verbose parsed url   hostname: null,
+9 verbose parsed url   hash: null,
+9 verbose parsed url   search: null,
+9 verbose parsed url   query: null,
+9 verbose parsed url   pathname: 'ionic-material',
+9 verbose parsed url   path: 'ionic-material',
+9 verbose parsed url   href: 'ionic-material' }
+10 silly lockFile 465b2998-ionic-material ionic-material
+11 verbose lock ionic-material C:\Users\milad\AppData\Roaming\npm-cache\465b2998-ionic-material.lock
+12 silly lockFile 465b2998-ionic-material ionic-material
+13 silly lockFile 465b2998-ionic-material ionic-material
+14 verbose addNamed [ 'ionic-material', '' ]
+15 verbose addNamed [ null, '*' ]
+16 silly lockFile 0ca55af0-ionic-material ionic-material@
+17 verbose lock ionic-material@ C:\Users\milad\AppData\Roaming\npm-cache\0ca55af0-ionic-material.lock
+18 silly addNameRange { name: 'ionic-material', range: '*', hasData: false }
+19 verbose request where is /ionic-material
+20 verbose request registry https://registry.npmjs.org/
+21 verbose request id b44af3e7c3a56bd2
+22 verbose url raw /ionic-material
+23 verbose url resolving [ 'https://registry.npmjs.org/', './ionic-material' ]
+24 verbose url resolved https://registry.npmjs.org/ionic-material
+25 verbose request where is https://registry.npmjs.org/ionic-material
+26 info trying registry request attempt 1 at 12:11:27
+27 http GET https://registry.npmjs.org/ionic-material
+28 http 404 https://registry.npmjs.org/ionic-material
+29 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+29 verbose headers   'content-type': 'application/json',
+29 verbose headers   'cache-control': 'max-age=0',
+29 verbose headers   'content-length': '51',
+29 verbose headers   'accept-ranges': 'bytes',
+29 verbose headers   date: 'Wed, 06 May 2015 19:11:22 GMT',
+29 verbose headers   via: '1.1 varnish',
+29 verbose headers   age: '0',
+29 verbose headers   connection: 'keep-alive',
+29 verbose headers   'x-served-by': 'cache-lcy1126-LCY',
+29 verbose headers   'x-cache': 'MISS',
+29 verbose headers   'x-cache-hits': '0',
+29 verbose headers   'x-timer': 'S1430939482.244821,VS0,VE156' }
+30 silly registry.get cb [ 404,
+30 silly registry.get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+30 silly registry.get     'content-type': 'application/json',
+30 silly registry.get     'cache-control': 'max-age=0',
+30 silly registry.get     'content-length': '51',
+30 silly registry.get     'accept-ranges': 'bytes',
+30 silly registry.get     date: 'Wed, 06 May 2015 19:11:22 GMT',
+30 silly registry.get     via: '1.1 varnish',
+30 silly registry.get     age: '0',
+30 silly registry.get     connection: 'keep-alive',
+30 silly registry.get     'x-served-by': 'cache-lcy1126-LCY',
+30 silly registry.get     'x-cache': 'MISS',
+30 silly registry.get     'x-cache-hits': '0',
+30 silly registry.get     'x-timer': 'S1430939482.244821,VS0,VE156' } ]
+31 silly lockFile 0ca55af0-ionic-material ionic-material@
+32 silly lockFile 0ca55af0-ionic-material ionic-material@
+33 error 404 404 Not Found: ionic-material
+33 error 404
+33 error 404 'ionic-material' is not in the npm registry.
+33 error 404 You should bug the author to publish it
+33 error 404 It was specified as a dependency of 'summitmobile'
+33 error 404
+33 error 404 Note that you can also install from a
+33 error 404 tarball, folder, or http url, or git url.
+34 error System Windows_NT 6.2.9200
+35 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "ionic-material"
+36 error cwd D:\project\magly
+37 error node -v v0.10.36
+38 error npm -v 1.4.28
+39 error code E404
+40 verbose exit [ 1, true ]
