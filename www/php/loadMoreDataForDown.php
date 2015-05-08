@@ -6,20 +6,25 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 require_once("../wp-load.php");
 $smallestIDinLocal= $_GET['smallestIDinLocal'];
-$number_to_get_post = 10;
-// fetch lastest posts ID
+$number_to_get_post = 5;
+$k = 0;
 for ($i=($smallestIDinLocal-1);$i>0;$i--)
 {  
-  $currentPost = get_post($i);
-  if ($currentPost->post_status == 'publish')
-  {
-    if ($k < $number_to_get_post)
+    $currentPost = get_post($i);
+    if ($currentPost->post_status == 'publish') 
+    {
+      if ($k < $number_to_get_post)
+      {
+        $posts_array[] = $currentPost;  
+        $k++;
+      }
+     if ($k >= $number_to_get_post) 
      {
-       $posts_array[] = $currentPost;  
-       $k++;
-     }  
-  }
-}
+       break 1;
+     }
+    }
+ }
+//print_r($posts_array);
 // add thumbnail to posts
 for($i = 0;$i < count($posts_array);$i++)
 { 

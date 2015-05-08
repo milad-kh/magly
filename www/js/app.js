@@ -87,14 +87,32 @@
         views: {
           'comment': {
             templateUrl: 'templates/comments.html',
-            controller: function($scope)
+            controller: function($stateParams, $scope, $localstorage, $http)
             {
+              var comment;
+              $scope.commentObject = {};              
+              var posts = $localstorage.getObject('posts');
+              ng.forEach(posts, function(post){                
+                if(post.ID == $stateParams.postID)
+                  comment = (post.comments);
+              });
+              $scope.currentComment = comment;
+              console.log(comment);
+
               $scope.sendComment = function()
               {
+                console.log('sent comment...');
+
+                var randomInt = new Date().getTime();
                 $http({
                   method: 'GET',
-                  url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=4672'
+                  url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=' + $stateParams.postID + '&randomInt=' + randomInt + '&name='+$scope.commentObject.name + '&email=' + $scope.commentObject.email + '&url=' + $scope.commentObject.url + '&comment=' + $scope.commentObject.comment
                 }).success(function(data,status,headers,config){
+                  var tempObject = {
+                    comment_author : $scope.commentObject.name,
+                    comment_content : $scope.commentObject.comment
+                  };
+                  $scope.currentComment = _.union($scope.currentComment, tempObject);
                   console.log(data);
                 }).error(function(data,status,headers,config){
                   console.log('error in update!');
@@ -131,6 +149,16 @@
 
                 $scope.likeThisPost = function()
                 {
+                  
+                  $http({
+                    method: 'GET',
+                    url:'http://www.magly.ir/HybridAppAPI/sendLike.php.php?PostID=' + postID
+                  }).success(function(data,status,headers,config){
+                    console.log(data);
+                  }).error(function(data,status,headers,config){
+                    console.log('error in update!');
+                  });
+
                   var alertPopup = $ionicPopup.alert({
                     title: 'Don\'t eat that!',
                     template: 'It might taste good'
@@ -563,9 +591,11 @@
      */
     $scope.fillLocalWithData = function()
     {
+      var randomInt = new Date().getTime();
+      console.log(randomInt);
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0',
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt,
         cache: true
       }).success(function(data,status,headers,config){                
         $scope.posts = data;   

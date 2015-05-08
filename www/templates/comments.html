@@ -2,49 +2,45 @@
   <!-- Center content -->
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
-    کامنت به پست
-   
+    <a class="button icon-left ion-chevron-left button-clear button-dark">back to post</a>   
   </ion-header-bar>
     <ion-content>
-		<div class="list">
-	    <a class="item item-avatar" href="#" ng-repeat="item in [1,2,3]">
+		<div class="list" style="direction:rtl">
+	    <a class="item item-thumbnail-right" href="#" ng-repeat="item in currentComment">
 	      <img src="img/milad.jpg" style="border-radius:50%">
-	      <h2>Venkman</h2>
-	      <p>Back off, man. I'm a scientist.</p>
+	      <h2 ng-bind="item.comment_author"></h2>
+	      <p ng-bind="item.comment_content"></p>
 	    </a>
 	</div>
 	<!-- form comment to a post -->
-	<div class="list">
+	<div class="list" >
     
     <label class="item item-input item-floating-label">
       <span class="input-label">Name:</span>
-      <input type="text" placeholder="Name">
+      <input type="text" placeholder="Name" ng-model="commentObject.name">
     </label>
     
     <label class="item item-input item-floating-label">
       <span class="input-label">Email:</span>
-      <input type="text" placeholder="Email">
+      <input type="text" placeholder="Email" ng-model="commentObject.email">
     </label>
 
     <label class="item item-input item-floating-label">
       <span class="input-label">website:</span>
-      <input type="url" placeholder="website">
+      <input type="url" placeholder="website" ng-model="commentObject.url">
     </label>
 
     <label class="item item-input item-floating-label">
       <span class="input-label">Comment:</span>
-      <input type="text" placeholder="comment">
+      <input type="text" placeholder="comment" ng-model="commentObject.comment">
     </label>
 
     <button ng-click="sendComment()" class="button button-large button-balanced">
-      send comment
+      ارسال کامنت
     </button>
 
   </div>
 	<!--  -->
 		</ion-content>
-		<ion-footer-bar align-title="right" class="bar-assertive">
-  
-</ion-footer-bar>
 	</ion-side-menu-content>
 </ion-side-menus>
