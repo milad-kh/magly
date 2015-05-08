@@ -15,8 +15,7 @@
 
     <ion-refresher
       pulling-text="در حال بارگیری پست های جدید..."
-      on-refresh="loadMoreDataForTop()"
-      disable-pulling-rotation
+      on-refresh="loadMoreDataForTop()"      
       >
     </ion-refresher>
       <div ng-show="showArticleList">            
@@ -35,7 +34,7 @@
 
       <ion-infinite-scroll
         on-infinite="loadMoreDataForDown()"
-        distance="50%"
+        distance="1"
         icon="ion-loading-c"
         >
       </ion-infinite-scroll>

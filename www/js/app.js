@@ -260,7 +260,7 @@
         url: '/signup',
         views: {
           'signup': {
-            templateUrl: 'templates/signup.html'
+            templateUrl: 'templates/signup.html',
             controller: signupController
             }
         }
@@ -320,14 +320,20 @@
    * @param {[type]} $scope        [description]
    * @param {[type]} $http         [description]
    */
-  Controller = function($ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
+  Controller = function($ionicPopup, $ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
-    $scope.test = function (){
-      $ionicBackdrop.retain();
-      $timeout(function() {
-        $ionicBackdrop.release();
-      }, 1000);
-    }
+    $scope.$watch('topData', function(newval, oldval) {
+      if (newval == 'null')
+      {
+        var alertPopup = $ionicPopup.alert({
+          title: 'Not any more data!',
+          template: 'dear user your database is update:)'
+        });
+        alertPopup.then(function(res) {
+          console.log('Thank you for not eating my delicious ice cream cone');
+       });
+      }
+    });
 
     $scope.mostVisitedPosts = function()
     {
@@ -353,7 +359,7 @@
 
     $scope.loadMoreDataForTop = function()
     {
-      // console.log('top');
+      console.log('top');
       var IDarray = [];
       // step 1 : find biggest post ID in local
       ng.forEach($scope.posts, function(value){
@@ -366,55 +372,45 @@
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
         }).success(function(data,status,headers,config){    
-          jsonArray1 = $scope.posts.concat(data);
-          // console.log(jsonArray1);
-          $scope.posts = jsonArray1;
-          // console.log($scope.posts);
-          // $localstorage.setObject('posts', $scope.posts);
+          var kol = _.union(data, $scope.posts);
+          $scope.topData = data;
+          $scope.posts = kol;
+          localStorage.removeItem('posts');
+          $localstorage.setObject('posts', $scope.posts);
           // also replace localStorage posts lists with new lists
 
         }).error(function(data,status,headers,config){
-          console.log('error in get categories');
+          console.log('error in get data for top');
         }).finally(function() {
        // Stop the ion-refresher from spinning
          $scope.$broadcast('scroll.refreshComplete');
         });      
       // step 4 : Arrange scope.posts object ASC
        // $scope.reArrangePosts();
-    }    
+    };    
 
     $scope.loadMoreDataForDown = function()
-    {
-      // console.log('down');
-      var IDarray = [];
-      // step 1 : find biggest post ID in local
+    {      
+      console.log('ejra');
+      var IDarray = [];      
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
       });
-      var smallestID = $scope.getMinOfArray(IDarray); 
-      // console.log('smallestID is :', smallestID);     
-      // step 2 : Ajax request to server
+      var smallestID = $scope.getMinOfArray(IDarray);
         $http({
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID,
           cache: false
-        }).success(function(data,status,headers,config){
-          // console.log('older posts are', data);
-          $scope.$broadcast('scroll.infiniteScrollComplete');          
-          jsonArray1 = $scope.posts.concat(data);          
-          console.log(jsonArray1);
-          $scope.posts = jsonArray1;
-          /*$localstorage.setObject('posts', $scope.posts);*/
-          // add new posts to local list of posts
-          
-          //$scope.posts.push(data);
-          // also replace localStorage posts lists with new lists
-          
+        }).success(function(data,status,headers,config){          
+          var kol = _.union($scope.posts,data);                   
+          $scope.posts = kol;
+          console.log(kol);
+          localStorage.removeItem('posts');
+          $localstorage.setObject('posts',$scope.posts);
+          $scope.$broadcast('scroll.infiniteScrollComplete');                    
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
-        });      
-      // step 4 : Arrange scope.posts object ASC
-       // $scope.reArrangePosts();
+        });       
     }
 
     $scope.reArrangePosts = function()
@@ -477,7 +473,7 @@
                 $scope.loadMoreDataForTop();
               break;
               case 7:
-                $scope.loadMoreDataForDown();
+                //$scope.loadMoreDataForDown();
               break;
               case 8:
                 $scope.test();
@@ -509,12 +505,11 @@
      */
     $scope.doesLocalHasData = function()
     {
-      /*var localData = $localstorage.getObject('posts');
+      var localData = $localstorage.getObject('posts');
       if (_.isEmpty(localData))
         return false;
       else
-        return true;*/
-      return false;
+        return true;      
     };
 
     if ($scope.doesLocalHasData())
@@ -570,11 +565,13 @@
     {
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&a=3',
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0',
         cache: true
       }).success(function(data,status,headers,config){                
-        $scope.posts = data;    
-        console.log(data);
+        $scope.posts = data;   
+        console.log('dataye avalie :',data); 
+        console.log('type of data :',typeof(data));
+        $localstorage.setObject('posts', data);        
         $scope.showUpdateMessage = false;
         $scope.showArticleList = true;
       }).error(function(data,status,headers,config){
