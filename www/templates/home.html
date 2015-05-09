@@ -3,13 +3,15 @@
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
   <div class="buttons">
-    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenu()">دسته های مقالات</button>
+    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenu()">دسته ها</button>
   </div>
   <label class="item item-input">
   <i class="icon ion-ios-search placeholder-icon"></i>
     <input type="text" placeholder="جستجو کنید" ng-model="query">
   </label> 
-
+  <div class="buttons">
+    <button class="button icon ion-gear-a" ng-click="toggleSidemenu()"></button>
+  </div>
   </ion-header-bar>
     <ion-content>
 
@@ -101,16 +103,36 @@
     <h1 class="title iraniansans">تنظیمات</h1>    
   </ion-header-bar>
     <ion-content>
-
-    <div class="card">
+    <a class="item item-thumbnail-right" href="#" style="background-color:skyblue">
+      <img src="img/milad.jpg" style="border-radius:50%">
+      <h2 style="direction:rtl" class="yekan">میلاد خان محمدی</h2>      
+    </a>
+    <div class="card yekan" style="direction:rtl" >
       <div class="item item-text-wrap">
-        تعداد پست های دریافتی هنگام اسکرول به سمت بالا
+       دریافت ایمیل مقاله ها
+        <label class="toggle toggle-calm">
+           <input type="checkbox">
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+        </label>
       </div>
       <div class="item item-text-wrap">
         تعداد پست های دریافتی هنگام اسکرول به سمت پایین
       </div>
+      <div class="item item-text-wrap">
+        تعداد پست های دریافتی هنگام اسکرول به سمت بالا
+      </div>      
     </div>
-
+    
+    <div class="card">
+      <button class="button button-assertive yekan" ng-click="signOut()">
+        خروج از برنامه
+      </button>
+      <button class="button button-balanced yekan">
+        آپدیت برنامه
+      </button>
+    </div>
     </ion-content>
   </ion-side-menu>
 </ion-side-menus>

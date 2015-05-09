@@ -140,8 +140,36 @@
         views: {
           'post': {
             templateUrl: 'templates/post.html',
-            controller: function($state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
-                              
+            controller: function($ionicModal, $state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
+              $scope.shareToSocial = function()
+              {
+                $cordovaSocialSharing
+                .shareViaTwitter('message', 'http://magly.ir/wp-content/uploads/2015/05/rear.jpg', 'http://magly.ir/%D8%B7%D8%B1%D8%A7%D8%AD%DB%8C-%D9%85%D8%AC%D8%AF%D8%AF-%D9%81%D8%B6%D8%A7%DB%8C-%D8%AF%D8%A7%D8%AE%D9%84%DB%8C-%D9%85%D8%AD%D9%84-%DA%A9%D8%A7%D8%B1-%D9%88-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C%D8%8C-%D8%A8/')
+                .then(function(result) {
+                  console.log('successfully shared');
+                }, function(err) {
+                  console.log('failed');
+                });                
+              } 
+              $ionicModal.fromTemplateUrl('templates/shareToSocial.html', {
+                  scope: $scope,
+                  animation: 'slide-in-up'
+                }).then(function(modal) {
+                  $scope.modal = modal
+                })  
+
+                $scope.openModal = function() {
+                  $scope.modal.show()
+                }
+
+                /*$scope.closeModal = function() {
+                  $scope.modal.hide();
+                };*/
+
+                /*$scope.$on('$destroy', function() {
+                  $scope.modal.remove();
+                });*/                
+
                 $scope.goToCommentState = function()
                 {
                   $state.go('comment',({postID:$stateParams.postID}));
@@ -149,10 +177,11 @@
 
                 $scope.likeThisPost = function()
                 {
-                  
+                  var
+                  postID = $stateParams.postID;
                   $http({
                     method: 'GET',
-                    url:'http://www.magly.ir/HybridAppAPI/sendLike.php.php?PostID=' + postID
+                    url:'http://www.magly.ir/HybridAppAPI/sendLike.php.php?postID=5630'
                   }).success(function(data,status,headers,config){
                     console.log(data);
                   }).error(function(data,status,headers,config){
@@ -187,7 +216,7 @@
                         {
                           $http({
                             method: 'GET',
-                            url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?PostID='+$stateParams.postID+'&email='+$scope.data.email
+                            url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+$stateParams.postID+'&email='+$scope.data.email
                           }).success(function(data,status,headers,config){
                             console.log(data);
                           }).error(function(data,status,headers,config){
@@ -350,6 +379,12 @@
    */
   Controller = function($ionicPopup, $ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
+
+    $scope.signOut = function()
+    {
+      localStorage.clear();
+    };
+
     $scope.$watch('topData', function(newval, oldval) {
       if (newval == 'null')
       {
