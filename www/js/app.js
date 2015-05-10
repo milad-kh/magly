@@ -29,8 +29,15 @@
       });
     })
     .controller('controller', ['$state', Controller])
-    .config(function($stateProvider, $urlRouterProvider) {
-      // console.log($state);
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+       /**
+     * Config url shema
+     */
+    $locationProvider
+    .html5Mode(false)
+    .hashPrefix('!')
+    ;
+
       $stateProvider
       
       .state('home', {
