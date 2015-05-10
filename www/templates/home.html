@@ -3,14 +3,14 @@
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
   <div class="buttons">
-    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenu()">دسته ها</button>
+    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenuLeft()">دسته ها</button>
   </div>
   <label class="item item-input">
   <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="text" placeholder="جستجو کنید" ng-model="query">
+    <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
   </label> 
   <div class="buttons">
-    <button class="button icon ion-gear-a" ng-click="toggleSidemenu()"></button>
+    <button class="button icon ion-gear-a" ng-click="toggleSidemenuRight()"></button>
   </div>
   </ion-header-bar>
     <ion-content>
@@ -57,7 +57,7 @@
     </ion-content>
 
     <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
-  
+
       <div class="buttons" align="center">
         <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
       </div>
@@ -68,7 +68,7 @@
   <!-- Left menu -->
   <ion-side-menu side="left">
   <ion-header-bar align-title="center" class="bar-positive">   
-    <h1 class="title iraniansans">لیست دسته ها</h1>    
+    <h1 class="title yekan">لیست دسته ها</h1>    
   </ion-header-bar>
       
     <ion-content>
@@ -84,14 +84,14 @@
           همه ی مقالات
         </a>
 
-        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left yekan" href="#" style="direction:rtl">
           <i class="icon ion-email"></i>
           {{category.cat_name}}
         </a>
 
-        <a ng-click="mostVisitedPosts()" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+        <a ng-click="mostVisitedPosts()" class="item item-icon-left yekan" href="#" style="direction:rtl">
           <i class="icon ion-email"></i>
-          پر بازدیدتزین ها
+          پر بازدیدترین ها
         </a>
 
       </div>
@@ -103,7 +103,7 @@
     <h1 class="title iraniansans">تنظیمات</h1>    
   </ion-header-bar>
     <ion-content>
-    <a class="item item-thumbnail-right" href="#" style="background-color:skyblue">
+    <a ng-show="true" class="item item-thumbnail-right" href="#" style="background-color:skyblue">
       <img src="img/milad.jpg" style="border-radius:50%">
       <h2 style="direction:rtl" class="yekan">میلاد خان محمدی</h2>      
     </a>
@@ -128,10 +128,7 @@
     <div class="card">
       <button class="button button-assertive yekan" ng-click="signOut()">
         خروج از برنامه
-      </button>
-      <button class="button button-balanced yekan">
-        آپدیت برنامه
-      </button>
+      </button>      
     </div>
     </ion-content>
   </ion-side-menu>

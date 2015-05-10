@@ -188,7 +188,7 @@
                   postID = $stateParams.postID;
                   $http({
                     method: 'GET',
-                    url:'http://www.magly.ir/HybridAppAPI/sendLike.php.php?postID=5630'
+                    url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID=5630'
                   }).success(function(data,status,headers,config){
                     console.log(data);
                   }).error(function(data,status,headers,config){
@@ -343,8 +343,31 @@
     });
   },
   
-  signupController = function ()
+  signupController = function ($scope, $http, $cordovaCamera)
   {
+      document.addEventListener("deviceready", function () {
+        var options = {
+          quality: 50,
+          destinationType: Camera.DestinationType.DATA_URL,
+          sourceType: Camera.PictureSourceType.CAMERA,
+          allowEdit: true,
+          encodingType: Camera.EncodingType.JPEG,
+          targetWidth: 100,
+          targetHeight: 100,
+          popoverOptions: CameraPopoverOptions,
+          saveToPhotoAlbum: false
+        };
+
+        $cordovaCamera.getPicture(options).then(function(imageData) {
+          //var image = document.getElementById('myImage');
+          $scope.imageOfUser = "data:image/jpeg;base64," + imageData;
+        }, function(err) {
+          // error
+        });
+
+      }, false);
+
+
     $scope.username = 'milad';
     $scope.password = '123';
       $http({
@@ -359,15 +382,15 @@
         });
   },
 
-  signinController = function($scope)
+  signinController = function($scope, $http)
   {
     $scope.signin = function()
-    {
-      $scope.username = 'milad';
-      $scope.password = '123';
+    {      
+      $scope.username = 'milad.khanmohammadi@gmail.com';
+      $scope.password = 'miladKHAN!@#$%^';
       $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+$scope.password,
+          url:encodeURI(encodeURIComponent('http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+$scope.password+'&a=1')),
           cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
@@ -488,9 +511,14 @@
       // here we should Arrange by ASC
     }
 
-    $scope.toggleSidemenu = function()
+    $scope.toggleSidemenuLeft = function()
     {
       $ionicSideMenuDelegate.toggleLeft();
+    }
+
+    $scope.toggleSidemenuRight = function()
+    {
+      $ionicSideMenuDelegate.toggleRight();
     }
 
     $scope.displaySinglePost = function(postID)
@@ -504,52 +532,27 @@
        // Show the action sheet
       $ionicActionSheet.show({
          buttons: [
-           { text: 'درباره ی ما' },
-           { text: 'ثبت نام' },
-           { text: 'نمایش اسکوپ' },
-           { text: 'دسته های مقالات' },
-           { text: 'به روز رسانی برنامه' },
-           { text: 'مشاهده لیست دلخواه' },
-           { text: 'داده های بالا' },
-           { text: 'داده های پایین' },
-           { text: 'تست' }
+           { text: '<span class="yekan">ثبت نام</span>' },
+           { text: '<span class="yekan">مشاهده لیست دلخواه</span>' },
+           { text: '<span class="yekan">ورود به برنامه</span>' }
 
          ],
          // destructiveText: 'Delete',
-         titleText: 'قصد انجام چه کاری دارید؟',
-         cancelText: 'Cancel',
+         titleText: '<span class="yekan">قصد انجام چه کاری دارید؟</span>',
+         cancelText: '<span class="yekan">بستن</span>',
          buttonClicked: function(index) {
            switch (index)
-           {
-              case 0:
-                $state.go('aboutus');
-              break;
-              case 1:
-                $state.go('signup');
-              break;
-              case 2:
-                console.log($scope);
-              break;
-              case 3:
-                console.log('آپدیت مقالات');
-              break;
-              case 4:
-                console.log('آپدیت مقالات');
-              break;
-              case 5:
-                $state.go('favoriteList');
-              break;
-              case 6:
-                $scope.loadMoreDataForTop();
-              break;
-              case 7:
-                //$scope.loadMoreDataForDown();
-              break;
-              case 8:
-                $scope.test();
-              break;
-           }
-           console.log(index);
+           {              
+            case 0:
+              $state.go('signup');
+            break;                                        
+            case 1:
+              $state.go('favoriteList');
+            break;  
+            case 2:
+              $state.go('signin');
+            break;                                        
+           }           
            return true;
          }
        });
