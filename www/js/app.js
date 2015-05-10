@@ -390,7 +390,7 @@
       $scope.password = 'miladKHAN!@#$%^';
       $http({
           method: 'GET',
-          url:encodeURI(encodeURIComponent('http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+$scope.password+'&a=1')),
+          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+encodeURIComponent($scope.password)+'&a=1',
           cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
