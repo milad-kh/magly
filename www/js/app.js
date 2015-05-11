@@ -94,8 +94,13 @@
         views: {
           'comment': {
             templateUrl: 'templates/comments.html',
-            controller: function($stateParams, $scope, $localstorage, $http)
+            controller: function($stateParams, $scope, $localstorage, $http, $state)
             {
+              $scope.backToPost = function()
+              {                
+                $state.go('post',({postID:$stateParams.postID}));
+              };
+
               var comment;
               $scope.commentObject = {};              
               var posts = $localstorage.getObject('posts');
