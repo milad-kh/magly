@@ -55,7 +55,7 @@
         views: {
           'favoriteList': {
             templateUrl: 'templates/favoriteList.html',
-            controller: Controller
+            controller: favoriteController
             }
         }
       })
@@ -148,6 +148,10 @@
           'post': {
             templateUrl: 'templates/post.html',
             controller: function($ionicModal, $state, $cordovaSocialSharing, $http, $scope, $stateParams, $ionicActionSheet, $localstorage, $ionicPopup, $timeout){
+              $scope.goHome = function()
+              {
+                $state.go('home');
+              }
               $scope.shareToSocial = function()
               {
                 $cordovaSocialSharing
@@ -245,19 +249,37 @@
                 $cordovaSocialSharing.shareViaEmail('hi','subject','a.gmail.com','b@gmail.com','e@gmail.com');
               };
 
-              $scope.addToFavorite = function(event)
-              {                       
-                // event.preventDefault();
-                // event.stopPropagation();
-                // show the message    
-                var alertPopup = $ionicPopup.alert({
-                  title: 'Added to favorites!',
-                  template: 'this article added to your favorite list :)'
-                });
-                // we can do more here
-                alertPopup.then(function(res) {
-                  console.log('Thank you for not eating my delicious ice cream cone');
-                });               
+              $scope.addToFavorite = function()
+              {                                 
+                if (_.isEmpty($localstorage.getObject('userInfo')))
+                {
+                  alert('شما لاگین نیستید');
+                }
+                else
+                {          
+                  $scope.info = $localstorage.getObject('userInfo');   
+                  console.log($scope.info);     
+                  $http({
+                    method: 'GET',
+                    url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+$stateParams.postID,
+                    cache: false
+                  }).success(function(data,status,headers,config){          
+                    console.log(data);
+                    var alertPopup = $ionicPopup.alert({
+                      title: 'نتیجه',
+                      template: 'به لیست دلخواه اضافه شد'
+                    });
+                    // we can do more here
+                    alertPopup.then(function(res) {
+                      console.log('Thank you for not eating my delicious ice cream cone');
+                    }); 
+
+                  }).error(function(data,status,headers,config){
+                    console.log('error in get categories');
+                  });                     
+                };
+                                                
+                              
               };
 
               console.log($stateParams);              
@@ -343,9 +365,37 @@
     });
   },
   
-  signupController = function ($scope, $http, $cordovaCamera)
+  favoriteController = function($scope, $localstorage, $http, $state)
   {
-      document.addEventListener("deviceready", function () {
+    $scope.displaySinglePost = function(postID)
+    {      
+      $state.go('post',({
+        postID:postID
+      }));
+    }
+
+    $scope.favoritePosts = {};
+    $scope.info = $localstorage.getObject('userInfo');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID,
+      cache: false
+      }).success(function(data,status,headers,config){          
+        $scope.posts = data;
+        console.log($scope.posts);        
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });
+      $scope.goHome = function()
+      {
+        $state.go('home');
+      }
+  },
+
+  signupController = function ($scope, $http, $cordovaCamera, $state)
+  {
+    // this code is how to enable device camera to get a picture
+      /*document.addEventListener("deviceready", function () {
         var options = {
           quality: 50,
           destinationType: Camera.DestinationType.DATA_URL,
@@ -365,36 +415,49 @@
           // error
         });
 
-      }, false);
-
-
-    $scope.username = 'milad';
-    $scope.password = '123';
+      }, false);*/
+    $scope.goHome = function()
+    {
+      $state.go('home');
+    }
+    $scope.info={};  
+    $scope.signup = function()
+    {
+      console.log($scope.info);    
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/signup.php?username='+$scope.username+'&password='+$scope.password,
+        url:'http://www.magly.ir/HybridAppAPI/signup.php?fullName='+$scope.info.fullName+'&niceName='+$scope.info.niceName+'&email='+$scope.info.email+'&password='+encodeURIComponent($scope.info.password),
         cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
           
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
-        });
+        });      
+    }
   },
 
-  signinController = function($scope, $http)
+  signinController = function($scope, $http, $localstorage, $state)
   {
+    $scope.goHome = function()
+    {
+      $state.go('home');
+    }
+    $scope.info={};
     $scope.signin = function()
     {      
-      $scope.username = 'milad.khanmohammadi@gmail.com';
-      $scope.password = 'miladKHAN!@#$%^';
+      console.log($scope.info);
       $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.username+'&password='+encodeURIComponent($scope.password)+'&a=1',
+          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password)+'&a=1',
           cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
-          
+          if(data.status == 'ok')
+          {
+            $localstorage.setObject('userInfo',data.info);
+            $state.go('home');
+          }
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
         });
@@ -410,6 +473,16 @@
   Controller = function($ionicPopup, $ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
   {
 
+    $scope.checkSignin = function()
+    {
+      if (!_.isEmpty($localstorage.getObject('userInfo')))
+      {
+        $scope.userIslogin = true;  
+        $scope.userInfo = $localstorage.getObject('userInfo'); 
+                
+      };
+    } 
+    $scope.checkSignin();
     $scope.signOut = function()
     {
       localStorage.clear();
@@ -658,6 +731,7 @@
     {
       if (input == 'all')
       {
+        console.log('hamaro neshun bede');
         $scope.posts = $localstorage.getObject('posts');
       }
       else

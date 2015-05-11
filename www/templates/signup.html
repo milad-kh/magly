@@ -1,33 +1,36 @@
 <ion-side-menus>
 <ion-side-menu-content>
-<ion-header-bar align-title="center" class="bar-positive">
-
-  <div class="buttons">
-    <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
-  </div>
-</ion-header-bar>
+<ion-header-bar align-title="center" class="bar-positive">   
+  <button class="button icon-left ion-home" ng-click="goHome();"></button>
+  </ion-header-bar>
 <ion-content>
 
   <div class="list list-inset">
     <label class="item item-input item-floating-label" style="direction:rtl">
-      <span class="input-label iraniansans" style="padding-right:16px">نام</span>
-      <input type="text" class="iraniansans" placeholder="نام" style="padding-right:16px">
+      <span class="input-label iraniansans" style="padding-right:16px">نام کامل</span>
+      <input type="text" class="iraniansans" placeholder="نام کامل" style="padding-right:16px" ng-model="info.fullName">
     </label>
     
     <label class="item item-input item-floating-label" style="direction:rtl">
-      <span class="input-label iraniansans" style="padding-right:16px">نام خانوادگی</span>
-      <input type="text" class="iraniansans" style="padding-right:16px" placeholder="نام خانوادگی">
+      <span class="input-label iraniansans" style="padding-right:16px">نام مستعار</span>
+      <input ng-model="info.niceName" type="text" class="iraniansans" style="padding-right:16px" placeholder="نام مستعار">
     </label>
 
     <label class="item item-input item-floating-label">
       <span class="input-label">Email</span>
-      <input type="text" placeholder="Email">
+      <input type="text" placeholder="Email" ng-model="info.email">
     </label>
+
+    <label class="item item-input item-floating-label">
+      <span class="input-label">password</span>
+      <input type="text" placeholder="password" ng-model="info.password">
+    </label>
+
     <button class="iraniansans button button-block button-royal">
       گرفتن تصویر
     </button> 
     <img ng-src="{{imageOfUser}}" alt="" width="50" height="50">
-    <button class="iraniansans button button-block button-balanced">
+    <button class="iraniansans button button-block button-balanced" ng-click="signup()">
       ثبت نام
     </button> 
 

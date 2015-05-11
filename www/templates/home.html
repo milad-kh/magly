@@ -79,17 +79,17 @@
       >
     </ion-refresher>
       <div class="list">
-        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left iraniansans" href="#" style="direction:rtl">
+        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
           <i class="icon ion-email"></i>
           همه ی مقالات
         </a>
 
-        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left yekan" href="#" style="direction:rtl">
+        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
           <i class="icon ion-email"></i>
           {{category.cat_name}}
         </a>
 
-        <a ng-click="mostVisitedPosts()" class="item item-icon-left yekan" href="#" style="direction:rtl">
+        <a ng-click="mostVisitedPosts()" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
           <i class="icon ion-email"></i>
           پر بازدیدترین ها
         </a>
@@ -103,9 +103,10 @@
     <h1 class="title iraniansans">تنظیمات</h1>    
   </ion-header-bar>
     <ion-content>
-    <a ng-show="true" class="item item-thumbnail-right" href="#" style="background-color:skyblue">
+    <a ng-show="userIslogin" class="item item-thumbnail-right" href="#" style="background-color:skyblue">
       <img src="img/milad.jpg" style="border-radius:50%">
-      <h2 style="direction:rtl" class="yekan">میلاد خان محمدی</h2>      
+      <h2 style="direction:rtl" class="yekan" ng-bind="userInfo.display_name"></h2>  
+      <p ng-bind="userInfo.user_nicename"></p>    
     </a>
     <div class="card yekan" style="direction:rtl" >
       <div class="item item-text-wrap">
@@ -128,6 +129,9 @@
     <div class="card">
       <button class="button button-assertive yekan" ng-click="signOut()">
         خروج از برنامه
+      </button>
+      <button class="button button-balanced yekan" ng-click="signOut()">
+        ورود به برنامه
       </button>      
     </div>
     </ion-content>

@@ -1,53 +1,23 @@
   <ion-side-menus>
   <!-- Center content -->
   <ion-side-menu-content>
-  <ion-header-bar align-title="center" class="bar-positive">
-    <div class="buttons">
-      <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
-    </div>
-   
+  <ion-header-bar align-title="center" class="bar-positive">   
+  <button class="button icon-left ion-home" ng-click="goHome();"></button>
   </ion-header-bar>
     <ion-content>
-      <div ng-show="showArticleList">
+      <div>
       <ion-list style="direction:rtl">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts">          
           <!-- the box of POST here -->
-          <img ng-show="true" src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
-
-          <h2  ng-show="true" ng-bind="post.post_title"></h2>
-          <p   ng-show="true" ng-bind="post.post_content"></p>
-          <!-- the box of ADS is here  -->
-          <img ng-show="!true" src="img/milad.jpg" />
-
+          <img src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
+          <h2  ng-bind="post.post_title" class="yekan"></h2>
+          <p   ng-bind="post.post_content"></p>
+          <!-- the box of ADS is here  -->          
         </ion-item>
-      </ion-list>
-      <!-- <ion-infinite-scroll
-        on-infinite="loadmore()"
-        distance="1%"
-        >
-      </ion-infinite-scroll> -->
-    </div>
-    <div ng-show="showUpdateMessage">
-      <div class="card">
-        <div class="item item-text-wrap">
-          احتمالا بار اول است که از این برنامه استفاده میکنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
-        </div>
-      </div>
-      <button class="button button-balanced" ng-click="fillLocalWithData()">
-        دریافت مقاله ها
-      </button>
-    </div>
+      </ion-list>      
+    </div>    
     </ion-content>
-
-    <ion-footer-bar align-title="right" class="bar-assertive">
-  
-  <div class="buttons" align="left">
-    <button class="button" ng-click="showScope()">show scope</button>
-  </div>
-  <div class="buttons" align="left">
-    <button class="button" ng-click="showActionsheet()">Magly</button>
-  </div>
-  
+    <ion-footer-bar align-title="right" class="bar-assertive">    
 </ion-footer-bar>
   </ion-side-menu-content>
 

@@ -3,7 +3,7 @@
   <ion-side-menu-content>
   <ion-header-bar align-title="center" class="bar-positive">
     <div class="buttons">
-      <button class="button" ng-click="toggleSidemenu()">دسته های مقالات</button>
+      <button class="button icon-left ion-home" ng-click="goHome();"></button>
     </div>
   </ion-header-bar>
     <ion-content>
@@ -27,7 +27,7 @@
   </div>
   <p>مطالب مرتبط</p>
   <ion-list style="direction:rtl">
-    <ion-item ng-repeat="item in [1,2,3,4,5]" ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#">          
+    <ion-item ng-repeat="item in [1,2,3]" ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#">          
       <!-- the box of POST here -->
       <img ng-show="true" src="{{post.thumbnail}}">
 
@@ -40,9 +40,6 @@
   </ion-list>
 	<button class="button button-positive yekan" ng-click="showPopup()">
   ایمیل کردن این مقاله به یک دوست
-</button>
-<button class="button button-balanced">
-  button-positive
 </button>
 <!-- <div class="bar bar-header bar-calm" ng-click="shareAnywhere()">
   <h1 class="title">share to social</h1>
@@ -61,7 +58,7 @@
       <i class="icon ion-share"></i>
       Share
     </a>
-    <a class="tab-item" ng-href="" ng-click="addToFavorite(event)">
+    <a class="tab-item" ng-href="" ng-click="addToFavorite()">
       <i class="icon ion-share"></i>
       favorite
     </a>
