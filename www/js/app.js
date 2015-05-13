@@ -50,6 +50,40 @@
         }
       })
 
+      .state('material', {
+        url: '/material',
+        views: {
+          'material': {
+            templateUrl: 'templates/material.html',
+            controller: function($scope, $ionicModal){
+              /*$ionicLoading.show({
+                template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /></svg></div>'
+              });*/
+              // ionic.material.motion.blinds();
+            $ionicModal.fromTemplateUrl('templates/sendCommentForm.html', {
+              scope: $scope,
+              animation: 'slide-in-up'
+            }).then(function(modal) {
+              $scope.modal = modal;
+            });
+            $scope.showModal = function()
+            {
+              $scope.modal.show(); 
+            }
+            $scope.comments = [
+              {
+                name : 'a'
+              },
+              {
+                name: 'b'
+              }
+            ]
+              ionic.material.ink.displayEffect();
+            }
+          }
+        }
+      })
+
       .state('favoriteList', {
         url: '/favoriteList',
         views: {
