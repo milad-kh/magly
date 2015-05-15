@@ -1,18 +1,38 @@
   <ion-side-menus>
   <!-- Center content -->
   <ion-side-menu-content>
-  <ion-header-bar align-title="center" class="bar-positive">
-  <div class="buttons">
-    <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenuLeft()">دسته ها</button>
-  </div>
-  <label class="item item-input">
-  <i class="icon ion-ios-search placeholder-icon"></i>
-    <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
-  </label> 
-  <div class="buttons">
-    <button class="button icon ion-gear-a" ng-click="toggleSidemenuRight()"></button>
-  </div>
-  </ion-header-bar>
+  <div class="bar bar-header bar-assertive">
+   <div class="buttons buttons-left header-item" ng-click="toggleSidemenuLeft()"> 
+   <span class="left-buttons"> 
+   <button class="button button-icon button-clear ion-navicon"> </button>
+    </span>
+     </div> 
+     <!-- <div class="h1 title title-left dark">Normal Header</div>  -->
+    <div class="item item-input-inset">
+      <label class="item-input-wrapper" id="search-input">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
+      <label class="item-input-wrapper" id="search-input">
+    </div>  
+      <div class="buttons buttons-right header-item" ng-click="openPopover($event)"> 
+        <span class="right-buttons"> 
+        <button class="button button-icon button-clear ion-android-more-vertical"> </button>
+      </span>
+      </div> 
+      </div>
+                
+  <!-- <ion-header-bar align-title="center" class="bar-positive">
+    <div class="buttons">
+      <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenuLeft()">دسته ها</button>
+    </div>
+    <label class="item item-input">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+      <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
+    </label> 
+    <div class="buttons">
+      <button class="button icon ion-gear-a" ng-click="toggleSidemenuRight()"></button>
+    </div>
+  </ion-header-bar> -->
     <ion-content>
 
     <ion-refresher
@@ -20,19 +40,39 @@
       on-refresh="loadMoreDataForTop()"      
       >
     </ion-refresher>
-      <div ng-show="showArticleList">            
+    
+                
+    <div class="card card-gallery item item-text-wrap" ng-repeat="post in posts track by post.ID | filter:query">
+      <div class="ink waves-effect waves-block dark-bg">
+        <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
+        <img src="{{post.thumbnail}}">
+        <p class="yekan" style="direction:rtl">محتوای این پست در این قسمت گذاشته می وشد</p>
+      </div>
+        <div class="item tabs tabs-secondary tabs-icon-left">
+          <a class="tab-item waves-effect waves-block waves-dark">
+            <i class="icon ion-heart"></i>
+            4
+          </a>
+          <a class="tab-item waves-effect waves-block waves-dark">
+            <i class="icon ion-chatbubbles"></i>
+            2
+          </a>
+        </div>
+    </div>
 
+      <!-- <div ng-show="showArticleList">            
+      
       <ion-list style="direction:rtl" on-drag-down="setDirectionForScroll('up')" on-drag-up="setDirectionForScroll('down')">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" ng-href="" ng-repeat="post in posts | filter:query" >          
-          <!-- the box of POST here -->          
+          the box of POST here          
           <img src="{{post.thumbnail}}">
           <h2 ng-bind="post.post_title" class="titrtge"></h2>
           <p class="yekan">محتوا</p>
-          <!-- the box of ADS is here  -->
+          the box of ADS is here
           <img ng-if="$index % 5 == 0" src="img/ads.jpg"  />
-
+      
         </ion-item>
-      </ion-list>
+      </ion-list> -->
 
       <ion-infinite-scroll
         on-infinite="loadMoreDataForDown()"
@@ -41,8 +81,7 @@
         >
       </ion-infinite-scroll>
 
-    </div>
-    <div ng-show="showUpdateMessage">
+    <!-- <div ng-show="showUpdateMessage">
       <div class="card">
         <div class="item item-text-wrap yekan" style="direction:rtl">
           احتمالا بار اول است که از این برنامه استفاده می کنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
@@ -52,17 +91,17 @@
       <div class="buttons" align="center">
         <button class="button button-large button-balanced icon ion-refresh yekan" ng-click="fillLocalWithData()"> به روز رسانی</button>
       </div>      
-    </div>
+    </div> -->
     
     </ion-content>
 
-    <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
-
+    <!-- <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
+    
       <div class="buttons" align="center">
         <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
       </div>
       
-    </ion-footer-bar>
+    </ion-footer-bar> -->
   </ion-side-menu-content>
 
   <!-- Left menu -->

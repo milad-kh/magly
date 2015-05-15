@@ -509,8 +509,20 @@
    * @param {[type]} $scope        [description]
    * @param {[type]} $http         [description]
    */
-  Controller = function($ionicPopup, $ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate)
+  Controller = function($ionicPopup, $ionicBackdrop, $state, $localstorage, $scope, $http, $ionicActionSheet, $timeout, $ionicSideMenuDelegate, $ionicPopover)
   {
+    ionic.material.ink.displayEffect();
+    // .fromTemplate() method
+    var template = '<ion-popover-view><ion-header-bar> <h1 class="title">My Popover Title</h1> </ion-header-bar> <ion-content> Hello! </ion-content></ion-popover-view>';
+
+    $scope.popover = $ionicPopover.fromTemplate(template, {
+      scope: $scope
+    });
+    $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+    };
+    
+    console.log($ionicPopover);
 
     $scope.checkSignin = function()
     {
