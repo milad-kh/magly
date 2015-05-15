@@ -1,48 +1,51 @@
-  <ion-side-menus>
-  <!-- Center content -->
-  <ion-side-menu-content>
-  <div class="bar bar-header bar-assertive">
-   <div class="buttons buttons-left header-item" ng-click="toggleSidemenuLeft()"> 
-   <span class="left-buttons"> 
-   <button class="button button-icon button-clear ion-navicon"> </button>
-    </span>
-     </div> 
-     <!-- <div class="h1 title title-left dark">Normal Header</div>  -->
-    <div class="item item-input-inset">
-      <label class="item-input-wrapper" id="search-input">
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
-      <label class="item-input-wrapper" id="search-input">
-    </div>  
-      <div class="buttons buttons-right header-item" ng-click="openPopover($event)"> 
-        <span class="right-buttons"> 
-        <button class="button button-icon button-clear ion-android-more-vertical"> </button>
-      </span>
-      </div> 
-      </div>
-                
-  <!-- <ion-header-bar align-title="center" class="bar-positive">
-    <div class="buttons">
-      <button class="button yekan icon-left ion-chevron-left" ng-click="toggleSidemenuLeft()">دسته ها</button>
-    </div>
-    <label class="item item-input">
-    <i class="icon ion-ios-search placeholder-icon"></i>
+<!-- start header -->
+<!-- <div class="bar bar-header bar-assertive">
+ <div class="buttons buttons-left header-item" ng-click="toggleSidemenuLeft()"> 
+ <span class="left-buttons"> 
+ <button class="button button-icon button-clear ion-navicon"> </button>
+  </span>
+   </div> 
+  <div class="item item-input-inset">
+    <label class="item-input-wrapper" id="search-input">
+      <i class="icon ion-search placeholder-icon"></i>
       <input type="text" placeholder="جستجو کنید" ng-model="query" class="yekan">
-    </label> 
-    <div class="buttons">
-      <button class="button icon ion-gear-a" ng-click="toggleSidemenuRight()"></button>
-    </div>
-  </ion-header-bar> -->
+    <label class="item-input-wrapper" id="search-input">
+  </div>  
+<div class="buttons buttons-right header-item" ng-click="openPopover($event)"> 
+  <span class="right-buttons"> 
+  <button class="button button-icon button-clear ion-android-more-vertical"> </button>
+</span>
+</div> 
+</div>
+ --><!-- start header -->
+<!-- start content -->
     <ion-content>
-
-    <ion-refresher
-      pulling-text="در حال بارگیری پست های جدید..."
-      on-refresh="loadMoreDataForTop()"      
-      >
-    </ion-refresher>
+   <!--  <ion-refresher
+     pulling-text="در حال بارگیری پست های جدید..."
+     on-refresh="loadMoreDataForTop()"      
+     >
+   </ion-refresher> -->
     
+  <ion-tabs>
+ 
+ <ion-tab title="Home">
+ <ion-content class="has-header padding">
+  <h1>Account</h1>
+</ion-content>  
+ </ion-tab>
+ 
+ <ion-tab title="About">
+ <!-- Tab 2 content -->
+ </ion-tab>
+ 
+ <ion-tab title="Settings">
+ <!-- Tab 3 content -->
+ </ion-tab>
+ 
+</ion-tabs>
                 
-    <div class="card card-gallery item item-text-wrap" ng-repeat="post in posts track by post.ID | filter:query">
+                       
+    <!-- <div class="card card-gallery item item-text-wrap" ng-repeat="post in posts track by post.ID | filter:query">
       <div class="ink waves-effect waves-block dark-bg">
         <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
         <img src="{{post.thumbnail}}">
@@ -58,7 +61,7 @@
             2
           </a>
         </div>
-    </div>
+    </div> -->
 
       <!-- <div ng-show="showArticleList">            
       
@@ -74,12 +77,12 @@
         </ion-item>
       </ion-list> -->
 
-      <ion-infinite-scroll
+      <!-- <ion-infinite-scroll
         on-infinite="loadMoreDataForDown()"
         distance="1"
         icon="ion-loading-c"
         >
-      </ion-infinite-scroll>
+      </ion-infinite-scroll> -->
 
     <!-- <div ng-show="showUpdateMessage">
       <div class="card">
@@ -94,85 +97,4 @@
     </div> -->
     
     </ion-content>
-
-    <!-- <ion-footer-bar align-title="right" class="bar-assertive" style="display:inline">
-    
-      <div class="buttons" align="center">
-        <button class="button icon ion-gear-a" ng-click="showActionsheet()"></button>
-      </div>
-      
-    </ion-footer-bar> -->
-  </ion-side-menu-content>
-
-  <!-- Left menu -->
-  <ion-side-menu side="left">
-  <ion-header-bar align-title="center" class="bar-positive">   
-    <h1 class="title yekan">لیست دسته ها</h1>    
-  </ion-header-bar>
-      
-    <ion-content>
-    <ion-refresher
-      pulling-text="بررسی وجود دسته های جدید..."
-      on-refresh="loadMoreDataForTop()"
-      disable-pulling-rotation
-      >
-    </ion-refresher>
-      <div class="list">
-        <a ng-click="filterPostsByCategory('all')" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
-          <i class="icon ion-email"></i>
-          همه ی مقالات
-        </a>
-
-        <a ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" ng-repeat="category in categories" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
-          <i class="icon ion-email"></i>
-          {{category.cat_name}}
-        </a>
-
-        <a ng-click="mostVisitedPosts()" class="item item-icon-left yekan" ng-href="" style="direction:rtl">
-          <i class="icon ion-email"></i>
-          پر بازدیدترین ها
-        </a>
-
-      </div>
-
-    </ion-content>
-  </ion-side-menu>
-  <ion-side-menu side="right">
-  <ion-header-bar align-title="center" class="bar-positive">   
-    <h1 class="title iraniansans">تنظیمات</h1>    
-  </ion-header-bar>
-    <ion-content>
-    <a ng-show="userIslogin" class="item item-thumbnail-right" ng-href="" style="background-color:skyblue">
-      <img src="img/milad.jpg" style="border-radius:50%">
-      <h2 style="direction:rtl" class="yekan" ng-bind="userInfo.display_name"></h2>  
-      <p ng-bind="userInfo.user_nicename"></p>    
-    </a>
-    <div class="card yekan" style="direction:rtl" >
-      <div class="item item-text-wrap">
-       دریافت ایمیل مقاله ها
-        <label class="toggle toggle-calm">
-           <input type="checkbox">
-           <div class="track">
-             <div class="handle"></div>
-           </div>
-        </label>
-      </div>
-      <div class="item item-text-wrap">
-        تعداد پست های دریافتی هنگام اسکرول به سمت پایین
-      </div>
-      <div class="item item-text-wrap">
-        تعداد پست های دریافتی هنگام اسکرول به سمت بالا
-      </div>      
-    </div>
-    
-    <div class="card">
-      <button class="button button-assertive yekan" ng-click="signOut()">
-        خروج از برنامه
-      </button>
-      <button class="button button-balanced yekan" ng-click="signOut()">
-        ورود به برنامه
-      </button>      
-    </div>
-    </ion-content>
-  </ion-side-menu>
-</ion-side-menus>
+<!-- end content -->

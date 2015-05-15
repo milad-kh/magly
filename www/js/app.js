@@ -29,10 +29,12 @@
       });
     })
     .controller('controller', ['$state', Controller])
-    .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(function($stateProvider, $urlRouterProvider, $locationProvider, $ionicConfigProvider) {
        /**
      * Config url shema
      */
+     console.log($ionicConfigProvider);
+    // $ionicConfigProvider.tabs.position('bottom');
     $locationProvider
     .html5Mode(false)
     .hashPrefix('!')
@@ -521,7 +523,7 @@
     $scope.openPopover = function($event) {
       $scope.popover.show($event);
     };
-    
+
     console.log($ionicPopover);
 
     $scope.checkSignin = function()
