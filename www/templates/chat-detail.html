@@ -1,0 +1,35 @@
+<!--
+  This template loads for the 'tab.friend-detail' state (app.js)
+  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+  The FriendsCtrl pulls data from the Friends service (service.js)
+  The Friends service returns an array of friend data
+-->
+<ion-view view-title="title">
+  <ion-content class="padding">
+    
+    <div class="list card stable-bg">
+     <div class="item item-thumbnail"> 
+     <img class="full-image" src="{{targetPost.thumbnail}}">
+      <h2>Arya Stark</h2> 
+     <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p> 
+     </div> 
+     <div class="item item-body">
+    {{targetPost.post_content}}
+    <p> 
+      <a class="subdued">1 Like</a> 
+      <a class="subdued">5 Comments</a> 
+    </p>
+      </div>
+       <div class="item tabs tabs-secondary tabs-icon-left"> 
+      <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
+       <i class="icon ion-thumbsup"></i> Like </a>
+        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
+        <i class="icon ion-chatbox"></i> Comment </a> 
+        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
+         <i class="icon ion-share"></i> Share
+          </a>
+         </div> 
+         </div>
+
+  </ion-content>
+</ion-view>

@@ -1,0 +1,14 @@
+<ion-view view-title="دسته ها">
+  <ion-content class="padding">
+    
+    <div class="list card" ng-repeat="item in categories" ng-click="filterPostsByCategory(item.cat_ID)">
+      <div class="item item-divider">{{item.cat_name}}</div>
+      <div class="item item-body">
+        <div>
+          There is a fire in <b>sector 3</b>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

@@ -1,5 +1,5 @@
-<!-- start header -->
-<!-- <div class="bar bar-header bar-assertive">
+<!-- start header
+<div class="bar bar-header bar-assertive">
  <div class="buttons buttons-left header-item" ng-click="toggleSidemenuLeft()"> 
  <span class="left-buttons"> 
  <button class="button button-icon button-clear ion-navicon"> </button>
@@ -16,15 +16,14 @@
   <button class="button button-icon button-clear ion-android-more-vertical"> </button>
 </span>
 </div> 
-</div>
- --><!-- start header -->
-<!-- start content -->
+</div>start header
+start content
     <ion-content>
-   <!--  <ion-refresher
+   <ion-refresher
      pulling-text="در حال بارگیری پست های جدید..."
      on-refresh="loadMoreDataForTop()"      
      >
-   </ion-refresher> -->
+   </ion-refresher>
     
   <ion-tabs>
  
@@ -35,17 +34,17 @@
  </ion-tab>
  
  <ion-tab title="About">
- <!-- Tab 2 content -->
+ Tab 2 content
  </ion-tab>
  
  <ion-tab title="Settings">
- <!-- Tab 3 content -->
+ Tab 3 content
  </ion-tab>
  
 </ion-tabs>
                 
                        
-    <!-- <div class="card card-gallery item item-text-wrap" ng-repeat="post in posts track by post.ID | filter:query">
+    <div class="card card-gallery item item-text-wrap" ng-repeat="post in posts track by post.ID | filter:query">
       <div class="ink waves-effect waves-block dark-bg">
         <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
         <img src="{{post.thumbnail}}">
@@ -61,9 +60,9 @@
             2
           </a>
         </div>
-    </div> -->
+    </div>
 
-      <!-- <div ng-show="showArticleList">            
+      <div ng-show="showArticleList">            
       
       <ion-list style="direction:rtl" on-drag-down="setDirectionForScroll('up')" on-drag-up="setDirectionForScroll('down')">    
         <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" ng-href="" ng-repeat="post in posts | filter:query" >          
@@ -75,16 +74,16 @@
           <img ng-if="$index % 5 == 0" src="img/ads.jpg"  />
       
         </ion-item>
-      </ion-list> -->
+      </ion-list>
 
-      <!-- <ion-infinite-scroll
+      <ion-infinite-scroll
         on-infinite="loadMoreDataForDown()"
         distance="1"
         icon="ion-loading-c"
         >
-      </ion-infinite-scroll> -->
+      </ion-infinite-scroll>
 
-    <!-- <div ng-show="showUpdateMessage">
+    <div ng-show="showUpdateMessage">
       <div class="card">
         <div class="item item-text-wrap yekan" style="direction:rtl">
           احتمالا بار اول است که از این برنامه استفاده می کنید. با کلیک روی دکمه ی زیر لیست مقاله ها را دریافت کنید.
@@ -94,7 +93,30 @@
       <div class="buttons" align="center">
         <button class="button button-large button-balanced icon ion-refresh yekan" ng-click="fillLocalWithData()"> به روز رسانی</button>
       </div>      
-    </div> -->
+    </div>
     
     </ion-content>
-<!-- end content -->
+end content -->
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
+  <!-- Dashboard Tab -->
+  <ion-tab title="material" icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="/material">
+    <ion-nav-view name="material"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Chats Tab -->
+  <ion-tab title="signup" icon-off="ion-ios-chatboxes-outline" icon-on="ion-ios-chatboxes" href="/signup">
+    <ion-nav-view name="signup"></ion-nav-view>
+  </ion-tab>
+
+  <!-- Account Tab -->
+  <ion-tab title="signin" icon-off="ion-ios-gear-outline" icon-on="ion-ios-gear" href="/signin">
+    <ion-nav-view name="signin"></ion-nav-view>
+  </ion-tab>
+
+</ion-tabs>

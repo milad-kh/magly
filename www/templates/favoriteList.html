@@ -1,43 +1,24 @@
-  <ion-side-menus>
-  <!-- Center content -->
-  <ion-side-menu-content>
-  <ion-header-bar align-title="center" class="bar-positive">   
-  <button class="button icon-left ion-home" ng-click="goHome();"></button>
-  </ion-header-bar>
-    <ion-content>
-      <div>
-      <ion-list style="direction:rtl">    
-        <ion-item ng-click="displaySinglePost(post.ID)" class="item item-thumbnail-right" href="#" ng-repeat="post in posts">          
-          <!-- the box of POST here -->
-          <img src="{{post.thumbnail}}" style="border:1px solid gray;border-radius:7px">
-          <h2  ng-bind="post.post_title" class="yekan"></h2>
-          <p   ng-bind="post.post_content"></p>
-          <!-- the box of ADS is here  -->          
-        </ion-item>
-      </ion-list>      
-    </div>    
-    </ion-content>
-    <ion-footer-bar align-title="right" class="bar-assertive">    
-</ion-footer-bar>
-  </ion-side-menu-content>
+<ion-view view-title="favoriteList">
+ <ion-content>
 
-  <!-- Left menu -->
-  <ion-side-menu side="left">
-  <ion-header-bar align-title="center" class="bar-positive">   
-    <h1 class="title">لیست دسته ها</h1>    
-  </ion-header-bar>
-    <ion-content>
-       <ion-list>  
-          <ion-item ng-click="filterPostsByCategory('all')" class="item item-thumbnail-left" href="#">
-            <p>همه ی مقالات</p>
-          </ion-item>  
-          <ion-item ng-click="filterPostsByCategory(this.$parent.category.cat_ID)" class="item item-thumbnail-left" href="#" ng-repeat="category in categories">
-            <p ng-bind="category.cat_name"></p>
-          </ion-item>  
-          <ion-item ng-click="filterPostsByCategory(355)" class="item item-thumbnail-left" href="#">
-            <p>بیوگرافی اسطوره های IT</p>
-          </ion-item>
-        </ion-list>
-    </ion-content>
-  </ion-side-menu>
-</ion-side-menus>
+  <div class="list card stable-bg" ng-repeat="post in FavoritePosts track by $index">
+     <div class="item item-thumbnail"> 
+     <img class="full-image" src="{{post.thumbnail}}">
+      <h2>Arya Stark</h2> 
+     <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p> 
+     </div> 
+     <div class="item item-body"> The quickest way to a man's heart is through Arya's needle. She has two speeds: Walk and Kill, and is the reason why Waldo is still hiding. <p> 
+     <a class="subdued">1 Like</a> 
+     <a class="subdued">5 Comments</a> 
+     </p>
+      </div>
+        <div class="item tabs tabs-secondary tabs-icon-left"> 
+                
+        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
+        <i class="icon ion-share"></i> حذف </a>
+
+      </div> 
+    </div>
+
+ </ion-content>
+</ion-view>
