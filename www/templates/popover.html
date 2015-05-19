@@ -4,12 +4,14 @@
 	</ion-header-bar> -->
 <ion-content style="direction:rtl">
 
-  <a class="item item-icon-right yekan" ng-click="navigateToState('favoriteList')" > <i class="icon ion-email"></i> لیست دلخواه </a>
-  <a class="item item-icon-right yekan" > <i class="icon ion-email"></i> ثبت نام </a>
+  <a ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-home"></i> خانه </a>
+  <a ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-speakerphone"></i> لیست دلخواه </a>
+  <a class="item item-icon-right yekan" ui-sref="signup"> <i class="icon ion-person-add"></i> ثبت نام </a>
   
-  <a class="item item-icon-right yekan" > <i class="icon ion-mic-a"></i>ورود به برنامه</a>
+  <a class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key"></i>ورود به برنامه</a>
+  <a class="item item-icon-right yekan" ui-sref="setting"> <i class="icon ion-wrench"></i>تنظیمات</a>
 
-  <a class="item item-icon-right" ><i class="icon ion-person-stalker yekan"></i> Friends </a>
+  
                 
 </ion-content>
 </ion-popover-view>
