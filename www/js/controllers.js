@@ -166,7 +166,7 @@
     };
 
     $scope.fillLocalWithData();  
-    ionic.material.ink.displayEffect();
+    // ionic.material.ink.displayEffect();
 })
 
 .controller('signupCtrl', function($scope){
@@ -321,7 +321,7 @@
     $scope.modal.show();
   };
 
-  ionic.material.ink.displayEffect();
+  // ionic.material.ink.displayEffect();
 })
 
 .controller('favoriteCtrl' , function($state, $scope, $http, $localstorage){
@@ -352,7 +352,7 @@
       $state.go('home');
     }
 
-    ionic.material.ink.displayEffect();
+    // ionic.material.ink.displayEffect();
   //
 });
 
