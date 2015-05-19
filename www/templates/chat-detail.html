@@ -4,35 +4,48 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="title">
+<ion-view>
   <ion-content class="padding">    
-    <div class="list card stable-bg">
+
+    <div class="list card">
+     
+    <div class="item item-avatar">
+      <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
+    </div>
+
      <div class="item item-thumbnail"> 
-     <img class="full-image" src="{{targetPost.thumbnail}}">
-      <h2>Arya Stark</h2> 
-     <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p> 
+     <img class="full-image" src="{{post.thumbnail}}">     
      </div> 
+     
      <div class="item item-body">
-    {{targetPost.post_content}}
-    <p> 
-      <a class="subdued">1 Like</a> 
-      <a class="subdued">5 Comments</a> 
-    </p>
+      <div style="direction:rtl" class="yekan" ng-bind="targetPost.post_content">        
+                 
       </div>
-       <div class="item tabs tabs-secondary tabs-icon-left"> 
+    <p>
+     <a class="subdued">2 Like</a> 
+     <a class="subdued">5 Comments</a>            
+    </p>
+  </div>
+   <div class="item tabs tabs-secondary tabs-icon-left"> 
+      
       <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="">
-       <i class="icon ion-thumbsup"></i> Like </a>
+       <i class="icon ion-thumbsup"></i></a>
+
         <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ui-sref=" material({postID:6178})">
-          <i class="icon ion-chatbox"></i> Comment
+          <i class="icon ion-chatbox" style="color:limegreen"></i>
         </a> 
+
         <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="shareToSocial()">
-          <i class="icon ion-share"></i> Share
+          <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
         </a>
         <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="addToFavorite()">
-          <i class="icon ion-share"></i> favorite
+          <i class="icon ion-heart" style="color:red"></i>
         </a>
-         </div> 
+        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="showPopup()">
+          <i class="icon ion-ios-email-outline"></i>
+        </a>
          </div>
+   </div>
 
   </ion-content>
 </ion-view>

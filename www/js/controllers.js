@@ -228,7 +228,44 @@
     }
 })
 
-.controller('ChatDetailCtrl', function($cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
+.controller('ChatDetailCtrl', function($ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
+
+
+  $scope.showPopup = function() {
+  $scope.data = {}
+
+  // An elaborate, custom popup
+  var myPopup = $ionicPopup.show({
+    template: '<input type="text" autofocus ng-model="data.email">',
+    title: '<span class=yekan>ایمیل را وارد کنید</span>',
+    // subTitle: 'your friend email',
+    scope: $scope,
+    buttons: [
+      { text: '<span class=yekan>لغو</span>' },
+      {
+        text: '<span class=yekan><b>بفرست</b></span>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email != '')
+          {
+            $http({
+              method: 'GET',
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+$stateParams.postID+'&email='+$scope.data.email
+            }).success(function(data,status,headers,config){
+              console.log(data);
+            }).error(function(data,status,headers,config){
+              console.log('error in update!');
+            });                            
+          }
+        }
+      }
+    ]
+  });
+  myPopup.then(function(res) {
+    if ($scope.data.email == '')
+      console.log('Tapped!', res);
+  });
+};
 
   $scope.shareToSocial = function()
   {

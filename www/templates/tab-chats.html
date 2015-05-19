@@ -1,9 +1,6 @@
-<ion-view>
-<div class="bar bar-header bar-light">
-  <h1 class="title">bar-light</h1>
-</div>
+<ion-view view-title="مطالب">
 <ion-nav-buttons side="right">
-<a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
+<a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>          
 </ion-nav-buttons>
 
   <ion-content>
@@ -14,26 +11,30 @@
  >
  </ion-refresher>
     
-    <div class="list card stable-bg" ng-repeat="post in posts" ng-click="ch(post.ID)">
-    <!-- <div class="list card stable-bg" ng-repeat="post in posts"> -->
+    <div class="list card" ng-repeat="post in posts" ng-click="ch(post.ID)">
+     
+    <div class="item item-avatar">
+      <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
+    </div>
+
      <div class="item item-thumbnail"> 
-     <img class="full-image" src="{{post.thumbnail}}">
-      <h2>Arya Stark</h2> 
-     <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p> 
+     <img class="full-image" src="{{post.thumbnail}}">     
      </div> 
-     <div class="item item-body"> The quickest way to a man's heart is through Arya's needle. She has two speeds: Walk and Kill, and is the reason why Waldo is still hiding. <p> 
-     <a class="subdued">1 Like</a> 
-     <a class="subdued">5 Comments</a> 
-     </p>
+     
+     <div class="item item-body">
+      <div style="direction:rtl" class="yekan">        
+        این پست یه سری محتوا داره که میاد اینجا         
+      </div>
+    <p>
+     <a class="subdued">2 Like</a> 
+     <a class="subdued">5 Comments</a>            
+    </p>
   </div>
-   <div class="item tabs tabs-secondary tabs-icon-left"> 
+   <div class="item tabs tabs-secondary tabs-icon-left">
+
   <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-   <i class="icon ion-thumbsup"></i> Like </a>
-  <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
-  <i class="icon ion-chatbox"></i> Comment </a> 
-  <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="shareToSocial()">
-   <i class="icon ion-share"></i> Share
-    </a>
+   <i class="icon ion-heart" style="color:red"></i> </a>
+
    </div> 
    </div>
                 
