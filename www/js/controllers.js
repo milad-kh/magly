@@ -51,7 +51,7 @@
 .controller('ChatsCtrl', function($cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state) {
    
   $ionicLoading.show({
-    template: '<div class="loader"><svg class="circular"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/></svg></div>'
+    template: '<span class=yekan>... بارگذاری مطالب</span>'
   });
 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
@@ -60,6 +60,9 @@
     $scope.popover = popover;
   });
   
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
   $scope.shareToSocial = function()
   {
     $cordovaSocialSharing
@@ -76,9 +79,6 @@
   {
     $state.go(state);
     $scope.popover.hide();
-  };
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
   };
   $scope.getMaxOfArray = function(numArray) {
       return Math.max.apply(null, numArray);
@@ -169,8 +169,18 @@
     // ionic.material.ink.displayEffect();
 })
 
-.controller('signupCtrl', function($scope){
+.controller('signupCtrl', function($scope, $ionicPopover){
   console.warn('signinCtrl initialized');
+
+  $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+  
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
   $scope.signup = function()
     {
       console.log($scope.info);    
@@ -187,8 +197,17 @@
     }
 })
 
-.controller('signinCtrl', function($scope){
+.controller('signinCtrl', function($scope, $ionicPopover){
   console.warn('signinCtrl initialized');
+  $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+  
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
   $scope.signin = function()
     {      
       console.log($scope.info);
@@ -324,8 +343,23 @@
   // ionic.material.ink.displayEffect();
 })
 
-.controller('favoriteCtrl' , function($state, $scope, $http, $localstorage){
-  //
+.controller('favoriteCtrl' , function($ionicPopover, $state, $scope, $http, $localstorage){
+  
+  console.warn('signinCtrl initialized');
+  $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+  
+  $scope.removeFromFavorite = function()
+  {
+    alert('remove this post');
+  }
+
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
 
   $scope.displaySinglePost = function(postID)
   {      

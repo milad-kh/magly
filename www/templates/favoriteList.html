@@ -1,4 +1,7 @@
-<ion-view view-title="favoriteList">
+<ion-view view-title="لیست دلخواه">
+<ion-nav-buttons side="right">
+<a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
+</ion-nav-buttons>
  <ion-content>
 
   <div class="list card stable-bg" ng-repeat="post in FavoritePosts track by $index">
@@ -12,7 +15,7 @@
      <a class="subdued">5 Comments</a> 
      </p>
       </div>
-        <div class="item tabs tabs-secondary tabs-icon-left"> 
+        <div class="item tabs tabs-secondary tabs-icon-left" ng-click="removeFromFavorite()"> 
                 
         <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5">
         <i class="icon ion-share"></i> حذف </a>

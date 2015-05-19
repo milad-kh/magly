@@ -1,11 +1,14 @@
-<ion-view view-title="signin">
+<ion-view>
+<ion-nav-buttons side="right">
+<a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
+</ion-nav-buttons>
 <ion-header-bar align-title="center" class="bar-positive">   
   <button class="button icon-left ion-home" ng-click="goHome();"></button>
   </ion-header-bar>
 
 <ion-content>
 
-<div class="list list-inset">
+<div class="list">
 
   <label class="item item-input item-floating-label">
     <span class="input-label">نام کاربری</span>
