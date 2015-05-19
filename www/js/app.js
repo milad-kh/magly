@@ -38,12 +38,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   
   .state('signin', {
       url: "/signin",
-      templateUrl: "templates/signin.html"
+      templateUrl: "templates/signin.html",
+      controller: 'signinCtrl'
     })
 
   .state('signup', {
       url: "/signup",
-      templateUrl: "templates/signup.html"
+      templateUrl: "templates/signup.html",
+      controller: 'signupCtrl'
     })
 
   .state('aboutus', {
@@ -62,8 +64,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
   .state('material', {
-      url: "/material",
-      templateUrl: "templates/material.html"
+      url: "/material/:postID",
+      templateUrl: "templates/material.html",
+      controller: 'commentCtrl'
     })
 
   .state('favoriteList', {

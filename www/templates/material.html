@@ -1,21 +1,25 @@
 <!-- <div class="bar bar-header bar-calm-900"><div class="title">header</div><div class="buttons buttons-right"><button class="button button-energized-900 button-fab"><i class="icon ion-code light"></i></button></div></div> -->
 <ion-view view-title="material">
+<!-- <ion-nav-bar class="bar-assertive">
+
+      <ion-nav-back-button></ion-nav-back-button>     
+    </ion-nav-bar> -->
 	<ion-content>
 		<div class="list">
-			<a class="item item-thumbnail" >
+			<a class="item item-avatar" ng-repeat="comment in comments">
 				<img src="http://ionicmaterial.com/demo/docs/img/material1.jpg" alt="">
 				<h2>material</h2>
 				<p>sheets of paper</p>			
 			</a>
 		</div>
 	</ion-content>
-</ion-view>
-<!-- <div class="bar bar-footer bar-energized-900">
+
+ <div class="bar bar-footer bar-energized-900">
 	<div class="title">footer</div>
 	<div class="buttons buttons-right">
-		<button ng-click="showModal()" class="button button-energized button-fab">
+		<button ng-click="openModal()" class="button button-energized button-fab">
 			<i class="icon ion-social-windows-outline"></i>
 		</button>
 	</div>
 </div>
- -->
+</ion-view>
