@@ -3,32 +3,16 @@ header("Access-Control-Allow-Origin: *");
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 require_once("../wp-load.php");
 global $wpdb;
-$catID = $_GET['catID'];
-$args = array(
-	'posts_per_page'   => 10,
-	'offset'           => 0,
-	'category'         => '',
-	'category_name'    => '',
-	'orderby'          => 'ID',
-	'order'            => 'DESC',
-	'include'          => '',
-	'exclude'          => '',
-	'meta_key'         => '',
-	'meta_value'       => '',
-	'post_type'        => 'post',
-	'post_mime_type'   => '',
-	'post_parent'      => '',
-	'post_status'      => 'publish',
-	'suppress_filters' => true 
-);
-if (!empty($catID))
-	$args['category'] = $catID;
-$posts_array = get_posts($args);
-$pattern1='/\[caption.*\"\]/i';
-$pattern2='/\[\/caption*\]/i';
+$userID = $_GET['userID'];
+$str = 'select * from wp_usermeta where user_id ='.$userID.' AND meta_key = "wpfp_favorites"';
+$rawlist = $wpdb->get_results($str);
+foreach ($rawlist as $item)
+{
+  $posts_array[] = get_post(substr($item->meta_value,14,4));
+}
 for($i = 0;$i < count($posts_array);$i++)
 {
 	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);
@@ -44,9 +28,5 @@ for($i = 0;$i < count($posts_array);$i++)
 	$args = array ('post_id' => $posts_array[$i]->ID);
 	$posts_array[$i]->comments = get_comments($args);
 	$posts_array[$i]->likes = $likes;
-	
-	$posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
-	$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
 };
-
-echo json_encode ($posts_array);
+echo json_encode($posts_array);

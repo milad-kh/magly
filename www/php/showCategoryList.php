@@ -17,4 +17,10 @@ $args = array(
 	'pad_counts'               => false 
 ); 
 $categories = get_categories($args);
+foreach($categories as $key=>$value)
+{
+  $classNumber ++;
+  $value->classNumber = $classNumber;
+  //print_r ($value);
+}
 echo (json_encode($categories));
