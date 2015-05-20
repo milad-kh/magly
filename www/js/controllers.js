@@ -48,6 +48,30 @@
     $scope.showCategories();
 })
 
+.controller('MostCtrl', function($scope, $http, $ionicPopover){
+  console.warn('MostCtrl initialized');
+  $ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+  
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
+
+  $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/mostVisitedPosts.php',
+      cache: false
+    }).success(function(data,status,headers,config){          
+      console.log(data);
+      $scope.posts = data;          
+    }).error(function(data,status,headers,config){
+      console.log('error in get categories');
+    });    
+})
+
 .controller('ChatsCtrl', function($cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state) {
    
   $ionicLoading.show({

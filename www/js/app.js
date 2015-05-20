@@ -95,6 +95,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
+
+  .state('tab.most', {
+      url: '/most',
+      views: {
+        'tab-most': {
+          templateUrl: 'templates/tab-most.html',
+          controller: 'MostCtrl'
+        }
+      }
+    })
+
     .state('tab.chat-detail', {
       url: '/chats/:chatId',
       views: {
