@@ -2,8 +2,16 @@
   ng
   .module('starter.controllers', ['localStorage', 'ngCordova'])
 
-  .controller('DashCtrl', function($scope, $http, $state) {
-
+  .controller('DashCtrl', function($scope, $http, $state, $ionicPopover) {
+$ionicPopover.fromTemplateUrl('templates/popover.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+  
+  $scope.openPopover = function($event) {
+    $scope.popover.show($event);
+  };
   $scope.filterPostsByCategory = function(cat)
     {
       console.log(cat);
@@ -192,6 +200,7 @@
         url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt,
         cache: true
       }).success(function(data,status,headers,config){                
+        console.log(data);
         $scope.posts = data;
         $ionicLoading.hide();        
         $localstorage.setObject('posts', data);
