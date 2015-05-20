@@ -49,7 +49,8 @@
             tempArr = [];
           }
         }        
-        $scope.categories = arr; 
+        console.log(arr);
+        $scope.categories = arr;
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });
