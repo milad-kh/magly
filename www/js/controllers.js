@@ -37,9 +37,8 @@
       $http({
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'
-      }).success(function(data,status,headers,config){
-        $scope.categories = data;
-        console.log($scope.categories);
+      }).success(function(data,status,headers,config){              
+        $scope.categories = [['milad','hasan'],['ali','taghi'],['naghi','jafar']];        
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });
