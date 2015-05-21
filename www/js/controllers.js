@@ -91,12 +91,28 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
     });    
 })
 
-.controller('ChatsCtrl', function($cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state) {
-   
+.controller('ChatsCtrl', function($ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet) {
+  $scope.query = 'aa'; 
+  $ionicModal.fromTemplateUrl('templates/my-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+    }).then(function(modal) {
+      $scope.modal = modal;
+  });
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+
   $ionicLoading.show({
     template: '<span class=yekan>... بارگذاری مطالب</span>'
   });
 
+  
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -106,6 +122,7 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
   $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
+
   $scope.shareToSocial = function()
   {
     $cordovaSocialSharing

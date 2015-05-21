@@ -10,8 +10,13 @@
    on-refresh="loadMoreDataForTop()"      
  >
  </ion-refresher>
-    
-    <div class="list card" ng-repeat="post in posts" ng-click="ch(post.ID)">
+<div class="list list-inset">
+  <label class="item item-input">
+    <input type="text" placeholder="جستجو" ng-model="query">
+  </label>
+  
+</div>
+    <div class="list card" ng-repeat="post in posts | filter:query" ng-click="ch(post.ID)">
      
     <div class="item item-avatar">
       <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>
