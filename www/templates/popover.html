@@ -7,14 +7,11 @@
   
   <a class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key" style="color:yellowgreen"></i>ورود به برنامه</a>
 
-
-<div class="list list-inset">
-      <label class="item item-input">
-        <input type="text" placeholder="جستجو" ng-model="query" ng-keyup="con()">
-      </label>
-      
-    </div>
-  <!-- <a class="item item-icon-right yekan" ng-click="openModal()"> <i class="icon ion-search" style="color:tomato"></i>جستجو</a> -->
+	  <label class="item item-input">
+	    <input type="text" placeholder="جستجو" ng-keyup="con()" ng-model="query">
+	    <i class="icon ion-search placeholder-icon"></i>
+	    <a class="button button-icon icon ion-android-close" ng-show="query.length"></a>
+	  </label>
 
 </ion-content>
 </ion-popover-view>
