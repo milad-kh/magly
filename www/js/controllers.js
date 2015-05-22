@@ -3,7 +3,7 @@
   .module('starter.controllers', ['localStorage', 'ngCordova'])
 
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
-    
+  $scope.showSearchItem = true; 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
       scope: $scope
     }).then(function(popover) {
@@ -21,6 +21,8 @@
     {
       console.log('hamaro neshun bede');
       $scope.posts = $localstorage.getObject('posts');
+      $rootScope.$broadcast('changeCategory', $scope.posts);
+      $state.go('tab.chats');
     }
     else
     {
@@ -95,6 +97,7 @@
 
 .controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet) {
   
+  $scope.showSearchItem = true;
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'

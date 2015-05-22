@@ -14,14 +14,13 @@
              توضیح دسته
             </div>
           </div>
-        </div>
-        
+        </div>        
       </div>
     </div>
     <div class="row" ng-repeat="row in categories">
       <div class="col" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
         
-        <div style="direction:rtl" class="list card yekan" ng-click="filterPostsByCategory(item.cat_ID)">
+        <div style="direction:rtl" class="list card yekan" >
           <div class="item item-divider">
           <i class="icon ion-happy-outline"></i>
           {{item.cat_name}}</div>
