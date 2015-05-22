@@ -3,20 +3,21 @@
   .module('starter.controllers', ['localStorage', 'ngCordova'])
 
   .controller('DashCtrl', function($scope, $http, $state, $ionicPopover) {
-$ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+        scope: $scope
+      }).then(function(popover) {
+        $scope.popover = popover;
+    });
   
   $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
+
   $scope.filterPostsByCategory = function(cat)
     {
       console.log(cat);
       $state.go('tab.chats');
-      /*if (input == 'all')
+      if (input == 'all')
       {
         console.log('hamaro neshun bede');
         $scope.posts = $localstorage.getObject('posts');
@@ -36,7 +37,7 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
           })
         });
         $scope.posts = currentCategoryPosts;
-      }*/
+      }
       
     };
 
@@ -91,8 +92,8 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
     });    
 })
 
-.controller('ChatsCtrl', function($ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet) {
-  $scope.query = 'aa'; 
+.controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet) {
+  
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -114,13 +115,23 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
 
   
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope
+    scope: $scope    
   }).then(function(popover) {
     $scope.popover = popover;
   });
   
+  $scope.con = function()
+  {
+    $rootScope.$broadcast('searchTextchange', this.query);
+  }
+
+  $scope.$on('searchTextchange', function(event, args){
+    $scope.query = args;
+  });
+
+  
   $scope.openPopover = function($event) {
-    $scope.popover.show($event);
+    $scope.popover.show($event);    
   };
 
   $scope.shareToSocial = function()
@@ -133,7 +144,6 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
       console.log('failed');
     });                
   }
-  
 
   $scope.navigateToState = function(state)
   {
@@ -174,6 +184,7 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
         }).finally(function() {
        // Stop the ion-refresher from spinning
          $scope.$broadcast('scroll.refreshComplete');
+         console.warn('haji amaliat b payan resid');
         });      
       // step 4 : Arrange scope.posts object ASC
        // $scope.reArrangePosts();
@@ -215,7 +226,7 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
       $http({
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt,
-        cache: true
+        cache: false
       }).success(function(data,status,headers,config){                
         console.log(data);
         $scope.posts = data;
@@ -226,8 +237,20 @@ $ionicPopover.fromTemplateUrl('templates/popover.html', {
       });
     };
 
-    $scope.fillLocalWithData();  
-    // ionic.material.ink.displayEffect();
+    $scope.doesLocalHaveData = function()
+    {
+      var sign = $localstorage.getObject('posts');
+      if(_.isEmpty(sign))
+        $scope.fillLocalWithData();    
+      else
+        {
+          $scope.posts = sign;
+          $ionicLoading.hide();
+        }
+
+    };
+
+    $scope.doesLocalHaveData();      
 })
 
 .controller('signupCtrl', function($scope, $ionicPopover){

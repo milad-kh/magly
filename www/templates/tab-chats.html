@@ -7,15 +7,11 @@
   
  <ion-refresher
    pulling-text="در حال بارگیری پست های جدید..."
-   on-refresh="loadMoreDataForTop()"      
+   on-refresh="loadMoreDataForTop()"    
+   
  >
  </ion-refresher>
 <div class="list list-inset">
-  <!-- <label class="item item-input">
-    <input type="text" placeholder="جستجو" ng-model="query">
-  </label>
-  
-  </div> -->
     <div class="list card" ng-repeat="post in posts | filter:query" ng-click="ch(post.ID)">
      
     <div class="item item-avatar">
@@ -42,24 +38,13 @@
 
    </div> 
    </div>
-                
 
-      <!-- <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="chat in chats" type="item-text-wrap" href="#/tab/chats/{{chat.id}}">
-        <img ng-src="{{chat.thumbnail}}">
-        <h2>{{chat.post_title}}</h2>
-        <p>content</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-      
-        <ion-option-button class="button-assertive" ng-click="remove(chat)">
-          Delete
-        </ion-option-button>
-      </ion-item> -->
-     <!--  <ion-infinite-scroll
+  <ion-infinite-scroll
        on-infinite="loadMoreDataForDown()"
-       distance="1%"
+       distance="30%"
        icon="ion-loading-c"
        >
-     </ion-infinite-scroll> -->
+     </ion-infinite-scroll> 
    
   </ion-content>
 </ion-view>
