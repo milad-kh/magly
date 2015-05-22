@@ -12,7 +12,7 @@
  >
  </ion-refresher>
 <div class="list list-inset">
-    <div class="list card" ng-repeat="post in posts | filter:query" ng-click="ch(post.ID)">
+    <div class="list card" ng-repeat="post in posts track by post.ID | filter:query" ng-click="ch(post.ID)">
      
     <div class="item item-avatar">
       <h2 class="yekan" style="direction:rtl" ng-bind="post.post_title"></h2>

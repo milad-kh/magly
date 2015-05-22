@@ -2,44 +2,45 @@
   ng
   .module('starter.controllers', ['localStorage', 'ngCordova'])
 
-  .controller('DashCtrl', function($scope, $http, $state, $ionicPopover) {
-    $ionicPopover.fromTemplateUrl('templates/popover.html', {
-        scope: $scope
-      }).then(function(popover) {
-        $scope.popover = popover;
-    });
+  .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
+    
+  $ionicPopover.fromTemplateUrl('templates/popover.html', {
+      scope: $scope
+    }).then(function(popover) {
+      $scope.popover = popover;
+  });
   
   $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
 
-  $scope.filterPostsByCategory = function(cat)
+  $scope.filterPostsByCategory = function(input)
+  {
+    console.log(input);
+    if (input == 'all')
     {
-      console.log(cat);
+      console.log('hamaro neshun bede');
+      $scope.posts = $localstorage.getObject('posts');
+    }
+    else
+    {
+      $scope.posts = $localstorage.getObject('posts');
+      var catID = input;
+      var currentCategoryPosts = [];
+      ng.forEach($scope.posts, function(article){
+        ng.forEach(article.catId, function(oneOfCatId){
+          if (catID == oneOfCatId.cat_ID)
+          {
+            console.log('ok');
+            currentCategoryPosts.push(article);
+          }
+        })
+      });
+      $scope.posts = currentCategoryPosts;
+      $rootScope.$broadcast('changeCategory', $scope.posts);
       $state.go('tab.chats');
-      if (input == 'all')
-      {
-        console.log('hamaro neshun bede');
-        $scope.posts = $localstorage.getObject('posts');
-      }
-      else
-      {
-        $scope.posts = $localstorage.getObject('posts');
-        var catID = input;
-        var currentCategoryPosts = [];
-        ng.forEach($scope.posts, function(article){
-          ng.forEach(article.catId, function(oneOfCatId){
-            if (catID == oneOfCatId.cat_ID)
-            {
-              console.log('ok');
-              currentCategoryPosts.push(article);
-            }
-          })
-        });
-        $scope.posts = currentCategoryPosts;
-      }
-      
-    };
+    }    
+  };
 
   $scope.showCategories = function()
     {
@@ -129,7 +130,10 @@
     $scope.query = args;
   });
 
-  
+  $scope.$on('changeCategory', function(event, args){
+    $scope.posts = args;
+  });
+
   $scope.openPopover = function($event) {
     $scope.popover.show($event);    
   };
