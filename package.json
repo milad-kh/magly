@@ -14,7 +14,13 @@
     "gulp-util": "^2.2.14",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "https://github.com/EddyVerbruggen/SocialSharing-phoneGap-Plugin.git",
+    {
+      "locator": "https://github.com/EddyVerbruggen/SocialSharing-phoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.socialsharing"
+    }
+  ],
   "cordovaPlatforms": [
     "android"
   ]
