@@ -252,7 +252,7 @@
       else
         {
           $scope.posts = sign;
-          $ionicLoading.hide();
+          $ionicLoading.hide();          
         }
 
     };
@@ -320,6 +320,11 @@
 })
 
 .controller('ChatDetailCtrl', function($http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
+
+  $scope.goToComment = function()
+  {    
+    $state.go('material',({postID:$stateParams.chatId}))
+  }
 
   $scope.sendLike = function()
   {
@@ -427,35 +432,35 @@
   };
 })
 
-.controller('commentCtrl', function($localstorage, $scope, $ionicModal, $stateParams){
-  
+.controller('commentCtrl', function($http, $localstorage, $scope, $ionicModal, $stateParams){
+  console.log('comments controller initialized');
+
   var postID = $stateParams.postID;
   var posts = $localstorage.getObject('posts');
   ng.forEach(posts, function(post){
     if (post.ID == postID)
-      $scope.comments = post.comments;
-  });
+    { 
 
+      $scope.comments = post.comments;
+    }
+  });
+  console.log($scope.comments);
+
+  $scope.commentObject = {};
   $scope.sendComment = function()
   {
     console.log('sent comment...');
-
     var randomInt = new Date().getTime();
+    // console.log($scope.)
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=' + $stateParams.postID + '&randomInt=' + randomInt + '&name='+$scope.commentObject.name + '&email=' + $scope.commentObject.email + '&url=' + $scope.commentObject.url + '&comment=' + $scope.commentObject.comment
-    }).success(function(data,status,headers,config){
-      var tempObject = {
-        comment_author : $scope.commentObject.name,
-        comment_content : $scope.commentObject.comment
-      };
-      $scope.currentComment = _.union($scope.currentComment, tempObject);
+    }).success(function(data,status,headers,config){          
       console.log(data);
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
   };
-  console.log($scope.comments);
   $ionicModal.fromTemplateUrl('templates/sendCommentForm.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -465,9 +470,7 @@
 
   $scope.openModal = function() {
     $scope.modal.show();
-  };
-
-  // ionic.material.ink.displayEffect();
+  };  
 })
 
 .controller('favoriteCtrl' , function($ionicPopover, $state, $scope, $http, $localstorage){

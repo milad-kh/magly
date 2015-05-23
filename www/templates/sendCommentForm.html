@@ -1,11 +1,24 @@
-<ion-content>
-<div class="list">
+<ion-modal-view >
+<ion-content has-bouncing="true">
+<div class="list" style="direction:rtl">
+  
   <label class="item item-input">
-    <input type="text" placeholder="نام و نام خانوادگی" ng-model="name">
+    <input type="text" placeholder="نام و نام خانوادگی" ng-model="commentObject.name">
   </label>
+
   <label class="item item-input">
-    <input type="text" placeholder="متن نظر شما" ng-model="passage">
+    <input type="text" placeholder="ایمیل" ng-model="commentObject.email">
   </label>  
+  
+  <label class="item item-input">
+    <input type="text" placeholder="وبسایت" ng-model="commentObject.url">
+  </label>  
+
+  <label class="item item-input">
+    <input type="text" placeholder="متن نظر شما" ng-model="commentObject.comment">
+  </label>  
+
   <button class="button button-block button-calm" ng-click="sendComment()"> ارسال </button>
 </div>
 </ion-content>
+</ion-modal-view>

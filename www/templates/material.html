@@ -1,15 +1,14 @@
 <!-- <div class="bar bar-header bar-calm-900"><div class="title">header</div><div class="buttons buttons-right"><button class="button button-energized-900 button-fab"><i class="icon ion-code light"></i></button></div></div> -->
 <ion-view view-title="material">
-<!-- <ion-nav-bar class="bar-assertive">
-
-      <ion-nav-back-button></ion-nav-back-button>     
-    </ion-nav-bar> -->
+<ion-nav-bar class="bar-assertive">
+	<ion-nav-back-button></ion-nav-back-button>     
+</ion-nav-bar>
 	<ion-content>
-		<div class="list">
+		<div class="list" style="direction:rtl">
 			<a class="item item-avatar" ng-repeat="comment in comments">
 				<img src="http://ionicmaterial.com/demo/docs/img/material1.jpg" alt="">
-				<h2>material</h2>
-				<p>sheets of paper</p>			
+				<h2 ng-bind="comment.comment_author"></h2>
+				<p ng-bind="comment.comment_content"></p>			
 			</a>
 		</div>
 	</ion-content>
