@@ -1,24 +1,44 @@
 <ion-modal-view >
-<ion-content has-bouncing="true">
-<div class="list" style="direction:rtl">
-  
-  <label class="item item-input">
-    <input type="text" placeholder="نام و نام خانوادگی" ng-model="commentObject.name">
+<ion-content has-bouncing="true" style="height:auto">
+
+</ion-content>
+<!-- align to the bottom of the page -->
+    
+<div class="tabs" style="height:auto;direction:rtl">
+
+    <div class="row">
+        <div class="col">
+            <div class="list">
+
+                <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="نام و نام خانوادگی" ng-model="commentObject.name">
   </label>
 
-  <label class="item item-input">
-    <input type="text" placeholder="ایمیل" ng-model="commentObject.email">
-  </label>  
-  
-  <label class="item item-input">
-    <input type="text" placeholder="وبسایت" ng-model="commentObject.url">
+                 <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="ایمیل" ng-model="commentObject.email">
+  </label>
+
+  <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="وبسایت" ng-model="commentObject.url">
   </label>  
 
-  <label class="item item-input">
-    <input type="text" placeholder="متن نظر شما" ng-model="commentObject.comment">
+  <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="متن نظر شما" ng-model="commentObject.comment">
   </label>  
 
-  <button class="button button-block button-calm" ng-click="sendComment()"> ارسال </button>
-</div>
-</ion-content>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-balanced yekan" ng-click="sendComment()"> ارسال </button>                   
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col">
+                <button class="button button-block button-light yekan" ng-click="closeSendCommentForm()"> بستن </button>
+                </div>
+			</div>
+        </div>
+    </div>
+       
+    </div>
 </ion-modal-view>

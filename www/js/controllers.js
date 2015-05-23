@@ -447,6 +447,11 @@
   console.log($scope.comments);
 
   $scope.commentObject = {};
+  $scope.closeSendCommentForm = function()
+  {
+    $scope.modal.hide();
+  };
+
   $scope.sendComment = function()
   {
     console.log('sent comment...');
