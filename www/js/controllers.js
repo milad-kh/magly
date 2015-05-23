@@ -319,10 +319,22 @@
     }
 })
 
-.controller('ChatDetailCtrl', function($ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
+.controller('ChatDetailCtrl', function($http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
 
+  $scope.sendLike = function()
+  {
+    console.log('send like');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+$stateParams.postID
+    }).success(function(data,status,headers,config){
+      console.log(data);
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+  };
 
-  $scope.showPopup = function() {
+  $scope.mailArticleToFriend = function() {
   $scope.data = {}
 
   // An elaborate, custom popup
@@ -360,6 +372,7 @@
 
   $scope.shareToSocial = function()
   {
+
     $cordovaSocialSharing
     .shareViaTwitter('message', 'http://magly.ir/wp-content/uploads/2015/05/rear.jpg', 'http://magly.ir/%D8%B7%D8%B1%D8%A7%D8%AD%DB%8C-%D9%85%D8%AC%D8%AF%D8%AF-%D9%81%D8%B6%D8%A7%DB%8C-%D8%AF%D8%A7%D8%AE%D9%84%DB%8C-%D9%85%D8%AD%D9%84-%DA%A9%D8%A7%D8%B1-%D9%88-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C%D8%8C-%D8%A8/')
     .then(function(result) {
@@ -398,22 +411,8 @@
         console.log('error in get categories');
       });                     
     };
-                                    
-                  
+                                              
   };
-
-  $scope.sendLike = function()
-  {
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID=4672'
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-  };
-
 
   $scope.posts = $localstorage.getObject('posts');
   angular.forEach($scope.posts, function(post){
