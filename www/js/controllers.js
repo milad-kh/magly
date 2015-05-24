@@ -252,6 +252,7 @@
       else
         {
           $scope.posts = sign;
+          console.log($scope.posts);
           $ionicLoading.hide();          
         }
 
@@ -358,7 +359,7 @@
           {
             $http({
               method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+$stateParams.postID+'&email='+$scope.data.email
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID=6361'+'&email='+$scope.data.email
             }).success(function(data,status,headers,config){
               console.log(data);
             }).error(function(data,status,headers,config){
