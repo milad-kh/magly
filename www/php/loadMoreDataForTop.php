@@ -27,6 +27,8 @@ $args = array(
 );
 
 $most_recent_post = get_posts($args);
+$pattern3='/<h2.*><strong>.*<\/strong><\/h2>/i';
+$pattern4='/^[^\.]*/i';
 for ($i=($biggestIDinLocal + 1);$i < $most_recent_post[0]->ID;$i++)
 {  
   $currentPost = get_post($i);
@@ -47,5 +49,9 @@ for($i = 0;$i < count($posts_array);$i++)
 	$catId=get_the_category($posts_array[$i]->ID);
 	$posts_array[$i]->catId = $catId;
 	$posts_array[$i]->thumbnail = $thumb_url[0];
+	
+	$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
+        preg_match( $pattern4, $posts_array[$i]->summary, $match );
+        $posts_array[$i]->summary = $match;
 };
 echo json_encode($posts_array);

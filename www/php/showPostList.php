@@ -29,6 +29,8 @@ if (!empty($catID))
 $posts_array = get_posts($args);
 $pattern1='/\[caption.*\"\]/i';
 $pattern2='/\[\/caption*\]/i';
+$pattern3='/<h2.*><strong>.*<\/strong><\/h2>/i';
+$pattern4='/^[^\.]*/i';
 for($i = 0;$i < count($posts_array);$i++)
 {
 	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);
@@ -47,6 +49,10 @@ for($i = 0;$i < count($posts_array);$i++)
 	
 	$posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
 	$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+	
+	$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
+	preg_match( $pattern4, $posts_array[$i]->summary, $match );
+	$posts_array[$i]->summary = $match;
 };
 
 echo json_encode ($posts_array);
