@@ -28,20 +28,22 @@
   </div>
    <div class="item tabs tabs-secondary tabs-icon-left"> 
       
-      <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="sendLike()">
+      <a class="tab-item" ng-click="sendLike()">
        <i class="icon ion-thumbsup"></i></a>
 
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="goToComment()">
+        <a class="tab-item" ng-click="goToComment()">
           <i class="icon ion-chatbox" style="color:limegreen"></i>
         </a> 
 
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="shareToSocial()">
+        <a class="tab-item" ng-click="shareToSocial()">
           <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
         </a>
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="addToFavorite()">
-          <i class="icon ion-heart" style="color:red"></i>
+
+        <a class="tab-item" ng-click="addToFavorite()" ng-if="!showSignIn">
+          <i class="icon ion-heart"></i>
         </a>
-        <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" ng-click="mailArticleToFriend()">
+        
+        <a class="tab-item" ng-click="mailArticleToFriend()">
           <i class="icon ion-ios-email-outline"></i>
         </a>
          </div>
