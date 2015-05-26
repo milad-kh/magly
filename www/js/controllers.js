@@ -3,6 +3,7 @@
   .module('starter.controllers', ['localStorage', 'ngCordova', 'user-auth'])
 
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
+  console.warn('DashCtrl initialized');
   $scope.showSearchItem = true; 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
       scope: $scope
@@ -71,7 +72,7 @@
     $scope.showCategories();
 })
 
-.controller('MostCtrl', function($scope, $http, $ionicPopover){
+.controller('MostCtrl', function($rootScope, $scope, $http, $ionicPopover){
   console.warn('MostCtrl initialized');
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
@@ -96,8 +97,8 @@
 })
 
 .controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
-  
-  $scope.showSignIn = checkUserAuth.isUserLogin();  
+  console.warn('ChatsCtrl initialized');  
+  $scope.showSignIn = checkUserAuth.isUserLogin(); 
   $scope.showSearchItem = true;
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
     scope: $scope,
@@ -108,7 +109,7 @@
 
   $scope.signOut = function()
   {
-    localStorage.removeItem('userInfo');    
+    localStorage.removeItem('userInfo'); 
   }
 
   $scope.openModal = function() {
@@ -255,7 +256,10 @@
     {
       var sign = $localstorage.getObject('posts');
       if(_.isEmpty(sign))
+        {
+
         $scope.fillLocalWithData();    
+        }
       else
         {
           $scope.posts = sign;
@@ -266,15 +270,17 @@
     };
 
     $scope.doesLocalHaveData();      
+
 })
 
-.controller('signupCtrl', function($scope, $ionicPopover, $http, checkUserAuth){
+.controller('signupCtrl', function($rootScope, $scope, $ionicPopover, $http, checkUserAuth){
+  console.warn('signupCtrl initialized');
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
   $scope.info = {};
   $scope.signOut = function()
   {
-    localStorage.removeItem('userInfo');    
+    localStorage.removeItem('userInfo');
   }
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
@@ -301,13 +307,14 @@
     }
 })
 
-.controller('signinCtrl', function($scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
+.controller('signinCtrl', function($rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
   console.warn('signinCtrl initialized');
   $scope.info={};
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.signOut = function()
   {
-    localStorage.removeItem('userInfo');    
+    localStorage.removeItem('userInfo'); 
+    $scope.showSignIn = false;
   }
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
@@ -331,7 +338,9 @@
           if(data.status == 'ok')
           {
             $localstorage.setObject('userInfo',data.info);
+            
             $state.go('tab.chats');
+
           }
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
@@ -339,8 +348,9 @@
     }
 })
 
-.controller('ChatDetailCtrl', function($http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
-
+.controller('ChatDetailCtrl', function($rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
+  console.warn('ChatDetailCtrl initialized');
+  
   $scope.goToComment = function()
   {    
     $state.go('material',({postID:$stateParams.chatId}))
@@ -452,7 +462,7 @@
   };
 })
 
-.controller('commentCtrl', function($http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
 
   var postID = $stateParams.postID;
@@ -500,7 +510,7 @@
 
 .controller('favoriteCtrl' , function($ionicPopover, $state, $scope, $http, $localstorage){
   
-  console.warn('signinCtrl initialized');
+  console.warn('favoriteCtrl initialized');
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -509,7 +519,7 @@
   
   $scope.signOut = function()
   {
-    localStorage.removeItem('userInfo');    
+    localStorage.removeItem('userInfo');   
   }
 
   $scope.removeFromFavorite = function()
