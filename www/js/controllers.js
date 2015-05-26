@@ -290,8 +290,9 @@
     }
 })
 
-.controller('signinCtrl', function($scope, $ionicPopover){
+.controller('signinCtrl', function($scope, $ionicPopover, $http){
   console.warn('signinCtrl initialized');
+  $scope.info={};
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -301,9 +302,10 @@
   $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
+
   $scope.signin = function()
     {      
-      console.log($scope.info);
+      console.log($scope);
       $http({
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password)+'&a=1',
