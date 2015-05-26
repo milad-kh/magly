@@ -1,6 +1,6 @@
 (function(ng, _){
   ng
-  .module('starter.controllers', ['localStorage', 'ngCordova'])
+  .module('starter.controllers', ['localStorage', 'ngCordova', 'user-auth'])
 
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
   $scope.showSearchItem = true; 
@@ -95,8 +95,9 @@
     });    
 })
 
-.controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet) {
+.controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   
+  $scope.showSignIn = checkUserAuth.isUserLogin();  
   $scope.showSearchItem = true;
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
     scope: $scope,

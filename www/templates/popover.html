@@ -1,17 +1,17 @@
 <ion-popover-view>
 <ion-content style="direction:rtl">
 
-  <a ui-sref="tab.chats" class="item item-icon-right yekan"> <i class="icon ion-home" style="color:cornflowerblue"></i> خانه </a>
-  <a ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-heart" style="color:red"></i> لیست دلخواه </a>
-  <a class="item item-icon-right yekan" ui-sref="signup"> <i class="icon ion-person-add" style="color:lightseagreen"></i> ثبت نام </a>
-  
-  <a class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key" style="color:yellowgreen"></i>ورود به برنامه</a>
+<a ui-sref="tab.chats" class="item item-icon-right yekan"> <i class="icon ion-home" style="color:cornflowerblue"></i> خانه </a>
+<a ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-heart" style="color:red"></i> لیست دلخواه </a>
+<a class="item item-icon-right yekan" ui-sref="signup"> <i class="icon ion-person-add" style="color:lightseagreen"></i> ثبت نام </a>
 
-	  <label class="item item-input" ng-show="showSearchItem">
-	    <input type="text" placeholder="جستجو" ng-keyup="con()" ng-model="query">
-	    <i class="icon ion-search placeholder-icon"></i>
-	    <a class="button button-icon icon ion-android-close" ng-show="query.length"></a>
-	  </label>
+<a ng-if="showSignIn" class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key" style="color:yellowgreen"></i>ورود به برنامه</a>
+<a ng-if="!showSignIn" class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-android-walk" style="color:yellowgreen"></i>خروج از برنامه</a>
+  <label class="item item-input" ng-show="showSearchItem">
+    <input type="text" placeholder="جستجو" ng-keyup="con()" ng-model="query">
+    <i class="icon ion-search placeholder-icon"></i>
+    <a class="button button-icon icon ion-android-close" ng-show="query.length"></a>
+  </label>
 
 </ion-content>
 </ion-popover-view>
