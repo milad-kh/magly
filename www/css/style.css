@@ -76,3 +76,20 @@
 	height:auto;
 	width: 100%
 }
+
+.usualPostContainer
+{
+	background-color: steelblue;
+	color: white;
+}
+
+.usualPostContainerImg
+{
+	background-color: whitesmoke;
+}
+
+.adsPostContainer
+{
+	background-color: cadetblue ;
+	color: white;
+}
