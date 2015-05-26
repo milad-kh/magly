@@ -262,9 +262,9 @@
     $scope.doesLocalHaveData();      
 })
 
-.controller('signupCtrl', function($scope, $ionicPopover){
+.controller('signupCtrl', function($scope, $ionicPopover, $http){
   console.warn('signinCtrl initialized');
-
+  $scope.info = {};
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -290,7 +290,7 @@
     }
 })
 
-.controller('signinCtrl', function($scope, $ionicPopover, $http){
+.controller('signinCtrl', function($scope, $ionicPopover, $http, $localstorage, $state){
   console.warn('signinCtrl initialized');
   $scope.info={};
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
@@ -315,7 +315,7 @@
           if(data.status == 'ok')
           {
             $localstorage.setObject('userInfo',data.info);
-            $state.go('home');
+            $state.go('tab.chats');
           }
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
