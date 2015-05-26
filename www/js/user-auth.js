@@ -17,9 +17,15 @@
 				var flag = $localstorage.getObject('userInfo');
 				console.log(flag);
 				if (_.isEmpty(flag))
+				{
+					console.log('check shod natije: ', 'true');
 					return true;
+				}
 				else
+				{
+					console.log('check shod natije: ', 'false');
 					return false;
+				}
 			}
 		}
 		return checkUserAuth;
