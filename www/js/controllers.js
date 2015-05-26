@@ -3,6 +3,14 @@
   .module('starter.controllers', ['localStorage', 'ngCordova', 'user-auth'])
 
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
+
+$rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
+
   console.warn('DashCtrl initialized');
   $scope.showSearchItem = true; 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
@@ -74,6 +82,13 @@
 
 .controller('MostCtrl', function($rootScope, $scope, $http, $ionicPopover){
   console.warn('MostCtrl initialized');
+  
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -98,8 +113,16 @@
 
 .controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');  
+  
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   $scope.showSearchItem = true;
+
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
     scope: $scope,
     animation: 'slide-in-up'
@@ -110,6 +133,8 @@
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo'); 
+    $scope.showSignIn = true; 
+    $scope.popover.hide();           
   }
 
   $scope.openModal = function() {
@@ -275,6 +300,13 @@
 
 .controller('signupCtrl', function($rootScope, $scope, $ionicPopover, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
+  
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
   $scope.info = {};
@@ -309,6 +341,13 @@
 
 .controller('signinCtrl', function($rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
   console.warn('signinCtrl initialized');
+  
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
   $scope.info={};
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.signOut = function()
@@ -350,7 +389,7 @@
 
 .controller('ChatDetailCtrl', function($rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state) {
   console.warn('ChatDetailCtrl initialized');
-  
+
   $scope.goToComment = function()
   {    
     $state.go('material',({postID:$stateParams.chatId}))
@@ -511,6 +550,13 @@
 .controller('favoriteCtrl' , function($ionicPopover, $state, $scope, $http, $localstorage){
   
   console.warn('favoriteCtrl initialized');
+  
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
+      console.info('state avaz shod');
+      $scope.popover.hide();
+    })
+
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
