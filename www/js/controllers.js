@@ -106,6 +106,11 @@
       $scope.modal = modal;
   });
 
+  $scope.signOut = function()
+  {
+    localStorage.removeItem('userInfo');    
+  }
+
   $scope.openModal = function() {
     $scope.modal.show();
   };
@@ -263,9 +268,14 @@
     $scope.doesLocalHaveData();      
 })
 
-.controller('signupCtrl', function($scope, $ionicPopover, $http){
+.controller('signupCtrl', function($scope, $ionicPopover, $http, checkUserAuth){
+  $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
   $scope.info = {};
+  $scope.signOut = function()
+  {
+    localStorage.removeItem('userInfo');    
+  }
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -291,9 +301,14 @@
     }
 })
 
-.controller('signinCtrl', function($scope, $ionicPopover, $http, $localstorage, $state){
+.controller('signinCtrl', function($scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
   console.warn('signinCtrl initialized');
   $scope.info={};
+  $scope.showSignIn = checkUserAuth.isUserLogin();
+  $scope.signOut = function()
+  {
+    localStorage.removeItem('userInfo');    
+  }
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -492,6 +507,11 @@
     $scope.popover = popover;
   });
   
+  $scope.signOut = function()
+  {
+    localStorage.removeItem('userInfo');    
+  }
+
   $scope.removeFromFavorite = function()
   {
     alert('remove this post');

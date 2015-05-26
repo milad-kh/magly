@@ -6,7 +6,9 @@
 <a class="item item-icon-right yekan" ui-sref="signup"> <i class="icon ion-person-add" style="color:lightseagreen"></i> ثبت نام </a>
 
 <a ng-if="showSignIn" class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key" style="color:yellowgreen"></i>ورود به برنامه</a>
-<a ng-if="!showSignIn" class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-android-walk" style="color:yellowgreen"></i>خروج از برنامه</a>
+
+<a ng-if="!showSignIn" class="item item-icon-right yekan" ng-click="signOut()"> <i class="icon ion-android-walk" style="color:yellowgreen"></i>خروج از برنامه</a>
+
   <label class="item item-input" ng-show="showSearchItem">
     <input type="text" placeholder="جستجو" ng-keyup="con()" ng-model="query">
     <i class="icon ion-search placeholder-icon"></i>
