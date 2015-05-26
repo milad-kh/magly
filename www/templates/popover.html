@@ -2,7 +2,7 @@
 <ion-content style="direction:rtl">
 
 <a ui-sref="tab.chats" class="item item-icon-right yekan"> <i class="icon ion-home" style="color:cornflowerblue"></i> خانه </a>
-<a ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-heart" style="color:red"></i> لیست دلخواه </a>
+<a ng-if="!showSignIn" ui-sref="favoriteList" class="item item-icon-right yekan"> <i class="icon ion-heart" style="color:red"></i> لیست دلخواه </a>
 <a class="item item-icon-right yekan" ui-sref="signup"> <i class="icon ion-person-add" style="color:lightseagreen"></i> ثبت نام </a>
 
 <a ng-if="showSignIn" class="item item-icon-right yekan" ui-sref="signin"> <i class="icon ion-key" style="color:yellowgreen"></i>ورود به برنامه</a>
