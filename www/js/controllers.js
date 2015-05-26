@@ -199,7 +199,7 @@
 
   $scope.loadMoreDataForDown = function()
     {      
-      console.log('ejra');
+      console.log('down');
       var IDarray = [];      
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
@@ -228,6 +228,7 @@
   }
   $scope.fillLocalWithData = function()
     {
+      $scope.posts = [];
       var randomInt = new Date().getTime();
       console.log(randomInt);
       $http({
