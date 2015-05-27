@@ -265,6 +265,8 @@ $rootScope.$on('$stateChangeStart',
   $scope.loadMoreDataForDown = function()
     {      
       console.log('down');
+      var userInfo = $localstorage.getObject('userInfo');
+      console.log('inam data:', userInfo.ID);
       var IDarray = [];      
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
@@ -272,7 +274,7 @@ $rootScope.$on('$stateChangeStart',
       var smallestID = $scope.getMinOfArray(IDarray);
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID +'&userID='+userInfo.ID,
           cache: false
         }).success(function(data,status,headers,config){          
           var kol = _.union($scope.posts,data);                   
