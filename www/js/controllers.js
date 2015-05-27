@@ -129,6 +129,39 @@ $rootScope.$on('$stateChangeStart',
       $scope.modal = modal;
   });
 
+    $scope.addToFavorite = function(postID)
+  {
+    if (_.isEmpty($localstorage.getObject('userInfo')))
+    {
+      alert('شما لاگین نیستید');
+    }
+    else
+    {         
+      $scope.info = $localstorage.getObject('userInfo');   
+      console.log(postID);
+      console.log($scope.info);     
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.log(data);
+        /*var alertPopup = $ionicPopup.alert({
+          title: 'نتیجه',
+          template: 'به لیست دلخواه اضافه شد'
+        });
+        // we can do more here
+        alertPopup.then(function(res) {
+          console.log('Thank you for not eating my delicious ice cream cone');
+        }); 
+      */
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });                     
+    };
+                                              
+  };
+
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo'); 
@@ -260,12 +293,14 @@ $rootScope.$on('$stateChangeStart',
   }
   $scope.fillLocalWithData = function()
     {
+      var userInfo = $localstorage.getObject('userInfo');
+      console.log('userInfo:', userInfo);
       $scope.posts = [];
       var randomInt = new Date().getTime();
       console.log(randomInt);
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt,
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt + '&userID='+userInfo.ID,
         cache: false
       }).success(function(data,status,headers,config){                
         console.log(data);
@@ -463,7 +498,7 @@ $rootScope.$on('$stateChangeStart',
       alert('شما لاگین نیستید');
     }
     else
-    {          
+    {         
       $scope.info = $localstorage.getObject('userInfo');   
       console.log($scope.info);     
       $http({
