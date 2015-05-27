@@ -622,14 +622,14 @@ $rootScope.$on('$stateChangeStart',
   }
 
   $scope.favoritePosts = {};
-  $scope.info = $localstorage.getObject('userInfo');
+  var userInfo = $localstorage.getObject('userInfo');
   $http({
     method: 'GET',
-    url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+15,
+    url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID=' + userInfo.ID,
     cache: false
     }).success(function(data,status,headers,config){          
-      console.log(data);        
       $scope.FavoritePosts = data;
+      console.log($scope.FavoritePosts);        
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
     });
