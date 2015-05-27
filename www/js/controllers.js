@@ -584,7 +584,7 @@ $rootScope.$on('$stateChangeStart',
   };  
 })
 
-.controller('favoriteCtrl' , function($ionicPopover, $state, $scope, $http, $localstorage){
+.controller('favoriteCtrl' , function($rootScope, $ionicPopover, $state, $scope, $http, $localstorage){
   
   console.warn('favoriteCtrl initialized');
   
