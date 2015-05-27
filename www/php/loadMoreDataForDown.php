@@ -6,10 +6,29 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 require_once("../wp-load.php");
 $smallestIDinLocal= $_GET['smallestIDinLocal'];
+$userID = $_GET['userID'];
 $number_to_get_post = 5;
 $k = 0;
-$pattern3='/<h2.*><strong>.*<\/strong><\/h2>/i';
+$pattern1='/\[caption.*\"\]/i';
+$pattern2='/\[\/caption*\]/i';
 $pattern4='/^[^\.]*/i';
+// make a list of user favorite posts
+
+$str = 'select * from wp_usermeta where user_id ='.$userID.' AND meta_key = "wpfp_favorites"';
+$rawlist = $wpdb->get_results($str);
+$tempData = explode(";",$rawlist[0]->meta_value);
+
+for ($i=0;$i<count($tempData);$i++)
+{
+
+  if(preg_match("/s:4:\"\d{1,}\"/i", $tempData[$i]))
+  {
+    $temp = explode("s:4:", $tempData[$i]);
+    $listOfPostsID[] = str_replace('"', '', $temp[1]);    
+  }
+
+}
+
 for ($i=($smallestIDinLocal-1);$i>0;$i--)
 {  
     $currentPost = get_post($i);
@@ -36,8 +55,15 @@ for($i = 0;$i < count($posts_array);$i++)
   $posts_array[$i]->catId = $catId;
   $posts_array[$i]->thumbnail = $thumb_url[0];
   
-  $posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
+  $posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
+  $posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+  
+  $posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
   preg_match( $pattern4, $posts_array[$i]->summary, $match );
   $posts_array[$i]->summary = $match;
+  if (in_array($posts_array[$i]->ID, $listOfPostsID))
+    $posts_array[$i]->isFavorite= true;
+  else
+    $posts_array[$i]->isFavorite= false;
 };
 echo json_encode($posts_array);
