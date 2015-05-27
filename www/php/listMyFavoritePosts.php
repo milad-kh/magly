@@ -7,12 +7,31 @@ header("Pragma: no-cache");
 require_once("../wp-load.php");
 global $wpdb;
 $userID = $_GET['userID'];
+
+$str = 'select * from wp_usermeta where user_id ='.$userID.' AND meta_key = "wpfp_favorites"';
+
+// make a list of user favorite posts
+
 $str = 'select * from wp_usermeta where user_id ='.$userID.' AND meta_key = "wpfp_favorites"';
 $rawlist = $wpdb->get_results($str);
-foreach ($rawlist as $item)
+$tempData = explode(";",$rawlist[0]->meta_value);
+$pattern4='/^[^\.]*/i';
+for ($i=0;$i<count($tempData);$i++)
 {
-  $posts_array[] = get_post(substr($item->meta_value,14,4));
+
+  if(preg_match("/s:4:\"\d{1,}\"/i", $tempData[$i]))
+  {
+    $temp = explode("s:4:", $tempData[$i]);
+    $listOfPostsID[] = str_replace('"', '', $temp[1]);    
+  }
+
 }
+
+for ($j=0;$j<count($listOfPostsID);$j++)
+{
+  $posts_array[] = get_post($listOfPostsID[$j]);
+}
+
 for($i = 0;$i < count($posts_array);$i++)
 {
 	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);
@@ -28,5 +47,9 @@ for($i = 0;$i < count($posts_array);$i++)
 	$args = array ('post_id' => $posts_array[$i]->ID);
 	$posts_array[$i]->comments = get_comments($args);
 	$posts_array[$i]->likes = $likes;
+	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
+	//$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
+	preg_match( $pattern4, $posts_array[$i]->summary, $match );
+	$posts_array[$i]->summary = $match;
 };
 echo json_encode($posts_array);
