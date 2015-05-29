@@ -32,15 +32,17 @@
        <i class="icon ion-thumbsup"></i></a>
 
         <a class="tab-item" ng-click="goToComment()">
-          <i class="icon ion-chatbox" style="color:limegreen"></i>
+          <i class="icon ion-chatbox"></i>
         </a> 
 
         <a class="tab-item" ng-click="shareToSocial()">
-          <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
+          <i class="icon ion-android-share-alt"></i>
         </a>
 
         <a class="tab-item" ng-click="addToFavorite()" ng-if="!showSignIn">
-          <i class="icon ion-heart"></i>
+          <i ng-show="targetPost.isFavorite" class="icon ion-ios-heart" style="color:red"></i>
+          <i ng-show="!targetPost.isFavorite" class="icon ion-ios-heart-outline"></i>
+          
         </a>
         
         <a class="tab-item" ng-click="mailArticleToFriend()">

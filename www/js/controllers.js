@@ -146,6 +146,11 @@ $rootScope.$on('$stateChangeStart',
         cache: false
       }).success(function(data,status,headers,config){          
         console.log(data);
+        ng.forEach($scope.posts, function(post){
+          if(post.ID == postID)
+            post.isFavorite = !post.isFavorite;
+        })
+        $localstorage.setObject('posts',$scope.posts);
         /*var alertPopup = $ionicPopup.alert({
           title: 'نتیجه',
           template: 'به لیست دلخواه اضافه شد'
@@ -502,13 +507,21 @@ $rootScope.$on('$stateChangeStart',
     else
     {         
       $scope.info = $localstorage.getObject('userInfo');   
-      console.log($scope.info);     
+      console.log($scope.info);    
+      console.log($stateParams);    
+
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+$stateParams.postID,
+        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+$stateParams.chatId,
         cache: false
       }).success(function(data,status,headers,config){          
-        console.log(data);
+        // re-make posts object
+        ng.forEach($scope.posts, function(post){
+          if(post.ID == $stateParams.chatId)
+            post.isFavorite = !post.isFavorite;
+        })
+        $localstorage.setObject('posts',$scope.posts);
+        //
         var alertPopup = $ionicPopup.alert({
           title: 'نتیجه',
           template: 'به لیست دلخواه اضافه شد'
@@ -600,6 +613,54 @@ $rootScope.$on('$stateChangeStart',
     $scope.popover = popover;
   });
   
+   $scope.addToFavorite = function(postID)
+  {
+    if (_.isEmpty($localstorage.getObject('userInfo')))
+    {
+      alert('شما لاگین نیستید');
+    }
+    else
+    {         
+      $scope.info = $localstorage.getObject('userInfo');   
+      console.log(postID);
+      console.log($scope.info);     
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.log(data);
+        var posts = $localstorage.getObject('posts');
+        ng.forEach(posts, function(post){
+          if(post.ID == postID)
+          {
+            post.isFavorite = !post.isFavorite;
+          }
+        });
+        $localstorage.setObject('posts', posts);
+        var posts = $localstorage.getObject('posts');
+        $scope.FavoritePosts =[];
+        // list favorite posts
+        ng.forEach(posts, function(post){
+          if (post.isFavorite)
+            $scope.FavoritePosts.push(post);
+        });
+        /*var alertPopup = $ionicPopup.alert({
+          title: 'نتیجه',
+          template: 'به لیست دلخواه اضافه شد'
+        });
+        // we can do more here
+        alertPopup.then(function(res) {
+          console.log('Thank you for not eating my delicious ice cream cone');
+        }); 
+      */
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });                     
+    };
+                                              
+  };
+
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo');   
@@ -623,16 +684,14 @@ $rootScope.$on('$stateChangeStart',
 
   $scope.favoritePosts = {};
   var userInfo = $localstorage.getObject('userInfo');
-  $http({
-    method: 'GET',
-    url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID=' + userInfo.ID,
-    cache: false
-    }).success(function(data,status,headers,config){          
-      $scope.FavoritePosts = data;
-      console.log($scope.FavoritePosts);        
-    }).error(function(data,status,headers,config){
-      console.log('error in get categories');
-    });
+  var posts = $localstorage.getObject('posts');
+  $scope.FavoritePosts =[];
+  // list favorite posts
+  ng.forEach(posts, function(post){
+    if (post.isFavorite)
+      $scope.FavoritePosts.push(post);
+  });
+  //
 
     $scope.goHome = function()
     {
