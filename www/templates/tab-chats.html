@@ -30,21 +30,25 @@
     </div>
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
-    <a class="tab-item" ng-if="!showSignIn" ng-click="addToFavorite(post.ID)">
-      <i ng-show="post.isFavorite" class="icon ion-ios-heart" style="color:red"></i>
-      <i ng-show="!post.isFavorite" class="icon ion-ios-heart-outline"></i>
-    </a>
     
     <a class="tab-item">
-      {{post.likes.length}}
       <i class="icon ion-thumbsup"></i>
     </a>
   
     <a class="tab-item">
-      {{post.comment_count}}
       <i class="icon ion-chatbox"></i>
     </a>
 
+    <a class="tab-item" ng-click="shareToSocial()">
+          <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
+        </a>
+<a class="tab-item" ng-if="!showSignIn" ng-click="addToFavorite(post.ID)">
+      <i ng-show="post.isFavorite" class="icon ion-ios-heart" style="color:red"></i>
+      <i ng-show="!post.isFavorite" class="icon ion-ios-heart-outline"></i>
+    </a>
+    <a class="tab-item" ng-click="mailArticleToFriend()">
+          <i class="icon ion-ios-email-outline"></i>
+        </a>
    </div> 
 
    </div>

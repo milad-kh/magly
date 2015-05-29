@@ -70,11 +70,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       controller: 'commentCtrl'
     })
 
-  .state('favoriteList', {
-      url: "/favoriteList",
-      templateUrl: "templates/favoriteList.html",
-      controller: 'favoriteCtrl'
-    })
+  
 
   // Each tab has its own nav history stack:
 .state('tab.dash', {
@@ -116,6 +112,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         }
       }
     })
+
+  .state('tab.favoriteList', {
+    url: '/favoriteList',
+    views: {
+      'tab-favoriteList': {
+        templateUrl: 'templates/favoriteList.html',
+        controller: 'favoriteCtrl'
+      }
+    }
+  })
+
+  .state('tab.search', {
+    url: '/search',
+    views: {
+      'tab-search': {
+        templateUrl: 'templates/tab-search.html',
+        controller: 'AccountCtrl'
+      }
+    }
+  })
 
   .state('tab.account', {
     url: '/account',
