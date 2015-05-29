@@ -110,7 +110,7 @@ $rootScope.$on('$stateChangeStart',
     });    
 })
 
-.controller('ChatsCtrl', function($rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');  
   // $scope.query = 'aaaa';
   $rootScope.$on('$stateChangeStart', 
@@ -128,6 +128,42 @@ $rootScope.$on('$stateChangeStart',
     }).then(function(modal) {
       $scope.modal = modal;
   });
+
+    $scope.mailArticleToFriend = function(postID) {
+  $scope.data = {}
+
+  // An elaborate, custom popup
+  var myPopup = $ionicPopup.show({
+    template: '<input type="text" autofocus ng-model="data.email">',
+    title: '<span class=yekan>ایمیل را وارد کنید</span>',
+    // subTitle: 'your friend email',
+    scope: $scope,
+    buttons: [
+      { text: '<span class=yekan>لغو</span>' },
+      {
+        text: '<span class=yekan><b>بفرست</b></span>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email != '')
+          {
+            $http({
+              method: 'GET',
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+            }).success(function(data,status,headers,config){
+              console.log(data);
+            }).error(function(data,status,headers,config){
+              console.log('error in update!');
+            });                            
+          }
+        }
+      }
+    ]
+  });
+  myPopup.then(function(res) {
+    if ($scope.data.email == '')
+      console.log('Tapped!', res);
+  });
+};
 
     $scope.addToFavorite = function(postID)
   {
@@ -469,7 +505,7 @@ $rootScope.$on('$stateChangeStart',
           {
             $http({
               method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID=6361'+'&email='+$scope.data.email
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+$stateParams.chatId+'&email='+$scope.data.email
             }).success(function(data,status,headers,config){
               console.log(data);
             }).error(function(data,status,headers,config){
@@ -597,7 +633,7 @@ $rootScope.$on('$stateChangeStart',
   };  
 })
 
-.controller('favoriteCtrl' , function($rootScope, $ionicPopover, $state, $scope, $http, $localstorage){
+.controller('favoriteCtrl' , function($ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage){
   
   console.warn('favoriteCtrl initialized');
   
@@ -613,6 +649,42 @@ $rootScope.$on('$stateChangeStart',
     $scope.popover = popover;
   });
   
+  $scope.mailArticleToFriend = function(postID) {
+  $scope.data = {}
+
+  // An elaborate, custom popup
+  var myPopup = $ionicPopup.show({
+    template: '<input type="text" autofocus ng-model="data.email">',
+    title: '<span class=yekan>ایمیل را وارد کنید</span>',
+    // subTitle: 'your friend email',
+    scope: $scope,
+    buttons: [
+      { text: '<span class=yekan>لغو</span>' },
+      {
+        text: '<span class=yekan><b>بفرست</b></span>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email != '')
+          {
+            $http({
+              method: 'GET',
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+            }).success(function(data,status,headers,config){
+              console.log(data);
+            }).error(function(data,status,headers,config){
+              console.log('error in update!');
+            });                            
+          }
+        }
+      }
+    ]
+  });
+  myPopup.then(function(res) {
+    if ($scope.data.email == '')
+      console.log('Tapped!', res);
+  });
+};
+
    $scope.addToFavorite = function(postID)
   {
     if (_.isEmpty($localstorage.getObject('userInfo')))

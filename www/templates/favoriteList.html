@@ -37,7 +37,7 @@
       <i ng-show="post.isFavorite" class="icon ion-ios-heart" style="color:red"></i>
       <i ng-show="!post.isFavorite" class="icon ion-ios-heart-outline"></i>
     </a>
-    <a class="tab-item" ng-click="mailArticleToFriend()">
+    <a class="tab-item" ng-click="mailArticleToFriend(post.ID)">
           <i class="icon ion-ios-email-outline"></i>
         </a>
    </div> 
