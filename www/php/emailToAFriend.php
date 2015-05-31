@@ -1,6 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 //header('Content-Type: application/json');
+header('Content-Type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
@@ -8,155 +9,62 @@ require_once("../wp-load.php");
 $postID = $_GET['postID'];
 $to = $_GET['email'];
 $currentPost = get_post($postID);
-// echo ("<pre>");
-// print_r($currentPost);
-// echo ("</pre>");
-		$subject = $currentPost->post_title;       
-		// متن و مدهای اصلی نامه ی ایمیل به کاربر که به صورت اچ تی ام ال ارسال میشه
-		$message = "
+$post_thumbnail_id = get_post_thumbnail_id($postID);
+$thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
+
+$currentPost->thumbnail=$thumb_url[0];
+/*echo ("<pre>");
+	print_r($currentPost);
+echo ("</pre>");*/
+$subject = $currentPost->post_title;       
+// 
+$message = "
 		<meta charset='utf-8'>
-<body>
-<table width='100%' cellpadding='0' cellspacing='0' border='0' style='border-collapse:collapse;font: 12px tahoma,Helvetica ,arial, sans-serif;direction: rtl'>
-	<tbody>
-	<tr>
-		<td align=center bgcolor='#fff'>
-			<table  width='600' cellpadding='0' cellspacing='0' border='0'>
-				<tbody>
-					<tr>
-						<td>
-							<table cellpadding='0' cellspacing='0' border='0'>
-								<tr>
-									<td colspan='2' align='center'>
-										<div style='height: 94px'>
-											<a href='http://www.magly.ir/' target='_blank' style='display: block'>
-												<img src='http://www.summits.ir/email/myEmail1.jpg' alt='انتشارات سامیت'>
-											</a>
-										</div>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td align='center' bgcolor='#fff'>
-			<table  width=600 cellpadding='0' cellspacing='0' style='color: #fff;background-color: #2fc0fc;border-radius: 0 0 10px 10px'>
-				<tbody>
-				<tr>
-					<td colspan='2' >
-						<table  width='600' cellpadding='20' cellspacing='0' border='0'>
-							<tbody>
-							<tr>
-								<td>
-									<table cellpadding='20' cellspacing='0' border='0' style='width: 100%;border: 1px solid #fff;border-radius: 5px;margin-top: 20px;color: #fff'>
-										<tr>
-											<td colspan='2' style='padding: 0'>
-												<div style='background-color: #fff;border-radius: 5px;font-size: 18px;margin: -15px 20px 0 0;padding:5px 10px;font-family: arial;text-align: center;color: #0067AC'>
-													<a href='".$currentPost->guid."'>".$currentPost->post_title."</a>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td colspan='2' align='right'>
-												<table cellpadding='20' cellspacing='0' border='0' style='background-color: #fff;border-radius: 10px;width: 100%;text-align: right'>
-													<tr>
-														<td colspan='2' align='right' style='font-size: 12px;color: #0067AC;line-height: 20px'>
-															<div>
-																
-															</div>
-															<div>
-																
-															</div>
-															<div>
-																
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td style='padding: 0 20px;'>
-															<div style='height: 1px;background-color: #e5e5e5'>
+<body style='direction:rtl'>
+<div style='background: #eeeeee;width: 60%;margin:50px auto;outline: 1px solid gray;height: auto;padding-top:25px;'>
+		<a href='http://www.magly.ir'>
+			<div>
+				<img src='http://www.magly.ir/HybridAppAPI/email-images/logo2.png' style='display:block;margin:25px  auto 0;'alt='' />
+	 		</div>
+			<div>
+				<img src='http://www.magly.ir/HybridAppAPI/email-images/maglylogo.png' style='display:block;margin:5px auto 0;'alt='' />
+			</div>
+		</a>
+		<!-- END HEADER -->
+		<div >
+		<a href='".$currentPost->guid."'>
+			<div style='text-align: center;display: block;margin:15px auto 25px;width: 70%; '>
+				<img src='".$currentPost->thumbnail."'  style='width:100%;height:auto;float:right;margin:5px auto 0;
+' alt=''>
+			</div>
+			</a>
+			<div  style='clear:both;'>
+				<h1 style='font-family:B Yekan,B Nazanin,B Mitra,tahoma;font-size:22px;font-weight:normal;direction:rtl;padding: 25px 22px;'>
+        ".$currentPost->post_title."  
+        </h1>
+			</div>
+			<div>
+				<p style='font-family:B Yekan,B Nazanin,B Mitra,tahoma;	direction: rtl;font-size: 18px;line-height: 40px;text-align: justify;padding: 20px 20px 60px 40px;'>
+					".substr(strip_tags($currentPost->post_content),0,100)." ...				
+				<span style='width: 150px;height: 30px;border:2px solid #323a45;float: left;font-size:17px;text-align:center;line-height:30px;margin-top: 10px;background:#ffffff;'>
+					<a href='".$currentPost->guid."' style='text-decoration:none;color:#55acee;'>ادامه مطلب ...</a>
+				</span>
+			</p>
+			</div>
+			<div style='text-align: center;padding-bottom: 15px;'>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-facebook.png' alt=''></a>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-gplus.png' alt=''></a>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-rss.png' alt=''></a>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-twitter.png' alt=''></a>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-youtube.png' alt=''></a>
+					<a href='#'><img src='http://www.magly.ir/HybridAppAPI/email-images/icon-instagram.png' alt=''></a>
+			</div>
+		</div>
+	</div>
 
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td colspan='2' align='right' style='font-size: 12px;color: #0067AC;line-height: 20px'>
-															<div>
-															</div>
-															<div>
-															</div>
-															<div>
-															</div>
-															<div>
-															</div>
-															<div>
-															</div>
-															<div>
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td style='padding: 0 20px;'>
-															<div style='height: 1px;background-color: #e5e5e5'>
-
-															</div>
-														</td>
-													</tr>
-													<tr>
-														<td colspan='2' align='right' style='font-size: 12px;color: #0067AC;line-height: 20px'>
-															<div>
-																کاربر گرامی این لینک از طرف یکی از دوستان شما برایتان ارسال شده است. ایشان این محتوا را بری شما مناسب تشخیص داده اند. در صورتی که نمیخواهید مجددا این محتوا را دریافت کنید روی لینک زیر کلیک کنید
-															</div>
-														</td>
-													</tr>
-												</table>
-											</td>
-										</tr>
-										<tr>
-											<td style='font-size: 13px;line-height: 22px;padding-top: 0'>
-												<div>
-													موفق باشید
-												</div>
-												<div>
-													تیم Magly
-												</div>
-											</td>
-										</tr>
-									</table>
-								</td>
-							</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-
-					<td colspan='2' height='60' align='center' style='font-size: 13px'>
-						<div>
-							<div>
-								وبسایت مگلی تولید کننده ی محتوای غنی فارسی
-							</div>
-							<div>
-								<a style='color: #0067AC' href='http://www.magly.ir/' target='_blank'>www.magly.ir</a>
-							</div>
-						</div>
-					</td>
-				</tr>
-
-
-				</tbody>
-			</table>
-		</td>
-	</tr>
-	</tbody>
-</table>
 </body>
 		";      
-		//
-		// Always set content-type when sending HTML email
+		
 		$headers = "MIME-Version: 1.0" . "\r\n";
 		$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 		
