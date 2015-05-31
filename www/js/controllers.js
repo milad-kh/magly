@@ -682,6 +682,7 @@ $rootScope.$on('$stateChangeStart',
 
   $scope.sendComment = function()
   {
+    $scope.modal.hide();
     console.log('sent comment...');
     var randomInt = new Date().getTime();
     $http({
