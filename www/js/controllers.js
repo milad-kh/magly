@@ -652,7 +652,20 @@ $rootScope.$on('$stateChangeStart',
   angular.forEach($scope.posts, function(post){
     if (post.ID == $stateParams.chatId)
       $scope.targetPost = post;
-  });  
+  });
+
+  // sample related post
+  $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/relatedPosts.php?postID=6415'
+    }).success(function(data,status,headers,config){          
+      console.log(data);            
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+
+  //
+
 })
 
 .controller('AccountCtrl', function($scope) {
