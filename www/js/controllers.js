@@ -79,7 +79,7 @@ $rootScope.$on('$stateChangeStart',
     $scope.showCategories();
 })
 
-.controller('MostCtrl', function($rootScope, $scope, $http, $ionicPopover){
+.controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup){
   console.warn('MostCtrl initialized');
   
   $rootScope.$on('$stateChangeStart', 
@@ -98,9 +98,83 @@ $rootScope.$on('$stateChangeStart',
     $scope.popover.show($event);
   };
 
+   $scope.addToFavorite = function(postID)
+  {
+    if (_.isEmpty($localstorage.getObject('userInfo')))
+    {
+      alert('شما لاگین نیستید');
+    }
+    else
+    {         
+      $scope.info = $localstorage.getObject('userInfo');   
+      console.log(postID);
+      console.log($scope.info);     
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.log(data);
+        ng.forEach($scope.posts, function(post){
+          if(post.ID == postID)
+            post.isFavorite = !post.isFavorite;
+        })
+        $localstorage.setObject('posts',$scope.posts);
+        /*var alertPopup = $ionicPopup.alert({
+          title: 'نتیجه',
+          template: 'به لیست دلخواه اضافه شد'
+        });
+        // we can do more here
+        alertPopup.then(function(res) {
+          console.log('Thank you for not eating my delicious ice cream cone');
+        }); 
+      */
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });                     
+    };
+                                              
+  };
+
+  $scope.mailArticleToFriend = function(postID) {
+  $scope.data = {}
+
+  // An elaborate, custom popup
+  var myPopup = $ionicPopup.show({
+    template: '<input type="text" autofocus ng-model="data.email">',
+    title: '<span class=yekan>ایمیل را وارد کنید</span>',
+    // subTitle: 'your friend email',
+    scope: $scope,
+    buttons: [
+      { text: '<span class=yekan>لغو</span>' },
+      {
+        text: '<span class=yekan><b>بفرست</b></span>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email != '')
+          {
+            $http({
+              method: 'GET',
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+            }).success(function(data,status,headers,config){
+              console.log(data);
+            }).error(function(data,status,headers,config){
+              console.log('error in update!');
+            });                            
+          }
+        }
+      }
+    ]
+  });
+  myPopup.then(function(res) {
+    if ($scope.data.email == '')
+      console.log('Tapped!', res);
+  });
+};
+  var userInfo = $localstorage.getObject('userInfo');
   $http({
       method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/mostVisitedPosts.php',
+      url:'http://www.magly.ir/HybridAppAPI/mostVisitedPosts.php?userID='+userInfo.ID,
       cache: false
     }).success(function(data,status,headers,config){          
       console.log(data);
@@ -589,7 +663,6 @@ $rootScope.$on('$stateChangeStart',
 
 .controller('commentCtrl', function($rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
-
   var postID = $stateParams.postID;
   var posts = $localstorage.getObject('posts');
   ng.forEach(posts, function(post){
@@ -611,12 +684,21 @@ $rootScope.$on('$stateChangeStart',
   {
     console.log('sent comment...');
     var randomInt = new Date().getTime();
-    // console.log($scope.)
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=' + $stateParams.postID + '&randomInt=' + randomInt + '&name='+$scope.commentObject.name + '&email=' + $scope.commentObject.email + '&url=' + $scope.commentObject.url + '&comment=' + $scope.commentObject.comment
     }).success(function(data,status,headers,config){          
       console.log(data);
+      $scope.comments = data;
+      $scope.posts = $localstorage.getObject('posts');
+      ng.forEach($scope.posts, function(post){
+        if (post.ID == postID)
+        {
+          post.comments = data;
+        }
+      });
+      $localstorage.setObject('posts',$scope.posts);
+      //$scope.posts = $localstorage.getObject('posts');
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });

@@ -18,6 +18,9 @@ $arr = array(
 	"comment_post_ID"=>$postID,
 	"comment_content"=>$comment
 	);
-$wpdb->insert('wp_comments',$arr);
-echo 'inserted';
+$x = $wpdb->insert('wp_comments',$arr);
+
+$comment_info = $wpdb->get_results("SELECT DISTINCT * FROM wp_comments WHERE comment_post_ID = $postID");
+	
+echo json_encode($comment_info);
 ?>
