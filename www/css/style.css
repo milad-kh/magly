@@ -81,6 +81,7 @@
 {
 	background-color: steelblue;
 	color: white;
+	overflow: visible;
 }
 
 .usualPostContainerImg
@@ -92,4 +93,8 @@
 {
 	background-color: cadetblue ;
 	color: white;
+}
+.notOverFlow
+{
+	overflow:visible;
 }
