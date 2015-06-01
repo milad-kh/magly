@@ -657,8 +657,17 @@ $rootScope.$on('$stateChangeStart',
   // sample related post
   $http({
       method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/relatedPosts.php?postID=6415'
-    }).success(function(data,status,headers,config){          
+      url:'http://www.magly.ir/HybridAppAPI/relatedPosts.php?postID='+$stateParams.chatId
+    }).success(function(data,status,headers,config){  
+        $scope.relatedPosts = data;
+      // re-make scope.posts and localStorage
+        var kol = _.union($scope.posts,data);                   
+        $scope.posts = kol;
+        console.log(kol);
+        localStorage.removeItem('posts');
+        $localstorage.setObject('posts',$scope.posts);
+      //                 
+      console.log('related posts');            
       console.log(data);            
     }).error(function(data,status,headers,config){
       console.log('error in update!');

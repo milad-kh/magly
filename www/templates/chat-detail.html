@@ -52,10 +52,10 @@
          <!-- similar posts -->
          <div class="list">
             
-            <a class="item item-avatar-right" href="#">
-              <img src="venkman.jpg">
-              <h2 style="direction:rtl">Venkman</h2>
-              <p style="direction:rtl">Back off, man. I'm a scientist.</p>
+            <a class="item item-avatar-right" ui-sref="tab.chat-detail({chatId:post.ID})" ng-repeat="post in relatedPosts">
+              <img ng-src="{{post.thumbnail}}">
+              <h2 style="direction:rtl" ng-bind="post.post_title"></h2>
+              <p style="direction:rtl" ng-bind="post.summary"></p>
             </a>            
 
         </div>
