@@ -13,7 +13,7 @@
 <div class="list list-inset">
 
    <!-- USUAL POST -->
-<div class="list" ng-repeat="post in posts | filter:query track by post.ID" >
+<div class="list" ng-repeat="post in posts track by post.ID" >
     <div class="card usualPostContainer" ng-if="$index % 5 != 0">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar usualPostContainer">

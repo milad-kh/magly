@@ -1,9 +1,10 @@
 (function(ng, _){
   ng
   .module('starter.controllers', ['localStorage', 'ngCordova', 'user-auth'])
-
+  
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
 
+//
 $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       console.info('state avaz shod');
@@ -186,7 +187,11 @@ $rootScope.$on('$stateChangeStart',
 
 .controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');  
-  // $scope.query = 'aaaa';
+
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.showSignIn = checkUserAuth.isUserLogin();    
+  });
+
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       console.info('state avaz shod');
@@ -437,12 +442,12 @@ $rootScope.$on('$stateChangeStart',
 
         $scope.fillLocalWithData();    
         }
-      else
+      /*else
         {
           $scope.posts = sign;
           console.log($scope.posts);
           $ionicLoading.hide();          
-        }
+        }*/
 
     };
 
@@ -496,12 +501,23 @@ $rootScope.$on('$stateChangeStart',
   
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $scope.popover.hide();
+    });
+
+  $rootScope.$on('$stateChangeStart', 
+    function(event, toState, toParams, fromState, fromParams){
       console.info('state avaz shod');
       $scope.popover.hide();
+
     })
 
   $scope.info={};
   $scope.showSignIn = checkUserAuth.isUserLogin();
+  $scope.init = function()
+  {
+    console.log('inja anjam midim');
+  }
+
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo'); 
