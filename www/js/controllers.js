@@ -189,7 +189,8 @@ $rootScope.$on('$stateChangeStart',
   console.warn('ChatsCtrl initialized');  
 
   $scope.$on('$ionicView.afterEnter', function(){
-    $scope.showSignIn = checkUserAuth.isUserLogin();    
+    $scope.showSignIn = checkUserAuth.isUserLogin();
+    $scope.posts = $localstorage.getObject('posts');
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -693,10 +694,9 @@ $rootScope.$on('$stateChangeStart',
 
 })
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+.controller('AccountCtrl', function($scope, $localstorage) {
+  $scope.posts = $localstorage.getObject('posts');
+  console.log('umad b search:', $scope.posts);
 })
 
 .controller('commentCtrl', function($rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
@@ -875,16 +875,17 @@ $rootScope.$on('$stateChangeStart',
     }));
   }
 
-  $scope.favoritePosts = {};
-  var userInfo = $localstorage.getObject('userInfo');
-  var posts = $localstorage.getObject('posts');
-  $scope.FavoritePosts =[];
-  // list favorite posts
-  ng.forEach(posts, function(post){
-    if (post.isFavorite)
-      $scope.FavoritePosts.push(post);
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.favoritePosts = {};
+    var userInfo = $localstorage.getObject('userInfo');
+    var posts = $localstorage.getObject('posts');
+    $scope.FavoritePosts =[];
+    // list favorite posts
+    ng.forEach(posts, function(post){
+      if (post.isFavorite)
+        $scope.FavoritePosts.push(post);
+    });
   });
-  //
 
     $scope.goHome = function()
     {
