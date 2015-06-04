@@ -498,7 +498,9 @@ $rootScope.$on('$stateChangeStart',
         });      
     }
 })
-
+.controller('searchCtrl', function($scope, $localstorage){
+  $scope.posts = $localstorage.getObject('posts');
+})
 .controller('signinCtrl', function($rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
   console.warn('signinCtrl initialized');
   
