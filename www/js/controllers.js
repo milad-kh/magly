@@ -696,9 +696,83 @@ $rootScope.$on('$stateChangeStart',
 
 })
 
-.controller('AccountCtrl', function($scope, $localstorage) {
-  $scope.posts = $localstorage.getObject('posts');
-  console.log('umad b search:', $scope.posts);
+.controller('ProfileCtrl', function($ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.showSignIn = checkUserAuth.isUserLogin();
+    console.log($scope.showSignIn);    
+  });  
+  
+  
+
+  $scope.showForgetPassModal = function()
+  {
+    var myPopup = $ionicPopup.show({
+    template: '<div><input type="password" autofocus ng-model="data.email" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.email"></div>',
+    title: '<span class=yekan>کلمه عبور</span>',
+    // subTitle: 'your friend email',
+    scope: $scope,
+    buttons: [
+      { text: '<span class=yekan>لغو</span>' },
+      {
+        text: '<span class=yekan><b>بفرست</b></span>',
+        type: 'button-positive',
+        onTap: function(e) {
+          if ($scope.data.email != '')
+          {
+            $http({
+              method: 'GET',
+              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+            }).success(function(data,status,headers,config){
+              console.log(data);
+            }).error(function(data,status,headers,config){
+              console.log('error in update!');
+            });                            
+          }
+        }
+      }
+    ]
+  });
+  myPopup.then(function(res) {
+    if ($scope.data.email == '')
+      console.log('Tapped!', res);
+  });
+  }
+
+  $scope.goToSignup = function()
+  {
+    $state.go('signup');
+  }
+  $scope.signOut = function()
+  {
+    localStorage.removeItem('userInfo'); 
+    $scope.showSignIn = !$scope.showSignIn;
+    $scope.info = {};
+  }
+  $scope.info = $localstorage.getObject('userInfo');
+  if (!$scope.info)
+    $scope.info={};
+  console.log($scope.info);
+  console.log('umad b search:');
+  // console
+  $scope.signin = function()
+  {      
+    console.log($scope);
+    $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password)+'&a=1',
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.log(data);
+        if(data.status == 'ok')
+        {
+          $localstorage.setObject('userInfo',data.info);  
+          $scope.showSignIn = !$scope.showSignIn;        
+          $state.go('tab.chats');
+        }
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });
+  }
 })
 
 .controller('commentCtrl', function($rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){

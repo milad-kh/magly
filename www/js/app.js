@@ -140,7 +140,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-profile': {
         templateUrl: 'templates/tab-profile.html',
-        controller: 'AccountCtrl'
+        controller: 'ProfileCtrl'
       }
     }
   })
