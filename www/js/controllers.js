@@ -445,12 +445,12 @@ $rootScope.$on('$stateChangeStart',
 
         $scope.fillLocalWithData();    
         }
-      /*else
+      else
         {
           $scope.posts = sign;
           console.log($scope.posts);
           $ionicLoading.hide();          
-        }*/
+        }
 
     };
 

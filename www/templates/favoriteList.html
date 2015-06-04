@@ -7,8 +7,8 @@
 <div ng-repeat="post in FavoritePosts | filter:query track by post.ID">
   <div class="card usualPostContainer">
      <div ng-click="ch(post.ID)">
-    <div class="item item-avatar usualPostContainer">
-      <h2 class="yekan usualPostContainer" style="direction:rtl" ng-bind="post.post_title"></h2>
+    <div class="item item-avatar usualPostContainer" style="padding-left:20px">
+      <h2 class="yekan usualPostContainer" style="direction:rtl;;white-space:normal" ng-bind="post.post_title"></h2>
     </div>
 
      <div class="item item-thumbnail usualPostContainerImg"> 
@@ -43,6 +43,7 @@
    </div> 
 
    </div>
+   <div style="height:1px;background-color:black"></div>
 </div>
 <!-- post -->
   
