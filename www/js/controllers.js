@@ -708,8 +708,9 @@ $rootScope.$on('$stateChangeStart',
   {
     $scope.data = {};
     var info = $localstorage.getObject('userInfo');
+    console.log(info);
     var myPopup = $ionicPopup.show({
-    template: '<div><input style="direction:rtl" type="password" class="yekan" placeHolder="کلمه عبور فعلی"></div><div><input type="password" autofocus ng-model="data.newPassword" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.confirmPassword"></div>',
+    template: '<div><input ng-model="data.currentPassword" style="direction:rtl" type="password" class="yekan" placeHolder="کلمه عبور فعلی"></div><div><input type="password" autofocus ng-model="data.newPassword" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.confirmPassword"></div>',
     title: '<span class=yekan>تعویض کلمه عبور</span>',
     // subTitle: 'your friend email',
     scope: $scope,
@@ -723,7 +724,6 @@ $rootScope.$on('$stateChangeStart',
           {
             console.log($scope.data);
             console.log(info);
-
             $http({
               method: 'GET',
               url:'http://www.magly.ir/HybridAppAPI/updatePassword.php?newPassword=' + encodeURIComponent($scope.data.newPassword) + '&userID=' + info.ID
@@ -733,14 +733,19 @@ $rootScope.$on('$stateChangeStart',
               console.log('error in update!');
             });                            
           }
+          else
+          {
+            console.warn('ye moshkeli hast');
+          }
         }
       }
     ]
   });
-  myPopup.then(function(res) {
+  /*myPopup.then(function(res) {
     if ($scope.data.newPassword == '')
       console.log('Tapped!', res);
-  });
+      console.warn('ye moshkeli hast');
+  });*/
   }
 
   $scope.goToSignup = function()
