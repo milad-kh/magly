@@ -706,22 +706,27 @@ $rootScope.$on('$stateChangeStart',
 
   $scope.showForgetPassModal = function()
   {
+    $scope.data = {};
+    var info = $localstorage.getObject('userInfo');
     var myPopup = $ionicPopup.show({
-    template: '<div><input type="password" autofocus ng-model="data.email" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.email"></div>',
-    title: '<span class=yekan>کلمه عبور</span>',
+    template: '<div><input style="direction:rtl" type="password" class="yekan" placeHolder="کلمه عبور فعلی"></div><div><input type="password" autofocus ng-model="data.newPassword" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.confirmPassword"></div>',
+    title: '<span class=yekan>تعویض کلمه عبور</span>',
     // subTitle: 'your friend email',
     scope: $scope,
     buttons: [
-      { text: '<span class=yekan>لغو</span>' },
+      { text: '<span class=yekan>بستن</span>' },
       {
-        text: '<span class=yekan><b>بفرست</b></span>',
+        text: '<span class=yekan><b>عوض کن</b></span>',
         type: 'button-positive',
         onTap: function(e) {
-          if ($scope.data.email != '')
+          if ($scope.data.newPassword != '')
           {
+            console.log($scope.data);
+            console.log(info);
+
             $http({
               method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+              url:'http://www.magly.ir/HybridAppAPI/updatePassword.php?newPassword=' + encodeURIComponent($scope.data.newPassword) + '&userID=' + info.ID
             }).success(function(data,status,headers,config){
               console.log(data);
             }).error(function(data,status,headers,config){
@@ -733,7 +738,7 @@ $rootScope.$on('$stateChangeStart',
     ]
   });
   myPopup.then(function(res) {
-    if ($scope.data.email == '')
+    if ($scope.data.newPassword == '')
       console.log('Tapped!', res);
   });
   }
