@@ -6,12 +6,12 @@
     <div class="row">
       <div class="col" ng-click="filterPostsByCategory('all')">        
         <div style="direction:rtl" class="list card yekan">
-          <div class="item item-divider">
+          <!-- <div class="item item-divider">
           <i class="icon ion-happy-outline"></i>
-          همه</div>
-          <div class="item item-body class{{item.classNumber}}" style="height:120px" >
-            <div style="background-image: url(paper.gif)">
-             باید عکس باشه
+          همه مقالات</div> -->
+<div class="item item-body class{{item.classNumber}}" style="height:120px;background-image: url({{all}});;background-repeat:round" >
+            <div style="background-color: #ffffff;border: 1px solid white;opacity: 0.8;">
+             همه مقالات
             </div>
           </div>
         </div>        
@@ -21,12 +21,12 @@
       <div class="col" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
         
         <div style="direction:rtl" class="list card yekan" >
-          <div class="item item-divider">
+         <!--  <div class="item item-divider">
           <i class="icon ion-happy-outline"></i>
-          {{item.cat_name}}</div>
-          <div class="item item-body class{{item.classNumber}}" style="height:120px" >
-            <div style="background-image: url({{item.thumbnail}})">
-             توضیح دسته
+          {{item.cat_name}}</div> -->
+          <div class="item item-body class{{item.classNumber}}" style="height:120px;background-image: url({{item.thumbnail}});background-repeat:round" >
+            <div style="background-color: #ffffff;border: 1px solid white;opacity: 0.8;">
+             {{item.cat_name}}
             </div>
           </div>
         </div>

@@ -61,9 +61,9 @@ $rootScope.$on('$stateChangeStart',
       }).success(function(data,status,headers,config){    
         var arr = new Array();
         var tempArr = new Array();                  
-        for(var i = 0;i<data.length;i++)
+        for(var i = 0;i<data[0].length;i++)
         {
-          tempArr.push(data[i]);
+          tempArr.push(data[0][i]);
           if(tempArr.length == 2)
           {
             arr.push(tempArr);
@@ -72,6 +72,8 @@ $rootScope.$on('$stateChangeStart',
         }        
         console.log(arr);
         $scope.categories = arr;
+        $scope.all = data[1];
+        console.log($scope.all);
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });

@@ -21,5 +21,7 @@
       "id": "nl.x-services.plugins.socialsharing"
     }
   ],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }
