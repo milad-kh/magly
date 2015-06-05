@@ -20,11 +20,7 @@
      <div class="item item-body">
       <div style="direction:rtl" class="yekan" ng-bind-html="targetPost.post_content">        
                  
-      </div>
-    <p>
-     <a class="subdued">{{targetPost.likes.length}} Like</a> 
-     <a class="subdued">{{targetPost.comment_count}} Comments</a>            
-    </p>
+      </div>    
   </div>
    <div class="item tabs tabs-secondary tabs-icon-left"> 
       
@@ -54,8 +50,8 @@
             
             <a class="item item-avatar-right" ui-sref="tab.chat-detail({chatId:post.ID})" ng-repeat="post in relatedPosts">
               <img ng-src="{{post.thumbnail}}">
-              <h2 style="direction:rtl" ng-bind="post.post_title"></h2>
-              <p style="direction:rtl" ng-bind="post.summary"></p>
+              <h2 style="direction:rtl" class="yekan" ng-bind="post.post_title"></h2>
+              <p style="direction:rtl" class="yekan" ng-bind="post.summary"></p>
             </a>            
 
         </div>

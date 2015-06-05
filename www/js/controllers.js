@@ -211,12 +211,41 @@ $rootScope.$on('$stateChangeStart',
       $scope.modal = modal;
   });
 
-    $scope.mailArticleToFriend = function(postID) {
+  $scope.goToComment = function(postID)
+  {    
+    $state.go('material',({postID:postID}))
+  }
+
+  $scope.sendLike = function(postID)
+  {
+    console.log('send like');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
+    }).success(function(data,status,headers,config){
+      console.log(data);
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+    var posts = $localstorage.getObject('posts');
+    console.log(posts);
+    ng.forEach(posts, function(post){
+      if (post.ID == postID)
+      {
+        post.isLike = ! post.isLike;
+      }
+    });
+  localStorage.removeItem('posts');
+  $localstorage.setObject('posts', posts);
+  $scope.posts = $localstorage.getObject('posts');     
+  };
+
+  $scope.mailArticleToFriend = function(postID) {
   $scope.data = {}
 
   // An elaborate, custom popup
   var myPopup = $ionicPopup.show({
-    template: '<input type="text" autofocus ng-model="data.email">',
+    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
     title: '<span class=yekan>ایمیل را وارد کنید</span>',
     // subTitle: 'your friend email',
     scope: $scope,
