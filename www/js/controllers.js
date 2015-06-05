@@ -366,14 +366,27 @@ $rootScope.$on('$stateChangeStart',
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
-        }).success(function(data,status,headers,config){    
+        }).success(function(data,status,headers,config){ 
+        if(data != null)
+        {
           var kol = _.union(data, $scope.posts);
           $scope.topData = data;
           $scope.posts = kol;
           localStorage.removeItem('posts');
-          $localstorage.setObject('posts', $scope.posts);
+          $localstorage.setObject('posts', $scope.posts);          
+        }          
+        else
+        {           
+         var alertPopup = $ionicPopup.alert({
+           title: '<span class="yekan">بانک اطلاعات</span>',
+           template: '<span class="yekan">مطلب جدیدی وجود ندارد</span>'
+         });
+         alertPopup.then(function(res) {
+           console.log('Thank you for not eating my delicious ice cream cone');
+         });
+         };        
           // also replace localStorage posts lists with new lists
-
+        
         }).error(function(data,status,headers,config){
           console.log('error in get data for top');
         }).finally(function() {

@@ -15,7 +15,7 @@
    <!-- USUAL POST -->
 <div class="list" ng-repeat="post in posts | filter:query track by post.ID">
 
-    <div class="card usualPostContainer" ng-if="$index % 5 != 0">
+    <div class="card usualPostContainer">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar usualPostContainer" style="padding-left:20px">
       <h2 class="yekan usualPostContainer notOverFlow" style="direction:rtl;overflow:visible;white-space:normal" ng-bind="post.post_title"></h2>
@@ -53,6 +53,7 @@
    </div> 
 
    </div>
+   <div style="height:1px;background-color:black"></div>
 
    <!-- ADVERTISE -->
    <div class="card" ng-if="$index % 5 == 0" ng-click="alert('رفتن به تبلیغات')">
@@ -81,7 +82,7 @@
   <ion-infinite-scroll
        ng-if="posts.length > 0"
        on-infinite="loadMoreDataForDown()"
-       distance="1%"
+       distance="10%"
        icon="ion-loading-c"
        >
      </ion-infinite-scroll> 
