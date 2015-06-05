@@ -24,34 +24,11 @@ $rootScope.$on('$stateChangeStart',
     $scope.popover.show($event);
   };
 
-  $scope.filterPostsByCategory = function(input)
+  $scope.filterPostsByCategory = function(catID)
   {
-    console.log(input);
-    if (input == 'all')
-    {
-      console.log('hamaro neshun bede');
-      $scope.posts = $localstorage.getObject('posts');
-      $rootScope.$broadcast('changeCategory', $scope.posts);
-      $state.go('tab.chats');
-    }
-    else
-    {
-      $scope.posts = $localstorage.getObject('posts');
-      var catID = input;
-      var currentCategoryPosts = [];
-      ng.forEach($scope.posts, function(article){
-        ng.forEach(article.catId, function(oneOfCatId){
-          if (catID == oneOfCatId.cat_ID)
-          {
-            console.log('ok');
-            currentCategoryPosts.push(article);
-          }
-        })
-      });
-      $scope.posts = currentCategoryPosts;
-      $rootScope.$broadcast('changeCategory', $scope.posts);
-      $state.go('tab.chats');
-    }    
+    console.log(catID);
+    $localstorage.setObject('cat', catID);
+    $state.go('tab.chats');    
   };
 
   $scope.showCategories = function()
@@ -194,7 +171,33 @@ $rootScope.$on('$stateChangeStart',
 
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
-    $scope.posts = $localstorage.getObject('posts');
+    if ($localstorage.getObject('cat'))
+    {
+      ///////////////////
+      if ($localstorage.getObject('cat') == 'all')
+      {
+        $scope.posts = $localstorage.getObject('posts');                      
+      }
+      else
+      {
+        $scope.posts = $localstorage.getObject('posts');
+        var currentCategoryPosts = [];
+        ng.forEach($scope.posts, function(article){
+          ng.forEach(article.catId, function(oneOfCatId){
+            if ($localstorage.getObject('cat') == oneOfCatId.cat_ID)
+            {              
+              currentCategoryPosts.push(article);
+            }
+          })
+        });        
+        $scope.posts = currentCategoryPosts;                      
+      }
+      ///////////////////
+    }
+    else
+    {
+      $scope.posts = $localstorage.getObject('posts');
+    }
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -354,7 +357,9 @@ $rootScope.$on('$stateChangeStart',
   });
 
   $scope.$on('changeCategory', function(event, args){
+    console.warn('badaz avaz shodan alan ina umadan inja baradar', args);
     $scope.posts = args;
+    console.info('motaviate alane scope.posts:',$scope.posts);
   });
 
   $scope.openPopover = function($event) {
