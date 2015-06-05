@@ -500,7 +500,7 @@ $rootScope.$on('$stateChangeStart',
 
 })
 
-.controller('signupCtrl', function($rootScope, $scope, $ionicPopover, $http, checkUserAuth){
+.controller('signupCtrl', function($state, $ionicPopup, $localstorage, $rootScope, $scope, $ionicPopover, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
   
   $rootScope.$on('$stateChangeStart', 
@@ -534,6 +534,24 @@ $rootScope.$on('$stateChangeStart',
         cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
+          // delete extra information
+          localStorage.removeItem('posts');
+          localStorage.removeItem('userInfo');
+          //
+          $localstorage.setObject('userInfo', data[0]);
+          // show a message to user
+          
+           var alertPopup = $ionicPopup.alert({
+             title: '<span class="yekan">تبریک</span>',
+             template: '<span class="yekan">شما با موفقیت ثبت نام شدید</span>'
+           });
+           alertPopup.then(function(res) {
+
+             $state.go('tab.chats');
+           });
+         
+
+          //
           
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
