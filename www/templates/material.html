@@ -1,7 +1,7 @@
 <ion-view view-title="نظرات" class="yekan">
-<ion-nav-bar class="bar-assertive">
-	<ion-nav-back-button></ion-nav-back-button>     
-</ion-nav-bar>
+<ion-nav-buttons side="left">
+<a class="button button-icon icon ion-chevron-left" ng-click="goBack()"></a>          
+</ion-nav-buttons>
 	<ion-content>
 		<div class="list" style="direction:rtl">
 			<a class="item item-avatar" ng-repeat="comment in comments">				

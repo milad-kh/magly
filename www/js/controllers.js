@@ -7,6 +7,7 @@
 //
 $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
@@ -87,6 +88,7 @@ $rootScope.$on('$stateChangeStart',
   
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
@@ -197,6 +199,7 @@ $rootScope.$on('$stateChangeStart',
 
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
@@ -505,13 +508,15 @@ $rootScope.$on('$stateChangeStart',
   
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
-
+  $scope.$on('$ionicView.afterEnter', function(){    
+    $scope.info = {};    
+  });
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
-  $scope.info = {};
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo');
@@ -655,11 +660,13 @@ $rootScope.$on('$stateChangeStart',
   
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       $scope.popover.hide();
     });
 
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
 
@@ -936,7 +943,7 @@ $rootScope.$on('$stateChangeStart',
   }
 })
 
-.controller('commentCtrl', function($rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   var postID = $stateParams.postID;
   var posts = $localstorage.getObject('posts');
@@ -950,6 +957,12 @@ $rootScope.$on('$stateChangeStart',
   console.log($scope.comments);
 
   $scope.commentObject = {};
+  
+  $scope.goBack = function()
+  {
+    $state.go($rootScope.prevState,{chatId:7306});
+  }
+
   $scope.closeSendCommentForm = function()
   {
     $scope.modal.hide();
@@ -1000,6 +1013,7 @@ $rootScope.$on('$stateChangeStart',
   }
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
+      $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
