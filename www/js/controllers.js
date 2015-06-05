@@ -534,6 +534,8 @@ $rootScope.$on('$stateChangeStart',
         cache: false
         }).success(function(data,status,headers,config){          
           console.log(data);
+          if (data[1] == 'ok')
+          {
           // delete extra information
           localStorage.removeItem('posts');
           localStorage.removeItem('userInfo');
@@ -549,8 +551,18 @@ $rootScope.$on('$stateChangeStart',
 
              $state.go('tab.chats');
            });
-         
+         }
+         if (data[1] == 'repeat')
+         {
+           var alertPopup = $ionicPopup.alert({
+             title: '<span class="yekan">خطا</span>',
+             template: '<span class="yekan">کاربری با این ایمیل وجود دارد</span>'
+           });
 
+           alertPopup.then(function(res) {
+             $scope.info = {};
+           });
+         }
           //
           
         }).error(function(data,status,headers,config){
