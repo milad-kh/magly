@@ -32,7 +32,7 @@
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
     
-    <a class="tab-item" ng-click="sendLike(post.ID)">
+    <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
       <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>      
     </a>

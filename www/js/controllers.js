@@ -1,6 +1,6 @@
 (function(ng, _){
   ng
-  .module('starter.controllers', ['localStorage', 'ngCordova', 'user-auth'])
+  .module('starter.controllers', ['localStorage', 'user-auth'])
   
   .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
 
@@ -543,6 +543,11 @@ $rootScope.$on('$stateChangeStart',
 .controller('signupCtrl', function($state, $ionicPopup, $localstorage, $rootScope, $scope, $ionicPopover, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
   
+  $scope.backToHome = function()
+  {
+    $state.go('tab.chats');
+  }
+
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
@@ -618,7 +623,11 @@ $rootScope.$on('$stateChangeStart',
     $scope.posts = $localstorage.getObject('posts');
     $scope.info = $localstorage.getObject('userInfo');
   });
-  
+  $scope.ch = function(id)
+  {
+    console.log(id);
+    $state.go('tab.chat-detail', ({chatId:id}));
+  }
   $scope.goToComment = function(postID)
   {    
     $state.go('material',({postID:postID}))
