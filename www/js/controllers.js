@@ -76,6 +76,35 @@ $rootScope.$on('$stateChangeStart',
     $scope.popover = popover;
   });
   
+  $scope.goToComment = function(postID)
+  {    
+    $state.go('material',({postID:postID}))
+  }
+
+  $scope.sendLike = function(postID)
+  {
+    console.log('send like');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
+    }).success(function(data,status,headers,config){
+      console.log(data);
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+    var posts = $localstorage.getObject('posts');
+    console.log(posts);
+    ng.forEach(posts, function(post){
+      if (post.ID == postID)
+      {
+        post.isLike = ! post.isLike;
+      }
+    });
+  localStorage.removeItem('posts');
+  $localstorage.setObject('posts', posts);
+  $scope.posts = $localstorage.getObject('posts');     
+  };
+
   $scope.openPopover = function($event) {
     $scope.popover.show($event);
   };
@@ -586,8 +615,8 @@ $rootScope.$on('$stateChangeStart',
 .controller('searchCtrl', function($scope, $localstorage, $ionicPopup, $http, $state){
   
   $scope.$on('$ionicView.afterEnter', function(){  
-  
     $scope.posts = $localstorage.getObject('posts');
+    $scope.info = $localstorage.getObject('userInfo');
   });
   
   $scope.goToComment = function(postID)
@@ -628,6 +657,32 @@ $rootScope.$on('$stateChangeStart',
     };
                                               
   };
+  
+  $scope.sendLike = function(postID)
+  {
+    console.log('send like');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
+    }).success(function(data,status,headers,config){
+      console.log(data);
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+
+    var posts = $localstorage.getObject('posts');
+    console.log(posts);
+    ng.forEach(posts, function(post){
+      if (post.ID == postID)
+      {
+        post.isLike = !post.isLike;
+      }
+    });
+  localStorage.removeItem('posts');
+  $localstorage.setObject('posts', posts);
+  $scope.posts = $localstorage.getObject('posts');
+  }
+
   $scope.mailArticleToFriend = function(postID) {
   $scope.data = {}
   // An elaborate, custom popup
@@ -1019,6 +1074,43 @@ $rootScope.$on('$stateChangeStart',
   {    
     $state.go('material',({postID:postID}))
   }
+
+  $scope.sendLike = function(postID)
+  {
+    console.log('send like');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
+    }).success(function(data,status,headers,config){
+      console.log(data);
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+
+    var posts = $localstorage.getObject('posts');
+    console.log(posts);
+    ng.forEach(posts, function(post){
+      if (post.ID == postID)
+      {
+        post.isLike = !post.isLike;
+      }
+    });
+  localStorage.removeItem('posts');
+  $localstorage.setObject('posts', posts);
+  $scope.posts = $localstorage.getObject('posts'); 
+  //
+    $scope.favoritePosts = {};
+    var userInfo = $localstorage.getObject('userInfo');
+    var posts = $localstorage.getObject('posts');
+    $scope.FavoritePosts =[];
+    // list favorite posts
+    ng.forEach(posts, function(post){
+      if (post.isFavorite)
+        $scope.FavoritePosts.push(post);
+    });
+  //    
+  };
+
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;

@@ -1,7 +1,7 @@
 <ion-view view-title="بیشترین بازدید ها">
-<ion-nav-buttons side="right">
+<!-- <ion-nav-buttons side="right">
 <a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>          
-</ion-nav-buttons>
+</ion-nav-buttons> -->
 
   <ion-content>
     
@@ -22,11 +22,11 @@
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
     
-    <a class="tab-item">
+    <a class="tab-item" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup"></i>
     </a>
   
-    <a class="tab-item">
+    <a class="tab-item" ng-click="goToComment(post.ID)">
       <i class="icon ion-chatbox"></i>
     </a>
 

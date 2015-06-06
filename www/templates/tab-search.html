@@ -1,7 +1,7 @@
 <ion-view view-title="جستجو">
-<ion-nav-buttons side="right">
+<!-- <ion-nav-buttons side="right">
 <a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
-</ion-nav-buttons>
+</ion-nav-buttons> -->
   <ion-content>
   	<div class="list">
 	  <label class="item item-input">
@@ -27,8 +27,9 @@
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
     
-    <a class="tab-item">
-      <i class="icon ion-thumbsup"></i>
+    <a class="tab-item" ng-click="sendLike(post.ID)">
+      <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
+      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>
     </a>
   
     <a class="tab-item" ng-click="goToComment(post.ID)">
