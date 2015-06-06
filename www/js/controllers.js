@@ -171,7 +171,7 @@ $rootScope.$on('$stateChangeStart',
 
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
-    if ($localstorage.getObject('cat'))
+    if (!_.isEmpty($localstorage.getObject('cat')))
     {
       ///////////////////
       if ($localstorage.getObject('cat') == 'all')
@@ -180,6 +180,7 @@ $rootScope.$on('$stateChangeStart',
       }
       else
       {
+        console.warn('ye category');
         $scope.posts = $localstorage.getObject('posts');
         var currentCategoryPosts = [];
         ng.forEach($scope.posts, function(article){
@@ -190,12 +191,14 @@ $rootScope.$on('$stateChangeStart',
             }
           })
         });        
-        $scope.posts = currentCategoryPosts;                      
+        $scope.posts = currentCategoryPosts; 
+        console.warn('inaram bayad neshun bede', $scope.posts);                     
       }
       ///////////////////
     }
     else
     {
+      console.warn('alan bayad', $scope.posts);
       $scope.posts = $localstorage.getObject('posts');
     }
   });
