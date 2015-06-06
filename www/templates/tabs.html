@@ -23,7 +23,7 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- favorite posts -->
-  <ion-tab ng-if="1" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
+  <ion-tab ng-if="!showSignIn" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
     <ion-nav-view name="tab-favoriteList"></ion-nav-view>
   </ion-tab>
 
@@ -33,7 +33,7 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- profile posts -->
-  <ion-tab ng-if="1" icon-off="ion-ios-person-outline" icon-on="ion-ios-person-outline" href="#/tab/profile">
+  <ion-tab icon-off="ion-ios-person-outline" icon-on="ion-ios-person-outline" href="#/tab/profile">
     <ion-nav-view name="tab-profile"></ion-nav-view>
   </ion-tab>
 

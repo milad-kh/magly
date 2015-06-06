@@ -39,7 +39,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('tab', {
     url: "/tab",
     abstract: true,
-    templateUrl: "templates/tabs.html"
+    templateUrl: "templates/tabs.html",
+    controller: function(checkUserAuth, $scope, $rootScope)
+    {
+      $scope.$on('$ionicView.afterEnter', function(){
+        $scope.showSignIn = checkUserAuth.isUserLogin();
+      });
+      $rootScope.$on('signOutOfApp', function(args){
+        $scope.showSignIn = checkUserAuth.isUserLogin();        
+      });
+    }
+
   })
   
   .state('signin', {

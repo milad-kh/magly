@@ -2,10 +2,9 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth'])
   
-  .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover) {
-
+  .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
 //
-$rootScope.$on('$stateChangeStart', 
+  $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
@@ -930,7 +929,7 @@ $rootScope.$on('$stateChangeStart',
 
 })
 
-.controller('ProfileCtrl', function($ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
+.controller('ProfileCtrl', function($rootScope, $ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     $scope.info = $localstorage.getObject('userInfo');
@@ -991,6 +990,7 @@ $rootScope.$on('$stateChangeStart',
     localStorage.removeItem('userInfo'); 
     $scope.showSignIn = !$scope.showSignIn;
     $scope.info = {};
+    $rootScope.$broadcast('signOutOfApp',true);
   }
   $scope.info = $localstorage.getObject('userInfo');
   if (!$scope.info)
@@ -1260,7 +1260,6 @@ $rootScope.$on('$stateChangeStart',
       $state.go('home');
     }
 
-    // ionic.material.ink.displayEffect();
   //
 });
 
