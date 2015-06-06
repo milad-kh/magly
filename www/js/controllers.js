@@ -920,11 +920,11 @@ $rootScope.$on('$stateChangeStart',
 .controller('ProfileCtrl', function($ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
+    $scope.info = $localstorage.getObject('userInfo');
     console.log($scope.showSignIn);    
   });  
   
   
-
   $scope.showForgetPassModal = function()
   {
     $scope.data = {};
