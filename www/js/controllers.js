@@ -791,6 +791,10 @@ $rootScope.$on('$stateChangeStart',
 .controller('ChatDetailCtrl', function($rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   $scope.showSignIn = checkUserAuth.isUserLogin();
+  $scope.goBack = function()
+  {
+    $state.go('tab.chats');
+  }  
   $scope.goToComment = function()
   {    
     $state.go('material',({postID:$stateParams.chatId}))
@@ -1032,7 +1036,8 @@ $rootScope.$on('$stateChangeStart',
   
   $scope.goBack = function()
   {
-    $state.go($rootScope.prevState,{chatId:7306});
+    console.log('mot',$stateParams);
+    $state.go('tab.chat-detail',{chatId:$stateParams.postID});
   }
 
   $scope.closeSendCommentForm = function()
