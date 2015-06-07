@@ -397,18 +397,7 @@
     $scope.popover.show($event);    
   };
 
-  $scope.shareToSocial = function()
-  {
-    alert('start');
-    $cordovaSocialSharing
-    .share('message', 'subject', 'file', 'link')
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
-    alert('end');
-  }
+  
 
   $scope.navigateToState = function(state)
   {
