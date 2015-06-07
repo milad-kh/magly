@@ -8,10 +8,8 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
 .run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+  $ionicPlatform.ready(function($cordovaSocialSharing) {
 
-    $scope.shareToSocial = function()
-    {
       alert('start');
       $cordovaSocialSharing
       .share('message', 'subject', 'file', 'link')
@@ -21,7 +19,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         console.log('failed');
       });                
       alert('end');
-    }
+    
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
