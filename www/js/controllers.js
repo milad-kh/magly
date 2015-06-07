@@ -399,6 +399,7 @@
 
   $scope.shareToSocial = function()
   {
+    alert('start');
     $cordovaSocialSharing
     .share('message', 'subject', 'file', 'link')
     .then(function(result) {
@@ -406,6 +407,7 @@
     }, function(err) {
       console.log('failed');
     });                
+    alert('end');
   }
 
   $scope.navigateToState = function(state)
