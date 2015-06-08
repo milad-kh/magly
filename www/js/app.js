@@ -5,25 +5,21 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+/*.config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }
+])*/
+.run(function($ionicPlatform, $cordovaSocialSharing) {
+  $ionicPlatform.ready(function() {
 
-.run(function($ionicPlatform) {
-  $ionicPlatform.ready(function($cordovaSocialSharing) {
-
-      alert('start');
-      $cordovaSocialSharing
-      .share('message', 'subject', 'file', 'link')
-      .then(function(result) {
-        console.log('successfully shared');
-      }, function(err) {
-        console.log('failed');
-      });                
-      alert('end');
     
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      /////
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required

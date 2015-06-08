@@ -1,8 +1,22 @@
 (function(ng, _){
   ng
-  .module('starter.controllers', ['localStorage', 'user-auth'])
+  .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
-  .controller('DashCtrl', function($rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+  .controller('DashCtrl', function($cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+//
+
+//
+$scope.shareToSocial = function()
+{
+alert('share');
+  $cordovaSocialSharing
+  .share('message', 'title', null,'qqq')
+  .then(function(result) {
+    console.log('successfully shared');
+  }, function(err) {
+    console.log('failed');
+  });                
+}
 //
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
