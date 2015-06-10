@@ -3,20 +3,7 @@
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
   .controller('DashCtrl', function($cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
-//
 
-//
-$scope.shareToSocial = function()
-{
-alert('share');
-  $cordovaSocialSharing
-  .share('message', 'title', null,'qqq')
-  .then(function(result) {
-    console.log('successfully shared');
-  }, function(err) {
-    console.log('failed');
-  });                
-}
 //
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
@@ -210,7 +197,17 @@ alert('share');
 
 .controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');  
-
+  $scope.shareToSocial = function(postID)
+  {
+  alert('share');
+    $cordovaSocialSharing
+    .share('message', 'title', null,'qqq')
+    .then(function(result) {
+      console.log('successfully shared');
+    }, function(err) {
+      console.log('failed');
+    });                
+  }
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     if (!_.isEmpty($localstorage.getObject('cat')))
@@ -852,18 +849,6 @@ alert('share');
       console.log('Tapped!', res);
   });
 };
-
-  $scope.shareToSocial = function()
-  {
-
-    $cordovaSocialSharing
-    .shareViaTwitter('message', 'http://magly.ir/wp-content/uploads/2015/05/rear.jpg', 'http://magly.ir/%D8%B7%D8%B1%D8%A7%D8%AD%DB%8C-%D9%85%D8%AC%D8%AF%D8%AF-%D9%81%D8%B6%D8%A7%DB%8C-%D8%AF%D8%A7%D8%AE%D9%84%DB%8C-%D9%85%D8%AD%D9%84-%DA%A9%D8%A7%D8%B1-%D9%88-%D8%B2%D9%86%D8%AF%DA%AF%DB%8C%D8%8C-%D8%A8/')
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
-  }
 
   $scope.addToFavorite = function()
   {                                 

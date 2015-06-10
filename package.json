@@ -20,7 +20,12 @@
       "locator": "https://github.com/EddyVerbruggen/SocialSharing-phoneGap-Plugin.git",
       "id": "nl.x-services.plugins.socialsharing"
     },
-    "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git"
+    "https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git",
+    "https://github.com/apache/cordova-plugin-whitelist.git",
+    {
+      "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
+      "id": "cordova-plugin-whitelist"
+    }
   ],
   "cordovaPlatforms": [
     "android"

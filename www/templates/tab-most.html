@@ -19,7 +19,7 @@
       <div style="direction:rtl" class="yekan" ng-bind-html="post.summary+'...'">                      
       </div>
     </div>
-</div>
+  </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
     
     <a class="tab-item" ng-click="sendLike(post.ID)" ng-if="!showSignIn">
@@ -30,7 +30,7 @@
       <i class="icon ion-chatbox"></i>
     </a>
 
-    <a class="tab-item" ng-click="shareToSocial()">
+    <a class="tab-item" ng-click="shareToSocial(post.ID)">
           <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
         </a>
 <a class="tab-item" ng-if="!showSignIn" ng-click="addToFavorite(post.ID)">
