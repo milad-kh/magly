@@ -33,6 +33,7 @@
 
   $scope.showCategories = function()
     {
+      $scope.categories = $localstorage.getObject('categories');
       $http({
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'
@@ -50,6 +51,7 @@
         }        
         console.log(arr);
         $scope.categories = arr;
+        $localstorage.setObject('categories', $scope.categories);
         $scope.all = data[1];
         console.log($scope.all);
       }).error(function(data,status,headers,config){
@@ -62,7 +64,7 @@
 
 .controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
-  
+  $scope.posts = $localstorage.getObject('most');
   var
     message,
     title,
@@ -217,9 +219,10 @@
     }).success(function(data,status,headers,config){          
       console.log(data);
       $scope.posts = data;          
+      $localstorage.setObject('most', $scope.posts);
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
-    });    
+    });
 })
 
 .controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
@@ -892,7 +895,7 @@
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.goBack = function()
   {
-    $state.go('tab.chats');
+    $state.go($rootScope.prevState);
   }  
   $scope.goToComment = function()
   {    
