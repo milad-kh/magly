@@ -60,9 +60,36 @@
     $scope.showCategories();
 })
 
-.controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup){
+.controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
   
+  var
+    message,
+    title,
+    link
+  ;
+  $scope.shareToSocial = function(postID)
+  {
+    console.info(postID);
+    // fetch target post content
+    _.each($scope.posts, function(post){
+      if (post.ID == postID)
+      {
+        console.info('peida shod');
+        message = post.summary[0];
+        title = post.post_title;
+        link = post.guid;
+      }
+    });    
+    $cordovaSocialSharing
+    .share(message, title, null, link)
+    .then(function(result) {
+      console.log('successfully shared');
+    }, function(err) {
+      console.log('failed');
+    });                
+  };
+
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
@@ -196,18 +223,33 @@
 })
 
 .controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
-  console.warn('ChatsCtrl initialized');  
+  console.warn('ChatsCtrl initialized');
+  var
+    message,
+    title,
+    link
+  ;
   $scope.shareToSocial = function(postID)
   {
-  alert('share');
+    console.info(postID);
+    // fetch target post content
+    _.each($scope.posts, function(post){
+      if (post.ID == postID)
+      {
+        console.info('peida shod');
+        message = post.summary[0];
+        title = post.post_title;
+        link = post.guid;
+      }
+    });    
     $cordovaSocialSharing
-    .share('message', 'title', null,'qqq')
+    .share(message, title, null, link)
     .then(function(result) {
       console.log('successfully shared');
     }, function(err) {
       console.log('failed');
     });                
-  }
+  };
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     if (!_.isEmpty($localstorage.getObject('cat')))
@@ -618,8 +660,35 @@
         });      
     }
 })
-.controller('searchCtrl', function($scope, $localstorage, $ionicPopup, $http, $state){
+.controller('searchCtrl', function($scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
+  var
+    message,
+    title,
+    link
+  ;
+  $scope.shareToSocial = function(postID)
+  {
+    console.info(postID);
+    // fetch target post content
+    _.each($scope.posts, function(post){
+      if (post.ID == postID)
+      {
+        console.info('peida shod');
+        message = post.summary[0];
+        title = post.post_title;
+        link = post.guid;
+      }
+    });    
+    $cordovaSocialSharing
+    .share(message, title, null, link)
+    .then(function(result) {
+      console.log('successfully shared');
+    }, function(err) {
+      console.log('failed');
+    });                
+  };
+
   $scope.$on('$ionicView.afterEnter', function(){  
     $scope.posts = $localstorage.getObject('posts');
     $scope.info = $localstorage.getObject('userInfo');
@@ -791,6 +860,35 @@
 
 .controller('ChatDetailCtrl', function($rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
+  
+  var
+    message,
+    title,
+    link
+  ;
+  $scope.shareToSocial = function(postID)
+  {
+    console.info(postID);
+    // fetch target post content
+    _.each($scope.posts, function(post){
+      if (post.ID == postID)
+      {
+        console.info('peida shod');
+        message = post.summary[0];
+        title = post.post_title;
+        link = post.guid;
+      }
+    });    
+    $cordovaSocialSharing
+    .share(message, title, null, link)
+    .then(function(result) {
+      console.log('successfully shared');
+    }, function(err) {
+      console.log('failed');
+    });
+  };
+
+
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.goBack = function()
   {
@@ -1071,9 +1169,37 @@
   };  
 })
 
-.controller('favoriteCtrl' , function($ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage){
-  
+.controller('favoriteCtrl' , function($ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage, $cordovaSocialSharing){  
   console.warn('favoriteCtrl initialized');
+
+  var
+    message,
+    title,
+    link
+  ;
+  $scope.shareToSocial = function(postID)
+  {
+    console.info(postID);
+    // fetch target post content
+    _.each($scope.posts, function(post){
+      if (post.ID == postID)
+      {
+        console.info('peida shod');
+        message = post.summary[0];
+        title = post.post_title;
+        link = post.guid;
+      }
+    });    
+    $cordovaSocialSharing
+    .share(message, title, null, link)
+    .then(function(result) {
+      console.log('successfully shared');
+    }, function(err) {
+      console.log('failed');
+    });                
+  };
+
+
   $scope.goToComment = function(postID)
   {    
     $state.go('material',({postID:postID}))
