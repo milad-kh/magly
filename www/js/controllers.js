@@ -2,7 +2,7 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
-  .controller('DashCtrl', function($cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
 
 //
   $scope.$on('$ionicView.afterEnter', function(){
@@ -27,6 +27,7 @@
       alert('online');
     else
       alert('offline');
+    $cordovaToast.show('Here is a message', 'short', 'top');
   }
 
   console.warn('DashCtrl initialized');

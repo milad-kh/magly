@@ -28,7 +28,12 @@
     },
     "cordova-plugin-vibration",
     "cordova-plugin-dialogs",
-    "cordova-plugin-network-information"
+    "cordova-plugin-network-information",
+    "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
+    {
+      "locator": "https://github.com/EddyVerbruggen/Toast-PhoneGap-Plugin.git",
+      "id": "nl.x-services.plugins.toast"
+    }
   ],
   "cordovaPlatforms": [
     "android"

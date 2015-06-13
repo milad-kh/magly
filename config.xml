@@ -24,6 +24,10 @@
   <feature name="SocialSharing">
     <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
   </feature>
+  <!-- for Android -->
+  <feature name="Toast">
+    <param name="android-package" value="nl.xservices.plugins.Toast" />
+  </feature>
   <!-- <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" /> -->
   <platform name="android">
     <icon src="resources/android/icon/magly.png" density="ldpi"/>
