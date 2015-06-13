@@ -2,8 +2,26 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
-  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
-
+  .controller('DashCtrl', function($cordovaDeviceMotion, $cordovaDeviceOrientation, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+// watch Acceleration
+    var options = { frequency: 10000 };
+    var watch = $cordovaDeviceMotion.watchAcceleration(options);
+    watch.then(
+      null,
+      function(error) {
+      // An error occurred
+      },
+      function(result) {
+        var X = result.x;
+        var Y = result.y;
+        var Z = result.z;
+        var timeStamp = result.timestamp;
+        
+        alert('x:', X);
+        alert('y:', Y);
+        alert('z:', Z);
+    });
+    
 //
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
@@ -27,7 +45,32 @@
       alert('online');
     else
       alert('offline');
-    $cordovaToast.show('Here is a message', 'short', 'top');
+    $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');
+    //
+      
+    //
+    //
+    /*  var options = {
+      frequency: 3000,
+      filter: true     // if frequency is set, filter is ignored
+    }
+
+    var watch = $cordovaDeviceOrientation.watchHeading(options).then(
+      null,
+      function(error) {
+        // An error occurred
+      },
+      function(result) {   // updates constantly (depending on frequency value)
+        var magneticHeading = result.magneticHeading;
+        var trueHeading = result.trueHeading;
+        var accuracy = result.headingAccuracy;
+        var timeStamp = result.timestamp;
+        alert(magneticHeading);
+        alert(trueHeading);
+        alert(accuracy);
+        alert(timeStamp);
+      });*/
+    //
   }
 
   console.warn('DashCtrl initialized');
