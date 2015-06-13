@@ -1,14 +1,14 @@
 <ion-view>
 
-<ion-nav-buttons side="left">
+<!-- <ion-nav-buttons side="left">
   <a class="button button-icon icon ion-chevron-left" ng-click="backToHome()"></a>          
-</ion-nav-buttons>
+</ion-nav-buttons> -->
 <ion-content>
 
   <div class="list">
     <label class="item item-input item-floating-label" style="direction:rtl">
       <span class="input-label iraniansans" style="padding-right:16px">نام کامل</span>
-      <input type="text" class="iraniansans" placeholder="نام کامل" style="padding-right:16px" ng-model="info.fullName">
+      <input type="text" class="iraniansans" placeholder="نام کامل شما" style="padding-right:16px" ng-model="info.fullName">
     </label>
     
     <label class="item item-input item-floating-label" style="direction:rtl">
@@ -18,12 +18,12 @@
 
     <label class="item item-input item-floating-label">
       <span class="input-label">پست الکترونیک</span>
-      <input type="text" placeholder="پست الکترونیک" ng-model="info.email">
+      <input type="text" placeholder="Email" ng-model="info.email">
     </label>
 
     <label class="item item-input item-floating-label">
       <span class="input-label">کلمه ی عبور</span>
-      <input type="text" placeholder="کلمه ی عبور" ng-model="info.password">
+      <input type="text" placeholder="Passwors" ng-model="info.password">
     </label>
     
     <button class="iraniansans button button-block button-balanced" ng-click="signup()">

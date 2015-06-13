@@ -25,7 +25,10 @@
     {
       "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
       "id": "cordova-plugin-whitelist"
-    }
+    },
+    "cordova-plugin-vibration",
+    "cordova-plugin-dialogs",
+    "cordova-plugin-network-information"
   ],
   "cordovaPlatforms": [
     "android"

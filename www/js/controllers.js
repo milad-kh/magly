@@ -2,15 +2,32 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
-  .controller('DashCtrl', function($cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+  .controller('DashCtrl', function($cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
 
 //
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.categories = $localstorage.getObject('categories');
+    console.info('alan umad b cat');
+    $scope.showCategories();    
+  });
+
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
     })
+
+  $scope.vibrate = function()
+  {
+    console.info('umad inja');
+    $cordovaVibration.vibrate(200);
+    $cordovaDialogs.beep(1);
+    if ($cordovaNetwork.isOnline())
+      alert('online');
+    else
+      alert('offline');
+  }
 
   console.warn('DashCtrl initialized');
   // $scope.showSearchItem = true; 
@@ -32,34 +49,43 @@
   };
 
   $scope.showCategories = function()
-    {
-      $scope.categories = $localstorage.getObject('categories');
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'
-      }).success(function(data,status,headers,config){    
-        var arr = new Array();
-        var tempArr = new Array();                  
-        for(var i = 0;i<data[0].length;i++)
+  {
+  /*if(_.isEmpty($localstorage.getObject('categories')))
+  {
+    $ionicLoading.show({
+      template: '<span class="yekan">... در حال بارگذاری دسته ها</span>'
+    });    
+  }*/
+    
+    // $scope.categories = $localstorage.getObject('categories');
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/test.php'      
+    }).success(function(data,status,headers,config){    
+      var arr = new Array();
+      var tempArr = new Array();                  
+      for(var i = 0;i<data[0].length;i++)
+      {
+        tempArr.push(data[0][i]);
+        if(tempArr.length == 2)
         {
-          tempArr.push(data[0][i]);
-          if(tempArr.length == 2)
-          {
-            arr.push(tempArr);
-            tempArr = [];
-          }
-        }        
-        console.log(arr);
-        $scope.categories = arr;
-        $localstorage.setObject('categories', $scope.categories);
-        $scope.all = data[1];
-        console.log($scope.all);
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });
-    };
+          arr.push(tempArr);
+          tempArr = [];
+        }
+      }
+      console.log(arr);
+      $scope.categories = arr;
+      $localstorage.setObject('categories', $scope.categories);
+      $scope.all = data[1];
+      console.log($scope.all);
+      $ionicLoading.hide();
+    }).error(function(data,status,headers,config){
+      console.log('error in get categories');
+      $ionicLoading.hide();
+    });
+  };
 
-    $scope.showCategories();
+    //$scope.showCategories();
 })
 
 .controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
@@ -225,7 +251,7 @@
     });
 })
 
-.controller('ChatsCtrl', function($ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
@@ -489,6 +515,7 @@
           $scope.posts = kol;
           localStorage.removeItem('posts');
           $localstorage.setObject('posts', $scope.posts);          
+          $cordovaVibration.vibrate(200);
         }          
         else
         {           
@@ -562,6 +589,7 @@
         $localstorage.setObject('posts', data);
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
+        $ionicLoading.hide();
       });
     };
 
