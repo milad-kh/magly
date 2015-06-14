@@ -248,12 +248,6 @@
     title,
     link
   ;
-  $scope.do = function()
-  {
-    $cordovaVibration.vibrate(200);
-    $cordovaDialogs.beep(1);
-    $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');         
-  };
 
   $scope.shareToSocial = function(postID)
   {
