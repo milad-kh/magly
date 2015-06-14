@@ -2,27 +2,8 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
   
-  .controller('DashCtrl', function($cordovaDeviceMotion, $cordovaDeviceOrientation, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
-// watch Acceleration
-    var options = { frequency: 10000 };
-    var watch = $cordovaDeviceMotion.watchAcceleration(options);
-    watch.then(
-      null,
-      function(error) {
-      // An error occurred
-      },
-      function(result) {
-        var X = result.x;
-        var Y = result.y;
-        var Z = result.z;
-        var timeStamp = result.timestamp;
-        
-        alert('x:', X);
-        alert('y:', Y);
-        alert('z:', Z);
-    });
-    
-//
+  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+  
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
     console.info('alan umad b cat');
@@ -45,7 +26,7 @@
       alert('online');
     else
       alert('offline');
-    $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');
+    
     //
       
     //
@@ -94,17 +75,9 @@
 
   $scope.showCategories = function()
   {
-  /*if(_.isEmpty($localstorage.getObject('categories')))
-  {
-    $ionicLoading.show({
-      template: '<span class="yekan">... در حال بارگذاری دسته ها</span>'
-    });    
-  }*/
-    
-    // $scope.categories = $localstorage.getObject('categories');
     $http({
       method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/test.php'      
+      url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'      
     }).success(function(data,status,headers,config){    
       var arr = new Array();
       var tempArr = new Array();                  
@@ -295,7 +268,7 @@
     });
 })
 
-.controller('ChatsCtrl', function($cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, Chats, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
@@ -461,15 +434,6 @@
             post.isFavorite = !post.isFavorite;
         })
         $localstorage.setObject('posts',$scope.posts);
-        /*var alertPopup = $ionicPopup.alert({
-          title: 'نتیجه',
-          template: 'به لیست دلخواه اضافه شد'
-        });
-        // we can do more here
-        alertPopup.then(function(res) {
-          console.log('Thank you for not eating my delicious ice cream cone');
-        }); 
-      */
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -559,17 +523,14 @@
           $scope.posts = kol;
           localStorage.removeItem('posts');
           $localstorage.setObject('posts', $scope.posts);          
+
           $cordovaVibration.vibrate(200);
-        }          
+          $cordovaDialogs.beep(1);
+
+        }
         else
         {           
-         var alertPopup = $ionicPopup.alert({
-           title: '<span class="yekan">بانک اطلاعات</span>',
-           template: '<span class="yekan">مطلب جدیدی وجود ندارد</span>'
-         });
-         alertPopup.then(function(res) {
-           console.log('Thank you for not eating my delicious ice cream cone');
-         });
+          $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');         
          };        
           // also replace localStorage posts lists with new lists
         
