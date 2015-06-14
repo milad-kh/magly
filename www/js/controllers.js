@@ -1071,24 +1071,25 @@
       }
     ]
   });
-  /*myPopup.then(function(res) {
-    if ($scope.data.newPassword == '')
-      console.log('Tapped!', res);
-      console.warn('ye moshkeli hast');
-  });*/
+  
   }
 
   $scope.goToSignup = function()
   {
     $state.go('signup');
   }
+
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo'); 
+    localStorage.removeItem('categories'); 
+    localStorage.removeItem('most'); 
+    localStorage.removeItem('posts'); 
     $scope.showSignIn = !$scope.showSignIn;
     $scope.info = {};
     $rootScope.$broadcast('signOutOfApp',true);
   }
+
   $scope.info = $localstorage.getObject('userInfo');
   if (!$scope.info)
     $scope.info={};
