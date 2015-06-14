@@ -241,13 +241,20 @@
   }
 })
 
-.controller('ChatsCtrl', function($cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
     title,
     link
   ;
+  $scope.do = function()
+  {
+    $cordovaVibration.vibrate(200);
+    $cordovaDialogs.beep(1);
+    $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');         
+  };
+
   $scope.shareToSocial = function(postID)
   {
     console.info(postID);
