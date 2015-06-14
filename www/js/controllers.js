@@ -6,6 +6,14 @@
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
+    console.info('aaaa', $scope.categories);
+    if (_.isEmpty($scope.categories))
+      {
+        console.info('are amuuu khalie');
+            $ionicLoading.show({
+                template: '<span class=yekan>... بارگذاری دسته ها</span>'
+              });
+          }
     console.info('alan umad b cat');
     $scope.showCategories();    
   });
@@ -17,45 +25,7 @@
       $scope.popover.hide();
     })
 
-  $scope.vibrate = function()
-  {
-    console.info('umad inja');
-    $cordovaVibration.vibrate(200);
-    $cordovaDialogs.beep(1);
-    if ($cordovaNetwork.isOnline())
-      alert('online');
-    else
-      alert('offline');
-    
-    //
-      
-    //
-    //
-    /*  var options = {
-      frequency: 3000,
-      filter: true     // if frequency is set, filter is ignored
-    }
-
-    var watch = $cordovaDeviceOrientation.watchHeading(options).then(
-      null,
-      function(error) {
-        // An error occurred
-      },
-      function(result) {   // updates constantly (depending on frequency value)
-        var magneticHeading = result.magneticHeading;
-        var trueHeading = result.trueHeading;
-        var accuracy = result.headingAccuracy;
-        var timeStamp = result.timestamp;
-        alert(magneticHeading);
-        alert(trueHeading);
-        alert(accuracy);
-        alert(timeStamp);
-      });*/
-    //
-  }
-
   console.warn('DashCtrl initialized');
-  // $scope.showSearchItem = true; 
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
       scope: $scope
     }).then(function(popover) {
@@ -101,8 +71,6 @@
       $ionicLoading.hide();
     });
   };
-
-    //$scope.showCategories();
 })
 
 .controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
