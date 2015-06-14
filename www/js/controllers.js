@@ -9,12 +9,10 @@
     console.info('aaaa', $scope.categories);
     if (_.isEmpty($scope.categories))
       {
-        console.info('are amuuu khalie');
-            $ionicLoading.show({
-                template: '<span class=yekan>... بارگذاری دسته ها</span>'
-              });
-          }
-    console.info('alan umad b cat');
+      $ionicLoading.show({
+          template: '<span class=yekan>... بارگذاری دسته ها</span>'
+        });
+        }
     $scope.showCategories();    
   });
 
@@ -73,9 +71,20 @@
   };
 })
 
-.controller('MostCtrl', function($localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
+.controller('MostCtrl', function($ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
-  $scope.posts = $localstorage.getObject('most');
+  
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.posts = $localstorage.getObject('most');    
+    if (_.isEmpty($scope.posts))
+    {    
+      $ionicLoading.show({
+        template:'<span class="yekan">... در حال بارگذاری</span>'
+      });
+    }
+    $scope.fillMostPosts();    
+  });
+
   var
     message,
     title,
@@ -171,15 +180,6 @@
             post.isFavorite = !post.isFavorite;
         })
         $localstorage.setObject('posts',$scope.posts);
-        /*var alertPopup = $ionicPopup.alert({
-          title: 'نتیجه',
-          template: 'به لیست دلخواه اضافه شد'
-        });
-        // we can do more here
-        alertPopup.then(function(res) {
-          console.log('Thank you for not eating my delicious ice cream cone');
-        }); 
-      */
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -223,7 +223,9 @@
   });
 };
   var userInfo = $localstorage.getObject('userInfo');
-  $http({
+  $scope.fillMostPosts = function()
+  {
+    $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/mostVisitedPosts.php?userID='+userInfo.ID,
       cache: false
@@ -231,9 +233,12 @@
       console.log(data);
       $scope.posts = data;          
       $localstorage.setObject('most', $scope.posts);
+      $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
+      $ionicLoading.hide();      
     });
+  }
 })
 
 .controller('ChatsCtrl', function($cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
