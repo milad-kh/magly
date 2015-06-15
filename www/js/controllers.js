@@ -593,7 +593,7 @@
 
 })
 
-.controller('signupCtrl', function($state, $ionicPopup, $localstorage, $rootScope, $scope, $ionicPopover, $http, checkUserAuth){
+.controller('signupCtrl', function($ionicLoading, $state, $ionicPopup, $localstorage, $rootScope, $scope, $ionicPopover, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
   
   $scope.backToHome = function()
@@ -627,6 +627,9 @@
   };
   $scope.signup = function()
     {
+      $ionicLoading.show({
+        template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+      });
       console.log($scope.info);    
       $http({
         method: 'GET',
@@ -635,7 +638,8 @@
         }).success(function(data,status,headers,config){          
           console.log(data);
           if (data[1] == 'ok')
-          {
+          {            
+          $ionicLoading.hide();  
           // delete extra information
           localStorage.removeItem('posts');
           localStorage.removeItem('userInfo');
@@ -654,6 +658,7 @@
          }
          if (data[1] == 'repeat')
          {
+          $ionicLoading.hide();           
            var alertPopup = $ionicPopup.alert({
              title: '<span class="yekan">خطا</span>',
              template: '<span class="yekan">کاربری با این ایمیل وجود دارد</span>'
@@ -1027,7 +1032,8 @@
 
 })
 
-.controller('ProfileCtrl', function($rootScope, $ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
+.controller('ProfileCtrl', function($ionicLoading, $rootScope, $ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
+  
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     $scope.info = $localstorage.getObject('userInfo');
@@ -1041,9 +1047,9 @@
     var info = $localstorage.getObject('userInfo');
     console.log(info);
     var myPopup = $ionicPopup.show({
-    template: '<div><input ng-model="data.currentPassword" style="direction:rtl" type="password" class="yekan" placeHolder="کلمه عبور فعلی"></div><div><input type="password" autofocus ng-model="data.newPassword" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" autofocus ng-model="data.confirmPassword"></div>',
+    template: '<div><input autofocus type="password" ng-model="data.newPassword" class="yekan" style="direction:rtl" placeHolder="کلمه عبور جدید"></div><div><input style="direction:rtl" class="yekan" type="password" placeHolder="تکرار کلمه عبور" ng-model="data.confirmPassword"></div>',
     title: '<span class=yekan>تعویض کلمه عبور</span>',
-    // subTitle: 'your friend email',
+    
     scope: $scope,
     buttons: [
       { text: '<span class=yekan>بستن</span>' },
@@ -1051,6 +1057,9 @@
         text: '<span class=yekan><b>عوض کن</b></span>',
         type: 'button-positive',
         onTap: function(e) {
+          $ionicLoading.show({
+            template:'<span class="yekan">...لطفا شکیبا باشید</span>'
+          });
           if ($scope.data.newPassword != '')
           {
             console.log($scope.data);
@@ -1059,9 +1068,24 @@
               method: 'GET',
               url:'http://www.magly.ir/HybridAppAPI/updatePassword.php?newPassword=' + encodeURIComponent($scope.data.newPassword) + '&userID=' + info.ID
             }).success(function(data,status,headers,config){
+              $ionicLoading.hide();              
+               var alertPopup = $ionicPopup.alert({
+                 title:'<span class="yekan">پروفایل</span>',
+                 template: '<span class="yekan" >کلمه عبور با موفقیت به روز شد.</span>'
+               });
+               alertPopup.then(function(res) {
+                 console.log('Thank you for not eating my delicious ice cream cone');
+               });              
               console.log(data);
             }).error(function(data,status,headers,config){
-              console.log('error in update!');
+              var alertPopup = $ionicPopup.alert({
+                // title: 'Don\'t eat that!',
+                template: '<span class="yekan">خطا در اتصال به اینترنت</span>'
+              });
+              alertPopup.then(function(res) {
+                console.log('Thank you for not eating my delicious ice cream cone');
+              });   
+
             });                            
           }
           else
@@ -1099,6 +1123,9 @@
   // console
   $scope.signin = function()
   {      
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
     console.log($scope);
     $http({
         method: 'GET',
@@ -1108,12 +1135,30 @@
         console.log(data);
         if(data.status == 'ok')
         {
+          $ionicLoading.hide();
           $localstorage.setObject('userInfo',data.info);  
           $scope.showSignIn = !$scope.showSignIn;        
           $state.go('tab.chats');
         }
+        else
+        {
+          $ionicLoading.hide();
+          var alertPopup = $ionicPopup.alert({
+            // title: 'Don\'t eat that!',
+            template: '<span class="yekan">نام کاربری یا کلمه ی عبور اشتباه است</span>'
+          });
+          alertPopup.then(function(res) {
+            console.log('Thank you for not eating my delicious ice cream cone');
+          });
+        }
       }).error(function(data,status,headers,config){
-        console.log('error in get categories');
+          var alertPopup = $ionicPopup.alert({
+            // title: 'Don\'t eat that!',
+            template: '<span class="yekan">خطا در اتصال به اینترنت</span>'
+          });
+          alertPopup.then(function(res) {
+            console.log('Thank you for not eating my delicious ice cream cone');
+          });                
       });
   }
 })
