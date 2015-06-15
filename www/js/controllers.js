@@ -311,6 +311,8 @@ $scope.ch = function(id)
       console.warn('alan bayad', $scope.posts);
       $scope.posts = $localstorage.getObject('posts');
     }
+    if(_.isEmpty($localstorage.getObject('posts')))
+      $scope.doesLocalHaveData();
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -603,9 +605,7 @@ $scope.ch = function(id)
           $ionicLoading.hide();          
         }
 
-    };
-
-    $scope.doesLocalHaveData();      
+    };      
 
 })
 
