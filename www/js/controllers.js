@@ -71,7 +71,7 @@
   };
 })
 
-.controller('MostCtrl', function($ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
+.controller('MostCtrl', function($state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
   
   $scope.$on('$ionicView.afterEnter', function(){
@@ -222,6 +222,11 @@
       console.log('Tapped!', res);
   });
 };
+$scope.ch = function(id)
+  {
+    console.log(id);
+    $state.go('tab.chat-detail', ({chatId:id}));
+  }
   var userInfo = $localstorage.getObject('userInfo');
   $scope.fillMostPosts = function()
   {
@@ -873,7 +878,7 @@
     }
 })
 
-.controller('ChatDetailCtrl', function($rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
+.controller('ChatDetailCtrl', function($ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   
   var
@@ -933,8 +938,7 @@
   // An elaborate, custom popup
   var myPopup = $ionicPopup.show({
     template: '<input type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    // subTitle: 'your friend email',
+    title: '<span class=yekan>ایمیل را وارد کنید</span>',    
     scope: $scope,
     buttons: [
       { text: '<span class=yekan>لغو</span>' },
@@ -1006,8 +1010,38 @@
   $scope.posts = $localstorage.getObject('posts');
   angular.forEach($scope.posts, function(post){
     if (post.ID == $stateParams.chatId)
+    {
+      $ionicLoading.hide();
       $scope.targetPost = post;
+    }    
   });
+  
+  if (_.isEmpty($scope.targetPost))    
+  {
+    $ionicLoading.show({
+      template:'<span class="yekan">...در حال دریافت مقاله ی مورد نظر</span>'
+    });
+    // here we get a post that does not in our list ($scope.posts)
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/getOnePost.php?postID='+$stateParams.chatId
+    }).success(function(data,status,headers,config){ 
+        console.info('inam yeki jadid', data);
+        $ionicLoading.hide();
+        $scope.targetPost = data;
+      // re-make scope.posts and localStorage
+        var kol = _.union($scope.posts,data);                   
+        $scope.posts = kol;
+        console.log(kol);
+        localStorage.removeItem('posts');
+        $localstorage.setObject('posts',$scope.posts);
+      //                 
+      console.log('target posts got :P');            
+      console.log(data);            
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+    });
+  }
 
   // sample related post
   $http({
@@ -1247,6 +1281,11 @@
     title,
     link
   ;
+  $scope.ch = function(id)
+  {
+    console.log(id);
+    $state.go('tab.chat-detail', ({chatId:id}));
+  }
   $scope.shareToSocial = function(postID)
   {
     console.info(postID);
