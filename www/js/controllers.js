@@ -1211,7 +1211,7 @@ $scope.ch = function(id)
   }
 })
 
-.controller('commentCtrl', function($state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   var postID = $stateParams.postID;
   var posts = $localstorage.getObject('posts');
@@ -1241,6 +1241,9 @@ $scope.ch = function(id)
   {
     $scope.modal.hide();
     console.log('sent comment...');
+    $ionicLoading.show({
+      template:'<span><div class="yekan">در حال ارسال نظر</div><div class="yekan">لطفا شکیبا باشید</div></span>'
+    });
     var randomInt = new Date().getTime();
     $http({
       method: 'GET',
@@ -1256,7 +1259,7 @@ $scope.ch = function(id)
         }
       });
       $localstorage.setObject('posts',$scope.posts);
-      //$scope.posts = $localstorage.getObject('posts');
+      $ionicLoading.hide();      
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
