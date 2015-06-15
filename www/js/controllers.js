@@ -907,7 +907,7 @@
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.goBack = function()
   {
-    $state.go($rootScope.prevState);
+    $state.go('tab.chats');
   }  
   $scope.goToComment = function()
   {    
@@ -1055,44 +1055,57 @@
       { text: '<span class=yekan>بستن</span>' },
       {
         text: '<span class=yekan><b>عوض کن</b></span>',
-        type: 'button-positive',
+        type: 'button-positive',        
         onTap: function(e) {
-          $ionicLoading.show({
-            template:'<span class="yekan">...لطفا شکیبا باشید</span>'
-          });
-          if ($scope.data.newPassword != '')
+      if ($scope.data.newPassword == $scope.data.confirmPassword)
           {
-            console.log($scope.data);
-            console.log(info);
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/updatePassword.php?newPassword=' + encodeURIComponent($scope.data.newPassword) + '&userID=' + info.ID
-            }).success(function(data,status,headers,config){
-              $ionicLoading.hide();              
-               var alertPopup = $ionicPopup.alert({
-                 title:'<span class="yekan">پروفایل</span>',
-                 template: '<span class="yekan" >کلمه عبور با موفقیت به روز شد.</span>'
-               });
-               alertPopup.then(function(res) {
-                 console.log('Thank you for not eating my delicious ice cream cone');
-               });              
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              var alertPopup = $ionicPopup.alert({
-                // title: 'Don\'t eat that!',
-                template: '<span class="yekan">خطا در اتصال به اینترنت</span>'
-              });
-              alertPopup.then(function(res) {
-                console.log('Thank you for not eating my delicious ice cream cone');
-              });   
-
-            });                            
-          }
-          else
-          {
-            console.warn('ye moshkeli hast');
-          }
+            $ionicLoading.show({
+                      template:'<span class="yekan">...لطفا شکیبا باشید</span>'
+                    });
+                    if ($scope.data.newPassword != '')
+                    {
+                      console.log($scope.data);
+                      console.log(info);
+                      $http({
+                        method: 'GET',
+                        url:'http://www.magly.ir/HybridAppAPI/updatePassword.php?newPassword=' + encodeURIComponent($scope.data.newPassword) + '&userID=' + info.ID
+                      }).success(function(data,status,headers,config){
+                        $ionicLoading.hide();              
+                         var alertPopup = $ionicPopup.alert({
+                           title:'<span class="yekan">پروفایل</span>',
+                           template: '<span class="yekan" >کلمه عبور با موفقیت به روز شد.</span>'
+                         });
+                         alertPopup.then(function(res) {
+                           console.log('Thank you for not eating my delicious ice cream cone');
+                         });                            
+                      }).error(function(data,status,headers,config){
+                        var alertPopup = $ionicPopup.alert({
+                          // title: 'Don\'t eat that!',
+                          template: '<span class="yekan">خطا در اتصال به اینترنت</span>'
+                        });
+                        alertPopup.then(function(res) {
+                          console.log('Thank you for not eating my delicious ice cream cone');
+                        });   
+          
+                      });                            
+                    }
+                    else
+                    {
+                      console.warn('ye moshkeli hast');
+                    }
+                    }
+                    else
+                    {
+                      var alertPopup = $ionicPopup.alert({
+                       title: '<span class="yekan">خطا</span>',
+                       template: '<span class="yekan">ورودی ها یکسان نیستند</span>'
+                     });
+                     alertPopup.then(function(res) {
+                       console.log('Thank you for not eating my delicious ice cream cone');
+                     });
+                    }
         }
+
       }
     ]
   });
@@ -1110,6 +1123,7 @@
     localStorage.removeItem('categories'); 
     localStorage.removeItem('most'); 
     localStorage.removeItem('posts'); 
+    localStorage.removeItem('cat'); 
     $scope.showSignIn = !$scope.showSignIn;
     $scope.info = {};
     $rootScope.$broadcast('signOutOfApp',true);
