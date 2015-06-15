@@ -4,7 +4,7 @@
 </ion-nav-buttons> -->
  <ion-content>
 <!-- post -->
-<div ng-repeat="post in FavoritePosts | filter:query track by post.ID">
+<div ng-repeat="post in FavoritePosts | filter:query track by $index">
   <div class="card usualPostContainer">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar usualPostContainer" style="padding-left:20px">

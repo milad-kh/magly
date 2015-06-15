@@ -160,6 +160,9 @@
 
    $scope.addToFavorite = function(postID)
   {
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
     if (_.isEmpty($localstorage.getObject('userInfo')))
     {
       alert('شما لاگین نیستید');
@@ -180,6 +183,7 @@
             post.isFavorite = !post.isFavorite;
         })
         $localstorage.setObject('posts',$scope.posts);
+        $ionicLoading.hide();
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -246,7 +250,7 @@ $scope.ch = function(id)
   }
 })
 
-.controller('ChatsCtrl', function($cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
@@ -393,6 +397,12 @@ $scope.ch = function(id)
 
     $scope.addToFavorite = function(postID)
   {
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
     if (_.isEmpty($localstorage.getObject('userInfo')))
     {
       alert('شما لاگین نیستید');
@@ -413,6 +423,7 @@ $scope.ch = function(id)
             post.isFavorite = !post.isFavorite;
         })
         $localstorage.setObject('posts',$scope.posts);
+        $ionicLoading.hide();
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -680,7 +691,7 @@ $scope.ch = function(id)
         });      
     }
 })
-.controller('searchCtrl', function($scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
+.controller('searchCtrl', function($ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
   var
     message,
@@ -725,6 +736,9 @@ $scope.ch = function(id)
 
   $scope.addToFavorite = function(postID)
   {
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
     if (_.isEmpty($localstorage.getObject('userInfo')))
     {
       alert('شما لاگین نیستید');
@@ -750,6 +764,7 @@ $scope.ch = function(id)
         $localstorage.setObject('posts', posts);
         var posts = $localstorage.getObject('posts');
         $scope.posts = posts;
+        $ionicLoading.hide();
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -817,7 +832,7 @@ $scope.ch = function(id)
   });
 };    
 })
-.controller('signinCtrl', function($rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
+.controller('signinCtrl', function($ionicLoading, $rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
   console.warn('signinCtrl initialized');
   
   $rootScope.$on('$stateChangeStart', 
@@ -968,7 +983,11 @@ $scope.ch = function(id)
 };
 
   $scope.addToFavorite = function()
-  {                                 
+  {            
+  $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });      
+
     if (_.isEmpty($localstorage.getObject('userInfo')))
     {
       alert('شما لاگین نیستید');
@@ -989,6 +1008,7 @@ $scope.ch = function(id)
           if(post.ID == $stateParams.chatId)
             post.isFavorite = !post.isFavorite;
         })
+        
         $localstorage.setObject('posts',$scope.posts);
         //
         var alertPopup = $ionicPopup.alert({
@@ -999,7 +1019,7 @@ $scope.ch = function(id)
         alertPopup.then(function(res) {
           console.log('Thank you for not eating my delicious ice cream cone');
         }); 
-
+        $ionicLoading.hide();
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
@@ -1276,7 +1296,7 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl' , function($ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage, $cordovaSocialSharing){  
+.controller('favoriteCtrl' , function($ionicLoading, $ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage, $cordovaSocialSharing){  
   console.warn('favoriteCtrl initialized');
 
   var
@@ -1404,6 +1424,9 @@ $scope.ch = function(id)
 
    $scope.addToFavorite = function(postID)
   {
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
     if (_.isEmpty($localstorage.getObject('userInfo')))
     {
       alert('شما لاگین نیستید');
@@ -1443,6 +1466,7 @@ $scope.ch = function(id)
           console.log('Thank you for not eating my delicious ice cream cone');
         }); 
       */
+      $ionicLoading.hide();
       }).error(function(data,status,headers,config){
         console.log('error in get categories');
       });                     
