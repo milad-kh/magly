@@ -35,7 +35,8 @@
       "id": "nl.x-services.plugins.toast"
     },
     "cordova-plugin-device-orientation",
-    "cordova-plugin-device-motion"
+    "cordova-plugin-device-motion",
+    "cordova-plugin-splashscreen"
   ],
   "cordovaPlatforms": [
     "android"
