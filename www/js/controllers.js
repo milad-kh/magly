@@ -308,11 +308,16 @@ $scope.ch = function(id)
     }
     else
     {
+      $scope.posts = $localstorage.getObject('posts');
       console.warn('alan bayad', $scope.posts);
       $scope.posts = $localstorage.getObject('posts');
     }
     if(_.isEmpty($localstorage.getObject('posts')))
       $scope.doesLocalHaveData();
+    else
+    {
+      $ionicLoading.hide();
+    }
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -570,6 +575,9 @@ $scope.ch = function(id)
   }
   $scope.fillLocalWithData = function()
     {
+      $ionicLoading.show({
+        template:'<span class="yekan">... در حال بارگذاری مطالب</span>'
+      });
       var userInfo = $localstorage.getObject('userInfo');
       console.log('userInfo:', userInfo);
       $scope.posts = [];
@@ -601,8 +609,7 @@ $scope.ch = function(id)
       else
         {
           $scope.posts = sign;
-          console.log($scope.posts);
-          $ionicLoading.hide();          
+          console.log($scope.posts);                
         }
 
     };      
