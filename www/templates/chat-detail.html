@@ -10,11 +10,17 @@
 </ion-nav-buttons>
   <ion-content class="padding">    
 
-    <div class="list card">
+    <div>
      
-    <div class="item item-avatar">
-      <h2 class="yekan" style="direction:rtl;overflow:visible;white-space:normal" ng-bind="targetPost.post_title"></h2>
+    <div class="item item-avatar" style="padding-left:20px;border:0px">
+    <p style="direction:rtl">
+<i class="icon ion-flag" style="color:lightseagreen"></i>
+    &nbsp;
+<span class="yekan" style="direction:rtl;overflow:visible;white-space:normal;font-size:medium;color:black" ng-bind="targetPost.post_title"></span>
+</p>
       <p class="yekan" style="direction:rtl">
+      <i class="icon ion-ios-pulse" style="color:lightseagreen"></i>
+      &nbsp;
       <span ng-repeat="cat in targetPost.catId">
         {{cat.cat_name}}
         <span ng-if="!$last"> - </span>
@@ -22,11 +28,11 @@
       </p>
     </div>
 
-     <div class="item item-thumbnail"> 
+     <div class="item item-thumbnail" style="padding:0px;border:0px"> 
      <img class="full-image" src="{{targetPost.thumbnail}}">     
      </div> 
      
-     <div class="item item-body">
+     <div class="item item-body" style="border:0px">
       <div style="direction:rtl" class="yekan" ng-bind-html="targetPost.post_content">        
                  
       </div>    
@@ -59,7 +65,7 @@
          <!-- similar posts -->
          <div class="list">
             <p class="yekan" style="direction:rtl">مطالب مرتبط</p>
-            <a class="item item-avatar-right" ui-sref="tab.chat-detail({chatId:post.ID})" ng-repeat="post in relatedPosts">
+            <a class="item item-avatar-right" ui-sref="tab.chat-detail({chatId:post.ID})" ng-repeat="post in relatedPosts" style="border:0px">
               <img ng-src="{{post.thumbnail}}">
               <h2 style="direction:rtl" class="yekan" ng-bind="post.post_title"></h2>
               <p style="direction:rtl" class="yekan" ng-bind="post.summary"></p>
