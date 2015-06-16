@@ -45,17 +45,20 @@
     <icon src="resources/android/icon/magly.png" density="xhdpi"/>
     <icon src="resources/android/icon/magly.png" density="xxhdpi"/>
     <icon src="resources/android/icon/magly.png" density="xxxhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-ldpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-mdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-hdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-xhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-xxhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="land-xxxhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-ldpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-mdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-hdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-xhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-xxhdpi"/>
-    <splash src="resources/android/splash/splash.jpg" density="port-xxxhdpi"/>
+
+    <splash src="resources/android/splash/landscape.png" density="land-ldpi"/>
+    <splash src="resources/android/splash/landscape.png" density="land-mdpi"/>
+    <splash src="resources/android/splash/landscape.png" density="land-hdpi"/>
+    <splash src="resources/android/splash/landscape.png" density="land-xhdpi"/>
+    <splash src="resources/android/splash/landscape.png" density="land-xxhdpi"/>
+    <splash src="resources/android/splash/landscape.png" density="land-xxxhdpi"/>
+    
+    <splash src="resources/android/splash/portrait.png" density="port-ldpi"/>
+    <splash src="resources/android/splash/portrait.png" density="port-mdpi"/>
+    <splash src="resources/android/splash/portrait.png" density="port-hdpi"/>
+    <splash src="resources/android/splash/portrait.png" density="port-xhdpi"/>
+    <splash src="resources/android/splash/portrait.png" density="port-xxhdpi"/>
+    <splash src="resources/android/splash/portrait.png" density="port-xxxhdpi"/>
+
   </platform>
 </widget>
