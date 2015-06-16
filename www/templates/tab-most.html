@@ -5,22 +5,34 @@
 
   <ion-content>
     
-   <div class="card usualPostContainer" ng-repeat="post in posts">
+   <div ng-repeat="post in posts">
      <div ng-click="ch(post.ID)">
-    <div class="item item-avatar usualPostContainer">
-      <h2 class="yekan usualPostContainer" style="direction:rtl;overflow:visible;white-space:normal" ng-bind="post.post_title"></h2>
+    <div class="item item-avatar" style="padding-left:20px;border:0px">
+      <p style="direction:rtl">
+    <i class="icon ion-flag" style="color:lightseagreen"></i>
+    &nbsp;
+      <span class="yekan" style="direction:rtl;overflow:visible;white-space:normal;font-size:medium;color:black" ng-bind="post.post_title"></span>
+      </p>
+      <p class="yekan" style="direction:rtl">
+      <i class="icon ion-ios-pulse" style="color:lightseagreen"></i>
+      &nbsp;
+      <span ng-repeat="cat in post.catId">
+        {{cat.cat_name}}
+        <span ng-if="!$last"> - </span>
+      </span>
+      </p>
     </div>
 
-     <div class="item item-thumbnail usualPostContainerImg"> 
+     <div class="item item-thumbnail" style="padding:0px;border:0px"> 
      <img class="full-image" src="{{post.thumbnail}}">     
      </div> 
      
-    <div class="item item-body usualPostContainer">
+    <div class="item item-body" style="border:0px">
       <div style="direction:rtl" class="yekan" ng-bind-html="post.summary+'...'">                      
       </div>
     </div>
   </div>
-   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
+   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:0px">
     
     <a class="tab-item" ng-click="sendLike(post.ID)" ng-if="!showSignIn">
       <i class="icon ion-thumbsup"></i>
@@ -43,6 +55,7 @@
    </div> 
 
    </div>
-        
+       <div style="height:1px;background-color:black"></div>
+
   </ion-content>
 </ion-view>
