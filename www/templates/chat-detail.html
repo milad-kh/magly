@@ -14,6 +14,12 @@
      
     <div class="item item-avatar">
       <h2 class="yekan" style="direction:rtl;overflow:visible;white-space:normal" ng-bind="targetPost.post_title"></h2>
+      <p class="yekan" style="direction:rtl">
+      <span ng-repeat="cat in targetPost.catId">
+        {{cat.cat_name}}
+        <span ng-if="!$last"> - </span>
+      </span>
+      </p>
     </div>
 
      <div class="item item-thumbnail"> 

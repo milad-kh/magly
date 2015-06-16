@@ -1041,7 +1041,7 @@ $scope.ch = function(id)
       $scope.targetPost = post;
     }    
   });
-  
+  console.info('alan', $scope.targetPost);
   if (_.isEmpty($scope.targetPost))    
   {
     $ionicLoading.show({
