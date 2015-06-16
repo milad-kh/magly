@@ -36,7 +36,8 @@
     },
     "cordova-plugin-device-orientation",
     "cordova-plugin-device-motion",
-    "cordova-plugin-splashscreen"
+    "cordova-plugin-splashscreen",
+    "http://github.com/apache/cordova-plugin-whitelist.git"
   ],
   "cordovaPlatforms": [
     "android"
