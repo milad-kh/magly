@@ -6,7 +6,6 @@
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
-    console.info('aaaa', $scope.categories);
     if (_.isEmpty($scope.categories))
       {
       $ionicLoading.show({
@@ -196,7 +195,7 @@
 
   // An elaborate, custom popup
   var myPopup = $ionicPopup.show({
-    template: '<input type="text" autofocus ng-model="data.email">',
+    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
     title: '<span class=yekan>ایمیل را وارد کنید</span>',
     // subTitle: 'your friend email',
     scope: $scope,
@@ -521,7 +520,7 @@ $scope.ch = function(id)
           localStorage.removeItem('posts');
           $localstorage.setObject('posts', $scope.posts);          
 
-          $cordovaVibration.vibrate(200);
+          $cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
 
         }
@@ -959,7 +958,7 @@ $scope.ch = function(id)
 
   // An elaborate, custom popup
   var myPopup = $ionicPopup.show({
-    template: '<input type="text" autofocus ng-model="data.email">',
+    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
     title: '<span class=yekan>ایمیل را وارد کنید</span>',    
     scope: $scope,
     buttons: [
@@ -1398,7 +1397,7 @@ $scope.ch = function(id)
 
   // An elaborate, custom popup
   var myPopup = $ionicPopup.show({
-    template: '<input type="text" autofocus ng-model="data.email">',
+    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
     title: '<span class=yekan>ایمیل را وارد کنید</span>',
     // subTitle: 'your friend email',
     scope: $scope,
