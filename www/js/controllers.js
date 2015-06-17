@@ -1096,8 +1096,7 @@ $scope.ch = function(id)
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
-    $scope.info = $localstorage.getObject('userInfo');
-    console.log($scope.showSignIn);    
+    $scope.info = $localstorage.getObject('userInfo')[0];    
   });  
   
   
