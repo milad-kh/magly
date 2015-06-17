@@ -1310,7 +1310,6 @@ $scope.ch = function(id)
    // get user favorite posts
   $scope.getUserFavoriteList = function()
   {
-  // $scope.info = {};  
   $scope.info = $localstorage.getObject('userInfo') || {};  
   $http({
       method: 'GET',
@@ -1325,7 +1324,9 @@ $scope.ch = function(id)
     });
   // 
   }
+
   $scope.getUserFavoriteList();
+
   $scope.$on('$ionicView.afterEnter', function(){
     console.info('huuuuuuuuhuuuuuuuuuu');
 
@@ -1340,6 +1341,7 @@ $scope.ch = function(id)
     $scope.getUserFavoriteList();
     console.log('inaro dus dare ha:', $scope.favoritePosts);
   });
+
   var
     message,
     title,
@@ -1351,6 +1353,7 @@ $scope.ch = function(id)
     console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
   }
+
   $scope.shareToSocial = function(postID)
   {
     console.info(postID);
@@ -1451,13 +1454,14 @@ $scope.ch = function(id)
       }
     ]
   });
+
   myPopup.then(function(res) {
     if ($scope.data.email == '')
       console.log('Tapped!', res);
   });
 };
 
-   $scope.addToFavorite = function(postID)
+  $scope.addToFavorite = function(postID)
   {
     $ionicLoading.show({
       template:'<span class="yekan">... لطفا شکیبا باشید</span>'
