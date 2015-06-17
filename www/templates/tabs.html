@@ -10,10 +10,10 @@ navigation history that also transitions its views in and out.
   </ion-tab>
   <!-- Chats Tab -->
   <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book" href="#/tab/chats">
-    <ion-nav-bar class="bar-assertive">
+    <!-- <ion-nav-bar class="bar-assertive">
 
       <ion-nav-back-button></ion-nav-back-button>     
-    </ion-nav-bar>
+    </ion-nav-bar> -->
     <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>
 
@@ -23,12 +23,12 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- favorite posts -->
-  <ion-tab ng-if="!showSignIn" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
+  <ion-tab ng-show="!showSignIn" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
     <ion-nav-view name="tab-favoriteList"></ion-nav-view>
   </ion-tab>
 
   <!-- search posts -->
-  <ion-tab ng-if="1" icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
+  <ion-tab icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
     <ion-nav-view name="tab-search"></ion-nav-view>
   </ion-tab>
 

@@ -323,6 +323,12 @@ $scope.ch = function(id)
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
+      console.info(toState);
+      if (toState.name == 'tab.favoriteList')
+      {
+        console.log('okkkkkkkk');
+        $rootScope.$broadcast('faveNot');
+      }
       $scope.popover.hide();
     })
 
@@ -1305,226 +1311,16 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl' , function($ionicLoading, $ionicPopup, $rootScope, $ionicPopover, $state, $scope, $http, $localstorage, $cordovaSocialSharing){  
+.controller('favoriteCtrl', function($scope, $rootScope){
   console.warn('favoriteCtrl initialized');
-   // get user favorite posts
-  $scope.getUserFavoriteList = function()
-  {
-  $scope.info = $localstorage.getObject('userInfo') || {};  
-  $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID
-    }).success(function(data,status,headers,config){
-      console.warn('-------------------');
-      $scope.favoritePosts = data;
-      console.warn($scope.favoritePosts);
-      console.warn('-------------------');      
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-  // 
-  }
-
-  $scope.getUserFavoriteList();
-
-  $scope.$on('$ionicView.afterEnter', function(){
-    console.info('huuuuuuuuhuuuuuuuuuu');
-
-    var userInfo = $localstorage.getObject('userInfo');
-    var posts = $localstorage.getObject('posts');
-    $scope.FavoritePosts =[];
-    // list favorite posts
-    ng.forEach(posts, function(post){
-      if (post.isFavorite)
-        $scope.FavoritePosts.push(post);
-    });
-    $scope.getUserFavoriteList();
-    console.log('inaro dus dare ha:', $scope.favoritePosts);
+  $scope.$on('$ionicView.enter', function(){
+       console.info('favorite Enter');
   });
-
-  var
-    message,
-    title,
-    link
-  ;
-  
-  $scope.ch = function(id)
+  $scope.$on('faveNot', function()
   {
-    console.log(id);
-    $state.go('tab.chat-detail', ({chatId:id}));
-  }
-
-  $scope.shareToSocial = function(postID)
-  {
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
-  };
-
-
-  $scope.goToComment = function(postID)
-  {    
-    $state.go('material',({postID:postID}))
-  }
-
-  $scope.sendLike = function(postID)
-  {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-
-    var posts = $localstorage.getObject('posts');
-    console.log(posts);
-    ng.forEach(posts, function(post){
-      if (post.ID == postID)
-      {
-        post.isLike = !post.isLike;
-      }
-    });
-  localStorage.removeItem('posts');
-  $localstorage.setObject('posts', posts);
-  $scope.posts = $localstorage.getObject('posts'); 
-  //
-    $scope.favoritePosts = {};
-    var userInfo = $localstorage.getObject('userInfo');
-    var posts = $localstorage.getObject('posts');
-    $scope.FavoritePosts =[];
-    // list favorite posts
-    ng.forEach(posts, function(post){
-      if (post.isFavorite)
-        $scope.FavoritePosts.push(post);
-    });
-  //    
-  };
-
-  $rootScope.$on('$stateChangeStart', 
-    function(event, toState, toParams, fromState, fromParams){
-      $rootScope.prevState = fromState.name;  
-      $scope.getUserFavoriteList();          
-    })
-
-  
-  $scope.mailArticleToFriend = function(postID) {
-  $scope.data = {}
-
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};
-
-  $scope.addToFavorite = function(postID)
-  {
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-      console.log(postID);
-      console.log($scope.info);     
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        console.log(data);
-        var posts = $localstorage.getObject('posts');
-        ng.forEach(posts, function(post){
-          if(post.ID == postID)
-          {
-            post.isFavorite = !post.isFavorite;
-          }
-        });
-        $localstorage.setObject('posts', posts);
-        var posts = $localstorage.getObject('posts');
-        $scope.FavoritePosts =[];
-        // list favorite posts
-        ng.forEach(posts, function(post){
-          if (post.isFavorite)
-            $scope.FavoritePosts.push(post);
-        });
-        
-      $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
-  };
-
-  $scope.removeFromFavorite = function()
-  {
-    alert('remove this post');
-  }
-
- 
-  $scope.displaySinglePost = function(postID)
-  {      
-    $state.go('post',({
-      postID:postID
-    }));
-  }
-
-  $scope.goHome = function()
-  {
-    $state.go('home');
-  }
-
-  //
-});
+    console.info('tabrik');
+  })
+})
 
 }
 )(this.angular, this._);
