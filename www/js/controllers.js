@@ -1097,6 +1097,10 @@ $scope.ch = function(id)
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     $scope.info = $localstorage.getObject('userInfo')[0];    
+    if(_.isEmpty($scope.info))
+    {
+      $scope.info = {};
+    }
   });  
   
   
@@ -1199,10 +1203,10 @@ $scope.ch = function(id)
     $ionicLoading.show({
       template:'<span class="yekan">... لطفا شکیبا باشید</span>'
     });
-    console.log($scope);
+    console.log($scope.info);
     $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password)+'&a=1',
+        url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password),
         cache: false
       }).success(function(data,status,headers,config){          
         console.log(data);
