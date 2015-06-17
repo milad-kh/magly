@@ -1,10 +1,10 @@
-<ion-view view-title="لیست دلخواه" cache-view="false">
+<ion-view view-title="لیست دلخواه">
 <!-- <ion-nav-buttons side="right">
 <a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
 </ion-nav-buttons> -->
  <ion-content>
 <!-- post -->
-<div ng-repeat="post in FavoritePosts | filter:query track by $index">
+<div ng-repeat="post in favoritePosts | filter:query track by $index">
   <div>
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px">

@@ -322,14 +322,7 @@ $scope.ch = function(id)
   $rootScope.$on('$stateChangeStart', 
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
-      console.info('state avaz shod');
-      console.info(toState);
-      if (toState.name == 'tab.favoriteList')
-      {
-        console.log('okkkkkkkk');
-        $rootScope.$broadcast('faveNot');
-      }
-      $scope.popover.hide();
+      console.info('state avaz shod');                
     })
 
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
@@ -461,14 +454,6 @@ $scope.ch = function(id)
   $ionicLoading.show({
     template: '<span class=yekan>... بارگذاری مطالب</span>'
   });
-
-  
-  $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope    
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-  
   $scope.con = function()
   {
     $rootScope.$broadcast('searchTextchange', this.query);
@@ -485,10 +470,7 @@ $scope.ch = function(id)
     console.info('motaviate alane scope.posts:',$scope.posts);
   });
 
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);    
-  };
-
+  
   
 
   $scope.navigateToState = function(state)
@@ -1311,16 +1293,49 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl', function($scope, $rootScope){
+.controller('favoriteCtrl', function($scope, $localstorage, $http){
   console.warn('favoriteCtrl initialized');
-  $scope.$on('$ionicView.enter', function(){
-       console.info('favorite Enter');
-  });
-  $scope.$on('faveNot', function()
+  $scope.isPostInCollection = function(post, collection)
   {
-    console.info('tabrik');
-  })
-})
+    var
+    flag = false;
+    ng.forEach(collection, function(collectionPost){
+      if (post.ID == collectionPost.ID)
+        flag = true;
+    });
+    if (flag)
+      return true;
+  }
+  $scope.$on('$ionicView.enter', function(){
+  console.warn($localstorage);    
+  var sign = $localstorage.getObject('favoritePosts');
+  if (_.isEmpty(sign))
+  {
+    $scope.favoritePosts = [];
+    console.warn('khalie');
+    // $localstorage.setObject('favoritePosts');
+    // get some posts from current posts
+    ng.forEach($localstorage.getObject('posts'), function(post){
+      if(post.isFavorite)
+        $scope.favoritePosts.push(post);
+    });
+    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
+  }
+  else
+  {
+    console.warn('dare ye chizayee');
+    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+    ng.forEach($localstorage.getObject('posts'), function(post){
+      if(post.isFavorite && !$scope.isPostInCollection(post, $scope.favoritePosts))        
+        $scope.favoritePosts.push(post);
+    });
+    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
+    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+  }
+  console.info($scope.favoritePosts);
+  });
+  
+});
 
 }
 )(this.angular, this._);
