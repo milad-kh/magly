@@ -38,6 +38,7 @@
     console.log(catID);
     $localstorage.setObject('cat', catID);
     $state.go('tab.chats');
+    $rootScope.$broadcast('scrollToTop');
   };
 
   $scope.showCategories = function()
@@ -317,7 +318,19 @@ $scope.ch = function(id)
     {
       $ionicLoading.hide();
     }
-    $ionicScrollDelegate.scrollTop();
+    $scope.$on('scrollToTop', function(){
+
+      console.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+      console.info($rootScope.prevState);
+      if($rootScope.prevState == 'tab.dash')
+      {
+        console.info('bero bala');
+      }
+      else
+      {
+        $ionicScrollDelegate.scrollToTop(); 
+      }
+    });
   });
 
   $rootScope.$on('$stateChangeStart', 
