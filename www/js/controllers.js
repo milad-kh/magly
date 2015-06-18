@@ -244,7 +244,7 @@ $scope.ch = function(id)
       $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
-      $ionicLoading.hide();      
+      $ionicLoading.hide();
     });
   }
 })
