@@ -12,15 +12,15 @@
           template: '<span class=yekan>... بارگذاری دسته ها</span>'
         });
         }
-    $scope.showCategories();    
+    $scope.showCategories();
   });
 
-  $rootScope.$on('$stateChangeStart', 
+  $rootScope.$on('$stateChangeStart',
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
       $scope.popover.hide();
-    })
+    });
 
   console.warn('DashCtrl initialized');
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
@@ -37,7 +37,7 @@
   {
     console.log(catID);
     $localstorage.setObject('cat', catID);
-    $state.go('tab.chats');    
+    $state.go('tab.chats');
   };
 
   $scope.showCategories = function()
@@ -487,6 +487,8 @@ $scope.ch = function(id)
     }
   $scope.loadMoreDataForTop = function()
     {
+      if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
+    {
       console.log('top');
       var IDarray = [];
       // step 1 : find biggest post ID in local
@@ -527,10 +529,13 @@ $scope.ch = function(id)
         });      
       // step 4 : Arrange scope.posts object ASC
        // $scope.reArrangePosts();
+       }
     };
 
   $scope.loadMoreDataForDown = function()
-    {      
+    {    
+    if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
+    {  
       console.log('down');
       var userInfo = $localstorage.getObject('userInfo');
       console.log('inam data:', userInfo.ID);
@@ -553,6 +558,7 @@ $scope.ch = function(id)
         }).error(function(data,status,headers,config){
           console.log('error in get categories');
         });       
+      }
     };
 
   $scope.ch = function(id)
@@ -1091,6 +1097,10 @@ $scope.ch = function(id)
     }
   });  
   
+  $rootScope.$on('signOutOfApp', function(){
+    console.info('fahmidim');
+    $scope.showSignIn = true;
+  });
   
   $scope.showForgetPassModal = function()
   {
@@ -1178,7 +1188,7 @@ $scope.ch = function(id)
     localStorage.removeItem('favoritePosts'); 
     $scope.showSignIn = true;
     $scope.info = {};
-    $rootScope.$broadcast('signOutOfApp',true);
+    $rootScope.$broadcast('signOutOfApp');
   }
 
   $scope.info = $localstorage.getObject('userInfo');
@@ -1231,17 +1241,18 @@ $scope.ch = function(id)
 
 .controller('commentCtrl', function($ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
-  var postID = $stateParams.postID;
-  var posts = $localstorage.getObject('posts');
-  ng.forEach(posts, function(post){
-    if (post.ID == postID)
-    { 
+  $scope.$on('$ionicView.afterEnter', function(){
+    var postID = $stateParams.postID;
+    var posts = $localstorage.getObject('posts');
+    ng.forEach(posts, function(post){
+      if (post.ID == postID)
+      { 
 
-      $scope.comments = post.comments;
-    }
+        $scope.comments = post.comments;
+      }
+    });
+    console.log($scope.comments);
   });
-  console.log($scope.comments);
-
   $scope.commentObject = {};
   
   $scope.goBack = function()
@@ -1294,8 +1305,9 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl', function($scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
+.controller('favoriteCtrl', function($ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
   console.warn('favoriteCtrl initialized');
+  
   $scope.isPostInCollection = function(post, collection)
   {
     var
@@ -1327,22 +1339,17 @@ $scope.ch = function(id)
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID
-    }).success(function(data,status,headers,config){
-      // add data to my favorite posts
-      console.info('jadida', data);
-      console.info('ghablia', data);
-
-      var kol = _.union(data, $scope.favoritePosts);
-      console.info('majmu', kol);
-
-      $localstorage.setObject('favoritePosts', kol);
-      $scope.favoritePosts = kol;
+    }).success(function(data,status,headers,config){  
+      ng.forEach(data, function(post){
+        if(!$scope.isPostInCollection(post, $scope.favoritePosts))
+          $scope.favoritePosts.push(post);
+      });
+      $localstorage.setObject('favoritePosts', $scope.favoritePosts);      
       // 
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
-
-    //
+    
     $localstorage.setObject('favoritePosts', $scope.favoritePosts);
   }
   else
@@ -1357,23 +1364,17 @@ $scope.ch = function(id)
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID
-    }).success(function(data,status,headers,config){
-      // add data to my favorite posts
-      console.info('jadida', data);
-      console.info('ghablia', data);
-
-      var kol = _.union(data, $scope.favoritePosts);
-      console.info('majmu', kol);
-
-      $localstorage.setObject('favoritePosts', kol);
-      $scope.favoritePosts = kol;
-      // 
+    }).success(function(data,status,headers,config){      
+      ng.forEach(data, function(post){
+        if(!$scope.isPostInCollection(post, $scope.favoritePosts))
+          $scope.favoritePosts.push(post);
+      });
+      $localstorage.setObject('favoritePosts', $scope.favoritePosts);
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
     // 
-    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
-    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+    $localstorage.setObject('favoritePosts', $scope.favoritePosts);    
   }
   console.info($scope.favoritePosts);
   });
@@ -1406,6 +1407,59 @@ $scope.ch = function(id)
     });                
   };
 
+  $scope.addToFavorite = function(postID)
+  {
+    $ionicLoading.show({
+      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+    });
+    if (_.isEmpty($localstorage.getObject('userInfo')))
+    {
+      alert('شما لاگین نیستید');
+    }
+    else
+    {         
+      $scope.info = $localstorage.getObject('userInfo');   
+         
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.log(data);
+        var posts = $localstorage.getObject('posts');
+        ng.forEach(posts, function(post){
+          if(post.ID == postID)
+          {
+            post.isFavorite = !post.isFavorite;
+          }
+        });
+        $localstorage.setObject('posts', posts);
+        // var posts = $localstorage.getObject('posts');
+        // $scope.favoritePosts =[];
+        // list favorite posts
+        
+        ng.forEach($scope.favoritePosts, function(post){
+          if (post.ID == postID)
+            post.isFavorite = false;
+        });
+
+        $scope.tempFavorite = [];
+        ng.forEach($scope.favoritePosts, function(post){
+          if (post.isFavorite)
+            $scope.tempFavorite.push(post);
+        });        
+
+        $scope.favoritePosts = $scope.tempFavorite;
+
+        $localstorage.setObject('favoritePosts', $scope.favoritePosts);
+        $ionicLoading.hide();
+      }).error(function(data,status,headers,config){
+        console.log('error in get categories');
+      });                     
+    };
+                                              
+  };
+
   $scope.sendLike = function(postID)
   {
     console.log('send like');
@@ -1417,17 +1471,17 @@ $scope.ch = function(id)
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
-    var posts = $localstorage.getObject('posts');
-    console.log(posts);
-    ng.forEach(posts, function(post){
+    var favoritePosts = $localstorage.getObject('favoritePosts');
+    console.log(favoritePosts);
+    ng.forEach(favoritePosts, function(post){
       if (post.ID == postID)
       {
         post.isLike = ! post.isLike;
       }
     });
-  localStorage.removeItem('posts');
-  $localstorage.setObject('posts', posts);
-  $scope.posts = $localstorage.getObject('posts');     
+  localStorage.removeItem('favoritePosts');
+  $localstorage.setObject('favoritePosts', favoritePosts);
+  $scope.favoritePosts = $localstorage.getObject('favoritePosts');     
   };
 
   $scope.goToComment = function(postID)
