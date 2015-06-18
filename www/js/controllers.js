@@ -249,7 +249,7 @@ $scope.ch = function(id)
   }
 })
 
-.controller('ChatsCtrl', function($ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function($ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
@@ -317,6 +317,7 @@ $scope.ch = function(id)
     {
       $ionicLoading.hide();
     }
+    $ionicScrollDelegate.scrollTop();
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -1211,6 +1212,10 @@ $scope.ch = function(id)
         console.log(data);
         if(data.status == 'ok')
         {
+          localStorage.removeItem('cat'); 
+          localStorage.removeItem('favoritePosts'); 
+          localStorage.removeItem('posts'); 
+
           $ionicLoading.hide();
           $localstorage.setObject('userInfo',data.info);  
           $scope.showSignIn = !$scope.showSignIn;        
