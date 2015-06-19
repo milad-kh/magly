@@ -6,12 +6,57 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-only tabs-striped tabs-color-active-positive">
   <!-- List of comments -->
   <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book">
-    <ion-nav-view name="tab-chats"></ion-nav-view>
+   <ion-content>
+    <div class="list" style="direction:rtl">
+      <a class="item item-avatar" ng-repeat="comment in comments">        
+        <h2 ng-bind="comment.comment_author" class="yekan"></h2>
+        <p ng-bind="comment.comment_content" class="yekan" style="overflow:visible;white-space:normal"></p>     
+      </a>
+    </div>
+  </ion-content>
   </ion-tab>
 
   <!-- send comment form -->
   <ion-tab icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble-outline">
-    <ion-nav-view name="tab-dash"></ion-nav-view>
+    <ion-content>
+    <div style="height:auto;direction:rtl">
+
+    <div class="row">
+        <div class="col">
+            <div class="list">
+
+                <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="نام و نام خانوادگی" ng-model="commentObject.name">
+  </label>
+
+                 <label class="item item-input yekan">
+    <input type="text" class="yekan" style="direction:ltr" placeholder="ایمیل" ng-model="commentObject.email">
+  </label>
+
+  <label class="item item-input yekan">
+    <input type="text" class="yekan" style="direction:ltr" placeholder="وبسایت" ng-model="commentObject.url">
+  </label>  
+
+  <label class="item item-input yekan">
+    <input type="text" class="yekan" placeholder="متن نظر شما" ng-model="commentObject.comment">
+  </label>  
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="button button-block button-balanced yekan" ng-click="sendComment()"> ارسال </button>                   
+                </div>
+            </div>
+            <div class="row">            
+                <div class="col">
+                <button class="button button-block button-light yekan" ng-click="closeSendCommentForm()"> بستن </button>
+                </div>
+      </div>
+        </div>
+    </div>
+       
+    </div>
+   </ion-content>
   </ion-tab>
 
 </ion-tabs>
