@@ -1283,6 +1283,12 @@ $scope.ch = function(id)
 .controller('commentCtrl', function($ionicTabsDelegate, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   $scope.$on('$ionicView.afterEnter', function(){
+    var userInfo = $localstorage.getObject('userInfo');  
+
+    $scope.commentObject.name = userInfo.display_name;
+    $scope.commentObject.email = userInfo.user_email;
+    $scope.commentObject.url = userInfo.user_url;
+
     var postID = $stateParams.postID;
     var posts = $localstorage.getObject('posts');
     ng.forEach(posts, function(post){
@@ -1301,11 +1307,6 @@ $scope.ch = function(id)
     console.log('mot',$stateParams);
     $state.go('tab.chat-detail',{chatId:$stateParams.postID});
   }
-
-  $scope.closeSendCommentForm = function()
-  {
-    $scope.modal.hide();
-  };
 
   $scope.sendComment = function()
   {
@@ -1330,6 +1331,7 @@ $scope.ch = function(id)
       });
       $localstorage.setObject('posts',$scope.posts);
       $ionicLoading.hide();
+      $scope.commentObject = {};
       $ionicTabsDelegate.select(0);
     }).error(function(data,status,headers,config){
       console.log('error in update!');
