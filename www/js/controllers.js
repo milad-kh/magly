@@ -707,11 +707,13 @@ $scope.ch = function(id)
 })
 .controller('searchCtrl', function($ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
+  $scope.data = {};
   var
     message,
     title,
     link
   ;
+  // $scope.searchKey = '';
   $scope.shareToSocial = function(postID)
   {
     console.info(postID);
@@ -735,14 +737,35 @@ $scope.ch = function(id)
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
-    $scope.posts = $localstorage.getObject('posts');
-    $scope.info = $localstorage.getObject('userInfo');
+    // $scope.posts = $localstorage.getObject('posts');
+    // $scope.info = $localstorage.getObject('userInfo');
   });
+
+  $scope.search = function()
+  {
+    $ionicLoading.show({
+      template: '<span class="yekan">... در حال جستجو</span>'
+    });
+    console.warn($scope);
+    $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/search.php?searchKey='+$scope.data.searchKey
+    }).success(function(data,status,headers,config){
+      console.log(data);
+      $scope.posts = data;
+      $ionicLoading.hide();
+    }).error(function(data,status,headers,config){
+      console.log('error in update!');
+      $ionicLoading.hide();
+    });
+  }
+
   $scope.ch = function(id)
   {
     console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
   }
+  
   $scope.goToComment = function(postID)
   {    
     $state.go('material',({postID:postID}))
