@@ -1280,7 +1280,7 @@ $scope.ch = function(id)
   }
 })
 
-.controller('commentCtrl', function($ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($ionicTabsDelegate, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   $scope.$on('$ionicView.afterEnter', function(){
     var postID = $stateParams.postID;
@@ -1314,7 +1314,7 @@ $scope.ch = function(id)
     $ionicLoading.show({
       template:'<span><div class="yekan">در حال ارسال نظر</div><div class="yekan">لطفا شکیبا باشید</div></span>'
     });
-    var randomInt = new Date().getTime();
+    var randomInt = new Date().getTime();    
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/sendComment.php?postID=' + $stateParams.postID + '&randomInt=' + randomInt + '&name='+$scope.commentObject.name + '&email=' + $scope.commentObject.email + '&url=' + $scope.commentObject.url + '&comment=' + $scope.commentObject.comment
@@ -1323,13 +1323,14 @@ $scope.ch = function(id)
       $scope.comments = data;
       $scope.posts = $localstorage.getObject('posts');
       ng.forEach($scope.posts, function(post){
-        if (post.ID == postID)
+        if (post.ID == $stateParams.postID)
         {
           post.comments = data;
         }
       });
       $localstorage.setObject('posts',$scope.posts);
-      $ionicLoading.hide();      
+      $ionicLoading.hide();
+      $ionicTabsDelegate.select(0);
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
