@@ -56,33 +56,19 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
   })
   
-  .state('signin', {
-      url: "/signin",
-      templateUrl: "templates/signin.html",
-      controller: 'signinCtrl'
-    })
-
   .state('signup', {
       url: "/signup",
       templateUrl: "templates/signup.html",
       controller: 'signupCtrl'
     })
 
-  .state('aboutus', {
-      url: "/aboutus",
-      templateUrl: "templates/aboutus.html"
-    })
-
+  
   .state('comment', {
       url: "/post/:postID/comment",
       templateUrl: "templates/comments.html"
     })
 
-  .state('contactus', {
-      url: "/contactus",
-      templateUrl: "templates/contactus.html"
-    })
-
+  
   .state('material', {
       url: "/material/:postID",
       templateUrl: "templates/material.html",
@@ -158,16 +144,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       'tab-profile': {
         templateUrl: 'templates/tab-profile.html',
         controller: 'ProfileCtrl'
-      }
-    }
-  })
-
-  .state('tab.account', {
-    url: '/account',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
       }
     }
   });
