@@ -1,8 +1,8 @@
 (function(ng, _){
   ng
-  .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova'])
+  .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
   
-  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth) {
+  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth, generalActions) {
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
