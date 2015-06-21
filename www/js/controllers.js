@@ -701,7 +701,7 @@ $scope.ch = function(id)
       $scope.targetPost = post;
     }    
   });
-  var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)/gmi,"<br />");
+  var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
   $scope.targetPost.post_content = x;
   console.info('content:', $scope.targetPost.post_content);
   console.info('alan', $scope.targetPost);
