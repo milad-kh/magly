@@ -293,6 +293,7 @@ $scope.ch = function(id)
     {
       $scope.posts = $localstorage.getObject('posts');
       console.warn('alan bayad', $scope.posts);
+      
       $scope.posts = $localstorage.getObject('posts');
     }
     if(_.isEmpty($localstorage.getObject('posts')))
@@ -700,6 +701,9 @@ $scope.ch = function(id)
       $scope.targetPost = post;
     }    
   });
+  var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)/gmi,"<br />");
+  $scope.targetPost.post_content = x;
+  console.info('content:', $scope.targetPost.post_content);
   console.info('alan', $scope.targetPost);
   if (_.isEmpty($scope.targetPost))    
   {
