@@ -599,6 +599,11 @@ $scope.ch = function(id)
     title,
     link
   ;
+  $scope.ch = function(id)
+  {
+    console.log(id);
+    $state.go('tab.chat-detail', ({chatId:id}));
+  }
   // $scope.searchKey = '';
   $scope.shareToSocial = function(postID)
   {
@@ -701,10 +706,13 @@ $scope.ch = function(id)
       $scope.targetPost = post;
     }    
   });
-  var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
-  $scope.targetPost.post_content = x;
-  console.info('content:', $scope.targetPost.post_content);
-  console.info('alan', $scope.targetPost);
+  if (!_.isEmpty($scope.targetPost))
+  {
+    var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
+    $scope.targetPost.post_content = x;
+    console.info('content:', $scope.targetPost.post_content);
+    console.info('alan', $scope.targetPost);
+  }
   if (_.isEmpty($scope.targetPost))    
   {
     $ionicLoading.show({

@@ -27,7 +27,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
+  $sceDelegateProvider.resourceUrlWhitelist([
+   // Allow same origin resource loads.
+   'self',
+   // Allow loading from our assets domain.  Notice the difference between * and **.
+   'http://www.aparat.com/*']);
   $ionicConfigProvider.tabs.position('bottom');
   // $ionicConfigProvider.views.forwardCache(true);
   // $ionicConfigProvider.views.maxCache(0);
