@@ -661,7 +661,7 @@ $scope.ch = function(id)
   };    
 })
 
-.controller('ChatDetailCtrl', function(generalActions, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
+.controller('ChatDetailCtrl', function(generalActions,$sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   
   var
@@ -726,6 +726,8 @@ $scope.ch = function(id)
         console.info('inam yeki jadid', data);
         $ionicLoading.hide();
         $scope.targetPost = data;
+        var x = $sce.trustAsHtml($scope.targetPost.post_content);
+        $scope.targetPost.post_content = x;
       // re-make scope.posts and localStorage
         var kol = _.union($scope.posts,data);                   
         $scope.posts = kol;
