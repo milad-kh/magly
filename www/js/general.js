@@ -43,7 +43,7 @@
 			      });                     
 			    };
 			},
-			shareToSocial : function()
+			shareToSocial : function(postID)
 			{
 			    console.info(postID);
 			    // fetch target post content
@@ -87,7 +87,42 @@
 			  $localstorage.setObject('posts', posts);
 			  $scope.posts = $localstorage.getObject('posts');     
 			},
-			
+			mailArticleToFriend : function(postID)
+			{
+			  $scope.data = {}
+
+			  // An elaborate, custom popup
+			  var myPopup = $ionicPopup.show({
+			    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
+			    title: '<span class=yekan>ایمیل را وارد کنید</span>',
+			    // subTitle: 'your friend email',
+			    scope: $scope,
+			    buttons: [
+			      { text: '<span class=yekan>لغو</span>' },
+			      {
+			        text: '<span class=yekan><b>بفرست</b></span>',
+			        type: 'button-positive',
+			        onTap: function(e) {
+			          if ($scope.data.email != '')
+			          {
+			            $http({
+			              method: 'GET',
+			              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+			            }).success(function(data,status,headers,config){
+			              console.log(data);
+			            }).error(function(data,status,headers,config){
+			              console.log('error in update!');
+			            });                            
+			          }
+			        }
+			      }
+			    ]
+			  });
+			  myPopup.then(function(res) {
+			    if ($scope.data.email == '')
+			      console.log('Tapped!', res);
+			  });
+			}
 		}
 		return generalActions;
 	}

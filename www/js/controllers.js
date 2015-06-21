@@ -250,7 +250,7 @@ $scope.ch = function(id)
   }
 })
 
-.controller('ChatsCtrl', function($ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   var
     message,
@@ -260,24 +260,7 @@ $scope.ch = function(id)
 
   $scope.shareToSocial = function(postID)
   {
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
+    generalActions.shareToSocial(postID);
   };
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
@@ -350,104 +333,21 @@ $scope.ch = function(id)
   });
 
   $scope.goToComment = function(postID)
-  {    
-    $state.go('material',({postID:postID}))
-  }
+  {
+    $state.go('material',({postID:postID}));
+  };
 
   $scope.sendLike = function(postID)
   {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-    var posts = $localstorage.getObject('posts');
-    console.log(posts);
-    ng.forEach(posts, function(post){
-      if (post.ID == postID)
-      {
-        post.isLike = ! post.isLike;
-      }
-    });
-  localStorage.removeItem('posts');
-  $localstorage.setObject('posts', posts);
-  $scope.posts = $localstorage.getObject('posts');     
+    generalActions.sendLike(postID);
   };
 
   $scope.mailArticleToFriend = function(postID) {
-  $scope.data = {}
-
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    // subTitle: 'your friend email',
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};
-
-    $scope.addToFavorite = function(postID)
+    generalActions.mailArticleToFriend(postID);
+  };
+  $scope.addToFavorite = function(postID)
   {
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-      console.log(postID);
-      console.log($scope.info);     
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        console.log(data);
-        ng.forEach($scope.posts, function(post){
-          if(post.ID == postID)
-            post.isFavorite = !post.isFavorite;
-        })
-        $localstorage.setObject('posts',$scope.posts);
-        $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
+    generalActions.addToFavorite(postID);                                              
   };
 
   $scope.signOut = function()
@@ -455,37 +355,22 @@ $scope.ch = function(id)
     localStorage.removeItem('userInfo'); 
     $scope.showSignIn = true; 
     $scope.popover.hide();           
-  }
-
-  $scope.openModal = function() {
-    $scope.modal.show();
-  };
-
-  $scope.closeModal = function() {
-    $scope.modal.hide();
   };
 
   $ionicLoading.show({
     template: '<span class=yekan>... بارگذاری مطالب</span>'
   });
+  
   $scope.con = function()
   {
     $rootScope.$broadcast('searchTextchange', this.query);
   }
-
-  $scope.$on('searchTextchange', function(event, args){
-    $scope.query = args;
-    console.log($scope.query);
-  });
 
   $scope.$on('changeCategory', function(event, args){
     console.warn('badaz avaz shodan alan ina umadan inja baradar', args);
     $scope.posts = args;
     console.info('motaviate alane scope.posts:',$scope.posts);
   });
-
-  
-  
 
   $scope.navigateToState = function(state)
   {
@@ -705,7 +590,7 @@ $scope.ch = function(id)
         });      
     }
 })
-.controller('searchCtrl', function($ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
+.controller('searchCtrl', function(generalActions, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
   $scope.data = {};
   var
@@ -716,24 +601,7 @@ $scope.ch = function(id)
   // $scope.searchKey = '';
   $scope.shareToSocial = function(postID)
   {
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
+    generalActions.shareToSocial(postID);                
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
@@ -773,164 +641,21 @@ $scope.ch = function(id)
 
   $scope.addToFavorite = function(postID)
   {
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-      console.log(postID);
-      console.log($scope.info);     
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        console.log(data);
-        var posts = $localstorage.getObject('posts');
-        ng.forEach(posts, function(post){
-          if(post.ID == postID)
-          {
-            post.isFavorite = !post.isFavorite;
-          }
-        });
-        $localstorage.setObject('posts', posts);
-        var posts = $localstorage.getObject('posts');
-        $scope.posts = posts;
-        $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
+    generalActions.addToFavorite(postID);                                           
   };
   
   $scope.sendLike = function(postID)
   {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-
-    var posts = $localstorage.getObject('posts');
-    console.log(posts);
-    ng.forEach(posts, function(post){
-      if (post.ID == postID)
-      {
-        post.isLike = !post.isLike;
-      }
-    });
-  localStorage.removeItem('posts');
-  $localstorage.setObject('posts', posts);
-  $scope.posts = $localstorage.getObject('posts');
+    generalActions.sendLike(postID);
   }
 
-  $scope.mailArticleToFriend = function(postID) {
-  $scope.data = {}
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    // subTitle: 'your friend email',
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};    
-})
-.controller('signinCtrl', function($ionicLoading, $rootScope, $scope, $ionicPopover, $http, $localstorage, $state, checkUserAuth){
-  console.warn('signinCtrl initialized');
-  
-  $rootScope.$on('$stateChangeStart', 
-    function(event, toState, toParams, fromState, fromParams){
-      $rootScope.prevState = fromState.name;
-      $scope.popover.hide();
-    });
-
-  $rootScope.$on('$stateChangeStart', 
-    function(event, toState, toParams, fromState, fromParams){
-      $rootScope.prevState = fromState.name;
-      console.info('state avaz shod');
-      $scope.popover.hide();
-
-    })
-
-  $scope.info={};
-  $scope.showSignIn = checkUserAuth.isUserLogin();
-  $scope.init = function()
+  $scope.mailArticleToFriend = function(postID)
   {
-    console.log('inja anjam midim');
-  }
-
-  $scope.signOut = function()
-  {
-    localStorage.removeItem('userInfo'); 
-    $scope.showSignIn = false;
-  }
-  $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-  
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
-
-  $scope.signin = function()
-    {      
-      console.log($scope);
-      $http({
-          method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/signin.php?username='+$scope.info.username+'&password='+encodeURIComponent($scope.info.password)+'&a=1',
-          cache: false
-        }).success(function(data,status,headers,config){          
-          console.log(data);
-          if(data.status == 'ok')
-          {
-            $localstorage.setObject('userInfo',data.info);
-            
-            $state.go('tab.chats');
-
-          }
-        }).error(function(data,status,headers,config){
-          console.log('error in get categories');
-        });
-    }
+    generalActions.mailArticleToFriend(postID)
+  };    
 })
 
-.controller('ChatDetailCtrl', function($ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
+.controller('ChatDetailCtrl', function(generalActions, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   
   var
@@ -940,26 +665,8 @@ $scope.ch = function(id)
   ;
   $scope.shareToSocial = function(postID)
   {
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });
+    generalActions.shareToSocial(postID);
   };
-
 
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.goBack = function()
@@ -971,97 +678,18 @@ $scope.ch = function(id)
     $state.go('material',({postID:$stateParams.chatId}))
   }
 
-  $scope.sendLike = function()
+  $scope.sendLike = function() // we MUST GET postID from $stateParams
   {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+$stateParams.postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
+    generalActions.sendLike(postID);
   };
 
   $scope.mailArticleToFriend = function() {
-  $scope.data = {}
-
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',    
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+$stateParams.chatId+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};
+    generalActions.mailArticleToFriend(postID); // get from $stateParams
+  };
 
   $scope.addToFavorite = function()
   {            
-  $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });      
-
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-      console.log($scope.info);    
-      console.log($stateParams);    
-
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+$stateParams.chatId,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        // re-make posts object
-        ng.forEach($scope.posts, function(post){
-          if(post.ID == $stateParams.chatId)
-            post.isFavorite = !post.isFavorite;
-        })
-        
-        $localstorage.setObject('posts',$scope.posts);
-        //
-        var alertPopup = $ionicPopup.alert({
-          title: 'نتیجه',
-          template: 'به لیست دلخواه اضافه شد'
-        });
-        // we can do more here
-        alertPopup.then(function(res) {
-          console.log('Thank you for not eating my delicious ice cream cone');
-        }); 
-        $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
+    generalActions.addToFavorite(postID); // get postID from $stateParams                                            
   };
 
   $scope.posts = $localstorage.getObject('posts');
@@ -1349,7 +977,7 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl', function($ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
+.controller('favoriteCtrl', function(generalActions, $ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
   console.warn('favoriteCtrl initialized');
   
   $scope.isPostInCollection = function(post, collection)
@@ -1430,102 +1058,17 @@ $scope.ch = function(id)
   ;
   $scope.shareToSocial = function(postID)
   {
-
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
+    generalActions.shareToSocial(postID);
   };
 
   $scope.addToFavorite = function(postID)
   {
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-         
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        console.log(data);
-        var posts = $localstorage.getObject('posts');
-        ng.forEach(posts, function(post){
-          if(post.ID == postID)
-          {
-            post.isFavorite = !post.isFavorite;
-          }
-        });
-        $localstorage.setObject('posts', posts);
-        // var posts = $localstorage.getObject('posts');
-        // $scope.favoritePosts =[];
-        // list favorite posts
-        
-        ng.forEach($scope.favoritePosts, function(post){
-          if (post.ID == postID)
-            post.isFavorite = false;
-        });
-
-        $scope.tempFavorite = [];
-        ng.forEach($scope.favoritePosts, function(post){
-          if (post.isFavorite)
-            $scope.tempFavorite.push(post);
-        });        
-
-        $scope.favoritePosts = $scope.tempFavorite;
-
-        $localstorage.setObject('favoritePosts', $scope.favoritePosts);
-        $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
+    generalActions.addToFavorite(postID);                                          
   };
 
   $scope.sendLike = function(postID)
   {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-    var favoritePosts = $localstorage.getObject('favoritePosts');
-    console.log(favoritePosts);
-    ng.forEach(favoritePosts, function(post){
-      if (post.ID == postID)
-      {
-        post.isLike = ! post.isLike;
-      }
-    });
-  localStorage.removeItem('favoritePosts');
-  $localstorage.setObject('favoritePosts', favoritePosts);
-  $scope.favoritePosts = $localstorage.getObject('favoritePosts');     
+    generalActions.sendLike(postID);
   };
 
   $scope.goToComment = function(postID)
@@ -1534,40 +1077,8 @@ $scope.ch = function(id)
   }
 
   $scope.mailArticleToFriend = function(postID) {
-  $scope.data = {}
-
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    // subTitle: 'your friend email',
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};
+    generalActions.mailArticleToFriend(postID);
+  };
 });
 
 }
