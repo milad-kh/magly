@@ -1,39 +1,23 @@
 <ion-view>
 <ion-nav-buttons side="right">
-<!-- <a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>           -->
 </ion-nav-buttons>
-  <ion-content class="padding">
-    <div class="row">
-      <div class="col" ng-click="filterPostsByCategory('all')">        
-        <div style="direction:rtl" class="list card yekan">
-          <!-- <div class="item item-divider">
-          <i class="icon ion-happy-outline"></i>
-          همه مقالات</div> -->
-<div class="item item-body class{{item.classNumber}}">
-            <img src="{{all}}" style="width:100%;height:auto">
-            <div style="background-color: #ffffff;border: 1px solid white;opacity: 0.8;">
-              همه مقالات
-            </div>
-          </div>
-        </div>        
-      </div>
+
+  <ion-content>
+    
+    <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')">
+      <span style="position:absolute;background-color:seashell" class="yekan">همه ی مقالات</span>
+      <img src="{{all}}" style="width:100%;opacity:0.7">
     </div>
-    <div class="row" ng-repeat="row in categories">
-      <div class="col" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
-        
-        <div style="direction:rtl" class="list card yekan" >
-         <!--  <div class="item item-divider">
-          <i class="icon ion-happy-outline"></i>
-          {{item.cat_name}}</div> -->
-          <div class="item item-body class{{item.classNumber}}">
-          <img src="{{item.thumbnail}}" style="width:100%;height:auto">
-            <div style="background-color: #ffffff;border: 1px solid white;opacity: 0.8;text-align:center">
-             {{item.cat_name}}
-            </div>
-          </div>
-        </div>
-        
+
+    <div style="display:table" ng-repeat="row in categories" ng-click="filterPostsByCategory(item.cat_ID)">
+      
+      <div style="float:left;width:50%" ng-repeat="item in row">
+        <span style="position:absolute;background-color:seashell" class="yekan" ng-bind="item.cat_name"></span>
+        <img src="{{item.thumbnail}}" style="width:100%;opacity:0.7">
       </div>
+      
     </div>
+
   </ion-content>
+
 </ion-view>
