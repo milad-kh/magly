@@ -7,13 +7,13 @@
 	{
 		ng
 		.module('general-actions',['localStorage'])
-		.factory('generalActions', ['$localstorage', '$ionicPopup', '$http', factoryProvider])
+		.factory('generalActions', ['$localstorage', '$ionicPopup', '$http', '$ionicLoading', factoryProvider])
 	},
 
 	factoryProvider = function($localstorage, $ionicPopup, $http, $ionicLoading)
 	{
 		var generalActions = {
-			addToFavorite : function(){
+			addToFavorite : function(postID){
 				$ionicLoading.show({
 		      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
 		    });			    		
@@ -27,23 +27,29 @@
 	        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+info.ID+'&postID='+postID,
 	        cache: false
 	      }).success(function(data,status,headers,config){          
-	        console.log(data);
-
-			    var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
+	        console.log(data);			    
+			  	$ionicLoading.hide();	        
+	      }).error(function(data,status,headers,config){
+	        console.log('error in get categories');
+	      });
+	      // update all the keys in our storage
+	      var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
 	        ng.forEach(localstorageObjects, function(localstorageObject){
 			    	var collection = $localstorage.getObject(localstorageObject);	        	
 		        ng.forEach(collection, function(post){
 		          if(post.ID == postID)
+		          {
 		            post.isFavorite = !post.isFavorite;
+		            console.info('peida shid');
+		          }
 		        });	 
 		        localStorage.removeItem(localstorageObject);
-			  		$localstorage.setObject(localstorageObject, collection);       	
+			  		$localstorage.setObject(localstorageObject, collection);
+
 	        });
-	        $ionicLoading.hide();
-	      }).error(function(data,status,headers,config){
-	        console.log('error in get categories');
-	      });                     			    
+	        console.info('then');
 			},
+
 			shareToSocial : function(postID, host)
 			{
 				var

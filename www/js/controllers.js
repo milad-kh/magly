@@ -236,37 +236,24 @@ $scope.ch = function(id)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);
-    $scope.posts = $localstorage.getObject('posts');
-  };
-
-  $scope.signOut = function()
-  {
-    localStorage.removeItem('userInfo'); 
-    $scope.showSignIn = true; 
-    $scope.popover.hide();           
+      generalActions.addToFavorite(postID);
+      $scope.posts = $localstorage.getObject('posts');
+      console.info('................');
+      console.info($scope.posts);
+      console.info('................');
+    
   };
 
   $ionicLoading.show({
     template: '<span class=yekan>... بارگذاری مطالب</span>'
   });
   
-  $scope.con = function()
-  {
-    $rootScope.$broadcast('searchTextchange', this.query);
-  }
-
   $scope.$on('changeCategory', function(event, args){
     console.warn('badaz avaz shodan alan ina umadan inja baradar', args);
     $scope.posts = args;
     console.info('motaviate alane scope.posts:',$scope.posts);
   });
 
-  $scope.navigateToState = function(state)
-  {
-    $state.go(state);
-    $scope.popover.hide();
-  };
   $scope.getMaxOfArray = function(numArray) {
       return Math.max.apply(null, numArray);
     }    
@@ -751,6 +738,7 @@ $scope.ch = function(id)
     localStorage.removeItem('posts'); 
     localStorage.removeItem('cat'); 
     localStorage.removeItem('favoritePosts'); 
+    localStorage.removeItem('search'); 
     $scope.showSignIn = true;
     $scope.info = {};
     $rootScope.$broadcast('signOutOfApp');
