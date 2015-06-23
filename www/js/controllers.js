@@ -343,9 +343,10 @@ $scope.ch = function(id)
     generalActions.sendLike(postID);
   };
 
-  $scope.mailArticleToFriend = function(postID) {
+  $scope.mailArticleToFriend = function(postID) {    
     generalActions.mailArticleToFriend(postID);
   };
+
   $scope.addToFavorite = function(postID)
   {
     generalActions.addToFavorite(postID);                                              

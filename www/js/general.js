@@ -7,10 +7,10 @@
 	{
 		ng
 		.module('general-actions',['localStorage'])
-		.factory('generalActions', ['$localstorage', factoryProvider])
+		.factory('generalActions', ['$localstorage', '$ionicPopup', '$http', factoryProvider])
 	},
 
-	factoryProvider = function($localstorage)
+	factoryProvider = function($localstorage, $ionicPopup, $http)
 	{
 		var generalActions = {
 			addToFavorite : function(){
@@ -88,26 +88,25 @@
 			  $scope.posts = $localstorage.getObject('posts');     
 			},
 			mailArticleToFriend : function(postID)
-			{
-			  $scope.data = {}
-
+			{			  
 			  // An elaborate, custom popup
 			  var myPopup = $ionicPopup.show({
-			    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
+			    template: '<input style="direction:ltr" type="text" id="emailP">',
 			    title: '<span class=yekan>ایمیل را وارد کنید</span>',
 			    // subTitle: 'your friend email',
-			    scope: $scope,
+			    //scope: $scope,
 			    buttons: [
 			      { text: '<span class=yekan>لغو</span>' },
 			      {
 			        text: '<span class=yekan><b>بفرست</b></span>',
 			        type: 'button-positive',
 			        onTap: function(e) {
-			          if ($scope.data.email != '')
+			        	var email = $("#emailP").val();
+			          if (email != '')
 			          {
 			            $http({
 			              method: 'GET',
-			              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
+			              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+email
 			            }).success(function(data,status,headers,config){
 			              console.log(data);
 			            }).error(function(data,status,headers,config){
@@ -118,8 +117,8 @@
 			      }
 			    ]
 			  });
-			  myPopup.then(function(res) {
-			    if ($scope.data.email == '')
+			  myPopup.then(function(res, email) {
+			    if (email == '')
 			      console.log('Tapped!', res);
 			  });
 			}
