@@ -10,59 +10,66 @@
 		.factory('generalActions', ['$localstorage', '$ionicPopup', '$http', factoryProvider])
 	},
 
-	factoryProvider = function($localstorage, $ionicPopup, $http)
+	factoryProvider = function($localstorage, $ionicPopup, $http, $ionicLoading)
 	{
 		var generalActions = {
 			addToFavorite : function(){
 				$ionicLoading.show({
-			      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-			    });
-			    if (_.isEmpty($localstorage.getObject('userInfo')))
-			    {
-			      alert('شما لاگین نیستید');
-			    }
-			    else
-			    {         
-			      $scope.info = $localstorage.getObject('userInfo');   
-			      console.log(postID);
-			      console.log($scope.info);     
-			      $http({
-			        method: 'GET',
-			        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-			        cache: false
-			      }).success(function(data,status,headers,config){          
-			        console.log(data);
-			        ng.forEach($scope.posts, function(post){
-			          if(post.ID == postID)
-			            post.isFavorite = !post.isFavorite;
-			        })
-			        $localstorage.setObject('posts',$scope.posts);
-			        $ionicLoading.hide();
-			      }).error(function(data,status,headers,config){
-			        console.log('error in get categories');
-			      });                     
-			    };
+		      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
+		    });			    		
+
+	      var 
+	      	info = $localstorage.getObject('userInfo');   
+	      console.log(postID);
+	      console.log(info);     
+	      $http({
+	        method: 'GET',
+	        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+info.ID+'&postID='+postID,
+	        cache: false
+	      }).success(function(data,status,headers,config){          
+	        console.log(data);
+
+			    var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
+	        ng.forEach(localstorageObjects, function(localstorageObject){
+			    	var collection = $localstorage.getObject(localstorageObject);	        	
+		        ng.forEach(collection, function(post){
+		          if(post.ID == postID)
+		            post.isFavorite = !post.isFavorite;
+		        });	 
+		        localStorage.removeItem(localstorageObject);
+			  		$localstorage.setObject(localstorageObject, collection);       	
+	        });
+	        $ionicLoading.hide();
+	      }).error(function(data,status,headers,config){
+	        console.log('error in get categories');
+	      });                     			    
 			},
-			shareToSocial : function(postID)
+			shareToSocial : function(postID, host)
 			{
-			    console.info(postID);
-			    // fetch target post content
-			    _.each($scope.posts, function(post){
-			      if (post.ID == postID)
-			      {
-			        console.info('peida shod');
-			        message = post.summary[0];
-			        title = post.post_title;
-			        link = post.guid;
-			      }
-			    });    
-			    $cordovaSocialSharing
-			    .share(message, title, null, link)
-			    .then(function(result) {
-			      console.log('successfully shared');
-			    }, function(err) {
-			      console.log('failed');
-			    });                
+				var
+			    message,
+			    title,
+			    link,
+			    xxx
+			  ;		    
+		    _.each($localstorage.getObject(host), function(post){
+		      if (post.ID == postID)
+		      {
+		        console.info('peida shod');
+		        message = post.summary[0];
+		        title = post.post_title;
+		        link = post.guid;
+		        xxx= post;
+		      }
+		    });    
+
+		    $cordovaSocialSharing
+		    .share(message, title, null, link)
+		    .then(function(result) {
+		      console.log('successfully shared');
+		    }, function(err) {
+		      console.log('failed');
+		    });                
 			},
 			sendLike : function(postID)
 			{
@@ -75,17 +82,22 @@
 			    }).error(function(data,status,headers,config){
 			      console.log('error in update!');
 			    });
-			    var posts = $localstorage.getObject('posts');
-			    console.log(posts);
-			    ng.forEach(posts, function(post){
-			      if (post.ID == postID)
-			      {
-			        post.isLike = ! post.isLike;
-			      }
+
+			    // update all the keys in our storage
+			    var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
+			    ng.forEach(localstorageObjects, function(localstorageObject){
+			    	console.info('alan: ', localstorageObject);
+			    	var collection = $localstorage.getObject(localstorageObject);
+				    ng.forEach(collection, function(post){
+				      if (post.ID == postID)
+				      {
+				        post.isLike = !post.isLike;
+				      }
+				    });		
+			  	localStorage.removeItem(localstorageObject);
+			  	$localstorage.setObject(localstorageObject, collection);				    	    	
 			    });
-			  localStorage.removeItem('posts');
-			  $localstorage.setObject('posts', posts);
-			  $scope.posts = $localstorage.getObject('posts');     
+			    
 			},
 			mailArticleToFriend : function(postID)
 			{			  

@@ -35,14 +35,15 @@
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:0px">
     
     <a class="tab-item" ng-click="sendLike(post.ID)" ng-if="!showSignIn">
-      <i class="icon ion-thumbsup"></i>
+      <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
+      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>       
     </a>
   
     <a class="tab-item" ng-click="goToComment(post.ID)">
       <i class="icon ion-chatbox"></i>
     </a>
 
-    <a class="tab-item" ng-click="shareToSocial(post.ID)">
+    <a class="tab-item" ng-click="shareToSocial(post.ID, 'most')">
           <i class="icon ion-android-share-alt" style="color:dodgerblue"></i>
         </a>
 <a class="tab-item" ng-if="!showSignIn" ng-click="addToFavorite(post.ID)">

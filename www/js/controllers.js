@@ -71,7 +71,7 @@
   };
 })
 
-.controller('MostCtrl', function($state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
+.controller('MostCtrl', function(generalActions, $state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
   
   $scope.$on('$ionicView.afterEnter', function(){
@@ -84,32 +84,10 @@
     }
     $scope.fillMostPosts();    
   });
-
-  var
-    message,
-    title,
-    link
-  ;
-  $scope.shareToSocial = function(postID)
+  
+  $scope.shareToSocial = function(postID, host)
   {
-    console.info(postID);
-    // fetch target post content
-    _.each($scope.posts, function(post){
-      if (post.ID == postID)
-      {
-        console.info('peida shod');
-        message = post.summary[0];
-        title = post.post_title;
-        link = post.guid;
-      }
-    });    
-    $cordovaSocialSharing
-    .share(message, title, null, link)
-    .then(function(result) {
-      console.log('successfully shared');
-    }, function(err) {
-      console.log('failed');
-    });                
+    generalActions.shareToSocial(postID, host);
   };
 
   $rootScope.$on('$stateChangeStart', 
@@ -132,100 +110,20 @@
 
   $scope.sendLike = function(postID)
   {
-    console.log('send like');
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-    }).success(function(data,status,headers,config){
-      console.log(data);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-    var posts = $localstorage.getObject('posts');
-    console.log(posts);
-    ng.forEach(posts, function(post){
-      if (post.ID == postID)
-      {
-        post.isLike = ! post.isLike;
-      }
-    });
-  localStorage.removeItem('posts');
-  $localstorage.setObject('posts', posts);
-  $scope.posts = $localstorage.getObject('posts');     
-  };
-
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
+    generalActions.sendLike(postID);
+    $scope.posts = $localstorage.getObject('most');
+    console.info($scope.posts);
   };
 
    $scope.addToFavorite = function(postID)
   {
-    $ionicLoading.show({
-      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
-    });
-    if (_.isEmpty($localstorage.getObject('userInfo')))
-    {
-      alert('شما لاگین نیستید');
-    }
-    else
-    {         
-      $scope.info = $localstorage.getObject('userInfo');   
-      console.log(postID);
-      console.log($scope.info);     
-      $http({
-        method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+$scope.info.ID+'&postID='+postID,
-        cache: false
-      }).success(function(data,status,headers,config){          
-        console.log(data);
-        ng.forEach($scope.posts, function(post){
-          if(post.ID == postID)
-            post.isFavorite = !post.isFavorite;
-        })
-        $localstorage.setObject('posts',$scope.posts);
-        $ionicLoading.hide();
-      }).error(function(data,status,headers,config){
-        console.log('error in get categories');
-      });                     
-    };
-                                              
+    generalActions.addToFavorite(postID);
+    $scope.posts = $localstorage.getObject('most');                                                  
   };
 
   $scope.mailArticleToFriend = function(postID) {
-  $scope.data = {}
-
-  // An elaborate, custom popup
-  var myPopup = $ionicPopup.show({
-    template: '<input style="direction:ltr" type="text" autofocus ng-model="data.email">',
-    title: '<span class=yekan>ایمیل را وارد کنید</span>',
-    // subTitle: 'your friend email',
-    scope: $scope,
-    buttons: [
-      { text: '<span class=yekan>لغو</span>' },
-      {
-        text: '<span class=yekan><b>بفرست</b></span>',
-        type: 'button-positive',
-        onTap: function(e) {
-          if ($scope.data.email != '')
-          {
-            $http({
-              method: 'GET',
-              url:'http://www.magly.ir/HybridAppAPI/emailToAFriend.php?postID='+postID+'&email='+$scope.data.email
-            }).success(function(data,status,headers,config){
-              console.log(data);
-            }).error(function(data,status,headers,config){
-              console.log('error in update!');
-            });                            
-          }
-        }
-      }
-    ]
-  });
-  myPopup.then(function(res) {
-    if ($scope.data.email == '')
-      console.log('Tapped!', res);
-  });
-};
+    generalActions.mailArticleToFriend(postID);
+  };
 $scope.ch = function(id)
   {
     console.log(id);
@@ -252,15 +150,10 @@ $scope.ch = function(id)
 
 .controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
-  var
-    message,
-    title,
-    link
-  ;
-
-  $scope.shareToSocial = function(postID)
+  
+  $scope.shareToSocial = function(postID, host)
   {
-    generalActions.shareToSocial(postID);
+    generalActions.shareToSocial(postID, host);
   };
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
@@ -326,13 +219,6 @@ $scope.ch = function(id)
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   $scope.showSearchItem = true;
 
-  $ionicModal.fromTemplateUrl('templates/my-modal.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-    }).then(function(modal) {
-      $scope.modal = modal;
-  });
-
   $scope.goToComment = function(postID)
   {
     $state.go('material',({postID:postID}));
@@ -341,6 +227,7 @@ $scope.ch = function(id)
   $scope.sendLike = function(postID)
   {
     generalActions.sendLike(postID);
+    $scope.posts = $localstorage.getObject('posts');
   };
 
   $scope.mailArticleToFriend = function(postID) {    
@@ -349,7 +236,8 @@ $scope.ch = function(id)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);                                              
+    generalActions.addToFavorite(postID);
+    $scope.posts = $localstorage.getObject('posts');
   };
 
   $scope.signOut = function()
@@ -594,24 +482,19 @@ $scope.ch = function(id)
 })
 .controller('searchCtrl', function(generalActions, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
-  $scope.data = {};
-  var
-    message,
-    title,
-    link
-  ;
   $scope.ch = function(id)
   {
     console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
-  }
-  // $scope.searchKey = '';
-  $scope.shareToSocial = function(postID)
+  };
+
+  $scope.shareToSocial = function(postID, host)
   {
-    generalActions.shareToSocial(postID);                
+    generalActions.shareToSocial(postID, host);                
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
+    $scope.data = {};
     // $scope.posts = $localstorage.getObject('posts');
     // $scope.info = $localstorage.getObject('userInfo');
   });
@@ -627,6 +510,7 @@ $scope.ch = function(id)
       url:'http://www.magly.ir/HybridAppAPI/search.php?searchKey='+$scope.data.searchKey
     }).success(function(data,status,headers,config){
       console.log(data);
+      $localstorage.setObject('search', data);
       $scope.posts = data;
       $ionicLoading.hide();
     }).error(function(data,status,headers,config){
@@ -648,7 +532,8 @@ $scope.ch = function(id)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);                                           
+    generalActions.addToFavorite(postID);      
+    $scope.posts = $localstorage.getObject('search');
   };
   
   $scope.sendLike = function(postID)
@@ -1071,14 +956,15 @@ $scope.ch = function(id)
     title,
     link
   ;
-  $scope.shareToSocial = function(postID)
+  $scope.shareToSocial = function(postID, host)
   {
-    generalActions.shareToSocial(postID);
+    generalActions.shareToSocial(postID, host);
   };
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);                                          
+    generalActions.addToFavorite(postID);  
+    $scope.posts = $localstorage.getObject('favoritePosts');                                            
   };
 
   $scope.sendLike = function(postID)
