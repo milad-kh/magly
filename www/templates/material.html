@@ -4,6 +4,9 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
+<ion-nav-buttons side="right">
+  <a class="button button-icon icon ion-chevron-left" ng-click="goBack()"></a>          
+</ion-nav-buttons>
 <ion-tabs class="tabs-icon-only tabs-striped tabs-color-active-positive">
   <!-- List of comments -->
   <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book">
