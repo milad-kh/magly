@@ -205,7 +205,7 @@ $scope.ch = function(id)
       }
       else
       {
-        $ionicScrollDelegate.scrollToTop(); 
+        $ionicScrollDelegate.scrollTop(); 
       }
     });
   });
@@ -865,7 +865,7 @@ $scope.ch = function(id)
   };  
 })
 
-.controller('favoriteCtrl', function(generalActions, $ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
+.controller('favoriteCtrl', function(generalActions,$ionicScrollDelegate, $ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
   console.warn('favoriteCtrl initialized');
   
   $scope.isPostInCollection = function(post, collection)
@@ -879,7 +879,9 @@ $scope.ch = function(id)
     if (flag)
       return true;
   }
+
   $scope.$on('$ionicView.enter', function(){
+
   $scope.info = $localstorage.getObject('userInfo');
   console.info($scope.info);
   $scope.showSignIn = checkUserAuth.isUserLogin();
@@ -939,11 +941,7 @@ $scope.ch = function(id)
   console.info($scope.favoritePosts);
   });
   
-  var
-    message,
-    title,
-    link
-  ;
+  
   $scope.shareToSocial = function(postID, host)
   {
     generalActions.shareToSocial(postID, host);
@@ -952,7 +950,16 @@ $scope.ch = function(id)
   $scope.addToFavorite = function(postID)
   {
     generalActions.addToFavorite(postID);  
-    $scope.posts = $localstorage.getObject('favoritePosts');                                            
+    $scope.favoritePosts = $localstorage.getObject('favoritePosts'); 
+    var arrTemp = [];
+    ng.forEach($scope.favoritePosts, function(post){
+      if (post.isFavorite)
+        arrTemp.push(post);
+    });
+    $scope.favoritePosts = arrTemp;
+    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
+    $ionicScrollDelegate.scrollTop();
+    console.info($scope.favoritePosts);
   };
 
   $scope.sendLike = function(postID)
