@@ -124,7 +124,7 @@
   $scope.mailArticleToFriend = function(postID) {
     generalActions.mailArticleToFriend(postID);
   };
-$scope.ch = function(id)
+  $scope.ch = function(id)
   {
     console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
@@ -869,6 +869,11 @@ $scope.ch = function(id)
 
 .controller('favoriteCtrl', function(generalActions,$ionicScrollDelegate, $ionicLoading, $scope, $localstorage, $http, $ionicPopup, $cordovaSocialSharing, $state, checkUserAuth){
   console.warn('favoriteCtrl initialized');
+  $scope.ch = function(id)
+  {
+    console.log(id);
+    $state.go('tab.chat-detail', ({chatId:id}));
+  };
   
   $scope.isPostInCollection = function(post, collection)
   {
