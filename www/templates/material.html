@@ -1,6 +1,4 @@
 <ion-view>
-<ion-nav-buttons side="right">
-</ion-nav-buttons>
 <!--
 Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
@@ -9,7 +7,7 @@ navigation history that also transitions its views in and out.
 <ion-tabs class="tabs-icon-only tabs-striped tabs-color-active-positive">
   <!-- List of comments -->
   <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book">
-   <ion-content>
+   <ion-content style="margin-top:10%">
     <div class="list" style="direction:rtl">
       <a class="item item-avatar" ng-repeat="comment in comments">        
         <h2 ng-bind="comment.comment_author" class="yekan"></h2>
@@ -21,7 +19,7 @@ navigation history that also transitions its views in and out.
 
   <!-- send comment form -->
   <ion-tab icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble-outline">
-    <ion-content>
+    <ion-content style="margin-top:10%">
     <div style="height:auto;direction:rtl">
 
     <div class="row">
