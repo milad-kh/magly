@@ -599,6 +599,8 @@ $scope.ch = function(id)
         console.info('inam yeki jadid', data);
         $ionicLoading.hide();
         $scope.targetPost = data;
+        var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
+        $scope.targetPost.post_content = x;
         var x = $sce.trustAsHtml($scope.targetPost.post_content);
         $scope.targetPost.post_content = x;
       // re-make scope.posts and localStorage
