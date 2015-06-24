@@ -828,7 +828,7 @@ $scope.ch = function(id)
 
   $scope.sendComment = function()
   {
-    $scope.modal.hide();
+    
     console.log('sent comment...');
     $ionicLoading.show({
       template:'<span><div class="yekan">در حال ارسال نظر</div><div class="yekan">لطفا شکیبا باشید</div></span>'
