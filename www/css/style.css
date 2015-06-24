@@ -286,3 +286,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
   font-family: yekan;
   font-size: initial;
 }*/
+.tab-nav.tabs
+{
+	background-color: lavender;
+}
