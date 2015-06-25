@@ -269,31 +269,31 @@
       var IDarray = [];
       // step 1 : find biggest post ID in local
       ng.forEach($scope.posts, function(value){
-        IDarray.push(value.ID);        
+        IDarray.push(value.ID);
       });
-      var biggestID = $scope.getMaxOfArray(IDarray);      
+      var biggestID = $scope.getMaxOfArray(IDarray);
       // step 2 : Ajax request to server
         $http({
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
           cache: false
-        }).success(function(data,status,headers,config){ 
+        }).success(function(data,status,headers,config){
         if(data != null)
         {
           var kol = _.union(data, $scope.posts);
           $scope.topData = data;
           $scope.posts = kol;
           localStorage.removeItem('posts');
-          $localstorage.setObject('posts', $scope.posts);          
+          $localstorage.setObject('posts', $scope.posts);
 
           $cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
 
         }
         else
-        {           
-          $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');         
-         };        
+        {
+          $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');
+         };
           // also replace localStorage posts lists with new lists
         
         }).error(function(data,status,headers,config){
