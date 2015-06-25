@@ -40,9 +40,9 @@
   </div>
    <div class="item tabs tabs-secondary tabs-icon-left"> 
       
-      <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike()">
-        <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
-        <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>
+      <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike(targetPost.ID)">
+        <i class="icon ion-thumbsup" ng-if="!targetPost.isLike"></i>
+        <i class="icon ion-thumbsup" style="color:green" ng-if="targetPost.isLike"></i>
       </a>
 
         <a class="tab-item" ng-click="goToComment()">
@@ -53,13 +53,13 @@
           <i class="icon ion-android-share-alt"></i>
         </a>
 
-        <a class="tab-item" ng-click="addToFavorite()" ng-if="!showSignIn">
+        <a class="tab-item" ng-click="addToFavorite(targetPost.ID)" ng-if="!showSignIn">
           <i ng-show="targetPost.isFavorite" class="icon ion-ios-heart" style="color:red"></i>
           <i ng-show="!targetPost.isFavorite" class="icon ion-ios-heart-outline"></i>
           
         </a>
         
-        <a class="tab-item" ng-click="mailArticleToFriend()">
+        <a class="tab-item" ng-click="mailArticleToFriend(targetPost.ID)">
           <i class="icon ion-ios-email-outline"></i>
         </a>
          </div>

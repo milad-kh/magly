@@ -537,11 +537,6 @@
 .controller('ChatDetailCtrl', function(generalActions,$sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   
-  var
-    message,
-    title,
-    link
-  ;
   $scope.shareToSocial = function(postID)
   {
     generalActions.shareToSocial(postID);
@@ -557,18 +552,21 @@
     $state.go('material',({postID:$stateParams.chatId}))
   }
 
-  $scope.sendLike = function() // we MUST GET postID from $stateParams
+  $scope.sendLike = function(postID) // we MUST GET postID from $stateParams
   {
     generalActions.sendLike(postID);
+    $scope.targetPost.isLike = !$scope.targetPost.isLike;
   };
 
-  $scope.mailArticleToFriend = function() {
+  $scope.mailArticleToFriend = function(postID) {
     generalActions.mailArticleToFriend(postID); // get from $stateParams
+
   };
 
-  $scope.addToFavorite = function()
+  $scope.addToFavorite = function(postID)
   {            
-    generalActions.addToFavorite(postID); // get postID from $stateParams                                            
+    generalActions.addToFavorite(postID); // get postID from $stateParams  
+    $scope.targetPost.isFavorite = !$scope.targetPost.isFavorite;
   };
 
   $scope.posts = $localstorage.getObject('posts');

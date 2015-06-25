@@ -68,12 +68,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     })
 
   
-  .state('comment', {
-      url: "/post/:postID/comment",
-      templateUrl: "templates/comments.html"
-    })
-
-  
   .state('material', {
       url: "/material/:postID",
       templateUrl: "templates/material.html",
