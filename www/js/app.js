@@ -50,13 +50,31 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     templateUrl: "templates/tabs.html",
     controller: function(checkUserAuth, $scope, $rootScope)
     {
+
       $scope.$on('$ionicView.afterEnter', function(){
+      $scope.showSignIn = checkUserAuth.isUserLogin();      
+      $scope.$on('signOutOfApp', function(){
+        console.info('alan dge khodayee bayad miraft');
+        $scope.checkUserLogin();
+      });  
+      console.info('execute');
+      $scope.checkUserLogin = function()
+      {
         $scope.showSignIn = checkUserAuth.isUserLogin();
+        if (!$scope.showSignIn)
+        {
+          console.info('logine agha');
+          return "ng-show";
+
+        }
+        else
+        {
+          console.info('NOT');          
+          return "ng-hide";
+        }
+      }
       });
-      $rootScope.$on('signOutOfApp', function(){
-        console.info('fahmidim');
-        $scope.showSignIn = true;
-      });
+      
     }
 
   })

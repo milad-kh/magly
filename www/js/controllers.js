@@ -178,7 +178,8 @@
           })
         });        
         $scope.posts = currentCategoryPosts; 
-        console.warn('inaram bayad neshun bede', $scope.posts);                     
+        console.warn('inaram bayad neshun bede', $scope.posts);  
+        $ionicScrollDelegate.scrollTop();
       }
       ///////////////////
     }
@@ -404,10 +405,7 @@
   });
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
-  $scope.signOut = function()
-  {
-    localStorage.removeItem('userInfo');
-  }
+
   $ionicPopover.fromTemplateUrl('templates/popover.html', {
     scope: $scope
   }).then(function(popover) {
@@ -649,11 +647,6 @@
     }
   });  
   
-  $rootScope.$on('signOutOfApp', function(){
-    console.info('fahmidim');
-    $scope.showSignIn = true;
-  });
-  
   $scope.showForgetPassModal = function()
   {
     $scope.data = {};
@@ -889,8 +882,8 @@
 
   $scope.info = $localstorage.getObject('userInfo');
   console.info($scope.info);
-  $scope.showSignIn = checkUserAuth.isUserLogin();
-  console.warn($localstorage);    
+  //$scope.showSignIn = checkUserAuth.isUserLogin();
+  //console.info($scope.showSignIn);    
   var sign = $localstorage.getObject('favoritePosts');
   if (_.isEmpty(sign))
   {

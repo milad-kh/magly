@@ -6,14 +6,14 @@
     
     <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
       <span style="position:absolute;background-color:seashell" class="yekan">همه ی مقالات</span>
-      <img src="{{all}}" style="width:100%;opacity:0.7">
+      <img src="{{all}}" style="width:100%">
     </div>
 
     <div style="display:table" ng-repeat="row in categories" >
       
-      <div style="float:left;width:50%" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
-        <span style="position:absolute;background-color:seashell" class="yekan" ng-bind="item.cat_name"></span>
-        <img src="{{item.thumbnail}}" style="width:100%;opacity:0.7">
+      <div style="float:left;width:50%;padding:3px;direction:rtl" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
+        <span style="position:absolute;background-color:white;font-size:xx-large" class="yekan" ng-bind="item.cat_name"></span>
+        <img src="{{item.thumbnail}}" style="width:100%">
       </div>
       
     </div>

@@ -23,10 +23,9 @@ navigation history that also transitions its views in and out.
   </ion-tab>
 
   <!-- favorite posts -->
-  <ion-tab ng-hide="true" icon-off="ion-ios-glasses" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
-    <ion-nav-view name="tab-favoriteList"></ion-nav-view>
-  </ion-tab>
-
+    <ion-tab icon-off="ion-ios-glasses" class="{{checkUserLogin()}}" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
+      <ion-nav-view name="tab-favoriteList"></ion-nav-view>
+    </ion-tab>
   <!-- search posts -->
   <ion-tab icon-off="ion-ios-search" icon-on="ion-ios-search" href="#/tab/search">
     <ion-nav-view name="tab-search"></ion-nav-view>
