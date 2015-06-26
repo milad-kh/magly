@@ -593,12 +593,19 @@
       url:'http://www.magly.ir/HybridAppAPI/getOnePost.php?postID='+$stateParams.chatId
     }).success(function(data,status,headers,config){ 
         console.info('inam yeki jadid', data);
+        
         $ionicLoading.hide();
+        
         $scope.targetPost = data;
+
         var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
+        var y = x.replace('width="640"','width="100%"');
+        
+        console.info('avali', y);
+        $scope.targetPost.post_content = y;
+        x = $sce.trustAsHtml($scope.targetPost.post_content);
         $scope.targetPost.post_content = x;
-        var x = $sce.trustAsHtml($scope.targetPost.post_content);
-        $scope.targetPost.post_content = x;
+        
       // re-make scope.posts and localStorage
         var kol = _.union($scope.posts,data);                   
         $scope.posts = kol;
