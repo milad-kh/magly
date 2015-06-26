@@ -39,12 +39,12 @@
     <preference name="SplashScreenHeight" value="800" /> <!-- defaults to "200" -->
 </platform>
   <platform name="android">
-    <icon src="resources/android/icon/magly.png" density="ldpi"/>
-    <icon src="resources/android/icon/magly.png" density="mdpi"/>
-    <icon src="resources/android/icon/magly.png" density="hdpi"/>
-    <icon src="resources/android/icon/magly.png" density="xhdpi"/>
-    <icon src="resources/android/icon/magly.png" density="xxhdpi"/>
-    <icon src="resources/android/icon/magly.png" density="xxxhdpi"/>
+    <icon src="resources/android/icon/logo36.png" density="ldpi"/>
+    <icon src="resources/android/icon/logo48.png" density="mdpi"/>
+    <icon src="resources/android/icon/logo72.png" density="hdpi"/>
+    <icon src="resources/android/icon/logo96.png" density="xhdpi"/>
+    <icon src="resources/android/icon/logo144.png" density="xxhdpi"/>
+    <icon src="resources/android/icon/logo192.png" density="xxxhdpi"/>
 
     <splash src="resources/android/splash/landscape.png" density="land-ldpi"/>
     <splash src="resources/android/splash/landscape.png" density="land-mdpi"/>
