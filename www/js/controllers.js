@@ -303,19 +303,31 @@
        // Stop the ion-refresher from spinning
          $scope.$broadcast('scroll.refreshComplete');
          console.warn('haji amaliat b payan resid');
+         /************************** START **************************/
+          // check the capacity of scroll
+          // here we must remove extra posts from TOP of scope.posts
+          var args = $scope.posts.length;
+          console.log(args);
+          var difference = $scope.posts.length - 15 ;     
+          $scope.posts.splice(15 - 1,difference);          
+          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+          /************************** END **************************/
         });      
       // step 4 : Arrange scope.posts object ASC
        // $scope.reArrangePosts();
        }
     };
 
+    // check the number of posts in RAM
+    
+
   $scope.loadMoreDataForDown = function()
-    {    
+    {  
+            
     if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {  
       console.log('down');
-      var userInfo = $localstorage.getObject('userInfo');
-      console.log('inam data:', userInfo.ID);
+      var userInfo = $localstorage.getObject('userInfo');      
       var IDarray = [];      
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
@@ -331,9 +343,21 @@
           console.log(kol);
           localStorage.removeItem('posts');
           $localstorage.setObject('posts',$scope.posts);
-          $scope.$broadcast('scroll.infiniteScrollComplete');                    
+          var args = $scope.posts.length;
+          $scope.$broadcast('scroll.infiniteScrollComplete', args);                    
+
+          /************************** START **************************/
+          // check the capacity of scroll
+          // here we must remove extra posts from TOP of scope.posts
+          console.log(args);
+          var difference = $scope.posts.length - 15 ;     
+          $scope.posts.splice(0,difference);
+          $ionicScrollDelegate.scrollTop();
+          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+          /************************** END **************************/
+
         }).error(function(data,status,headers,config){
-          console.log('error in get categories');
+          console.log('error in get posts for down');
         });       
       }
     };
