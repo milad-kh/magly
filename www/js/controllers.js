@@ -294,7 +294,7 @@
         else
         {
           $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');
-         };
+        }; 
           // also replace localStorage posts lists with new lists
         
         }).error(function(data,status,headers,config){
@@ -320,6 +320,17 @@
 
     // check the number of posts in RAM
     
+$scope.isPostInCollection = function(post, collection)
+  {
+    var
+    flag = false;
+    ng.forEach(collection, function(collectionPost){
+      if (post.ID == collectionPost.ID)
+        flag = true;
+    });
+    if (flag)
+      return true;
+  }
 
   $scope.loadMoreDataForDown = function()
     {  
@@ -332,13 +343,30 @@
       ng.forEach($scope.posts, function(value){
         IDarray.push(value.ID);        
       });
-      var smallestID = $scope.getMinOfArray(IDarray);
+
+      var newPostsCollection = []; // array of posts that we success to cache from local
+      var smallestIDinPosts = 5600;
+      var smallestIDinLocalStorage = 3000;
+      var i = 0;
+      while(smallestIDinPosts >= smallestIDinLocalStorage && i =< 3)
+      {
+        ng.forEach($localstorage.getObject('posts'), function(post){
+          if(post.ID == smallestIDinPosts)
+          {
+            newPostsCollection.push(post);
+          }
+        });
+        i ++;
+      }
+
+      var remainsPostsToGet = newPostsCollection.length - 3;
+      var kol;
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID +'&userID='+userInfo.ID,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID +'&userID='+userInfo.ID + '&numberToGetPost' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){          
-          var kol = _.union($scope.posts,data);                   
+          kol = _.union($scope.posts,data);                   
           $scope.posts = kol;
           console.log(kol);
           localStorage.removeItem('posts');
@@ -358,7 +386,9 @@
 
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
-        });       
+        }); 
+        // calculate posts that we fetched from both local and net      
+        
       }
     };
 
