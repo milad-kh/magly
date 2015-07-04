@@ -331,7 +331,9 @@ $scope.isPostInCollection = function(post, collection)
     if (flag)
       return true;
   }
-
+$scope.getMinOfArray = function(numArray) {
+        return Math.min.apply(null, numArray);
+      }
   $scope.loadMoreDataForDown = function()
     {  
             
@@ -344,40 +346,61 @@ $scope.isPostInCollection = function(post, collection)
         IDarray.push(value.ID);        
       });
 
-      var newPostsCollection = []; // array of posts that we success to cache from local
-      var smallestIDinPosts = 5600;
-      var smallestIDinLocalStorage = 3000;
+      var postsFromLocal = []; // array of posts that we success to cache from local
+      var tempIDarray = [];
+      
+      ng.forEach($scope.posts, function(post)
+      {
+        tempIDarray.push(post.ID);
+      });
+      var smallestIDinPosts = $scope.getMinOfArray(tempIDarray);
+      console.info('smallestIDinPosts', smallestIDinPosts);
+
+      ng.forEach($localstorage.getObject('posts'), function(post){
+        tempIDarray.push(post.ID);
+      });
+      var smallestIDinLocalStorage = $scope.getMinOfArray(tempIDarray);
+      console.info('smallestIDinLocalStorage', smallestIDinLocalStorage);
+      
+
       var i = 0;
-      while(smallestIDinPosts >= smallestIDinLocalStorage && i =< 3)
+      while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
       {
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == smallestIDinPosts)
           {
-            newPostsCollection.push(post);
+            postsFromLocal.push(post);
+            alert('این تو حافظه بود');
+            return false;
           }
         });
+        smallestIDinPosts -- ;
         i ++;
       }
 
-      var remainsPostsToGet = newPostsCollection.length - 3;
-      var kol,data;
+      var remainsPostsToGet = postsFromLocal.length - 3;
+      var kol,postsFromNet;
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID +'&userID='+userInfo.ID + '&numberToGetPost' + remainsPostsToGet,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){          
           
-          data = data;          
+          postsFromNet = data;
+          var posts ;
+          posts = _.union($localstorage.getObject('posts'), $scope.posts);
+          localStorage.removeItem('posts');
+          $localstorage.setObject('posts',$scope.posts);
+
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
         });
 
         // re-calculate posts that we fetched from both local and net      
-        kol = _.union($scope.posts, newPostsCollection, data);                   
+        kol = _.union($scope.posts, postsFromLocal, postsFromNet);                   
         $scope.posts = kol;
         console.log('alan majmue datahaye ma inan:', kol);
-        localStorage.removeItem('posts');
-        $localstorage.setObject('posts',$scope.posts);
+        
         var args = $scope.posts.length;
         $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
         console.log(args);

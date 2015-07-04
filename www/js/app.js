@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         }
         else
         {
-          console.info('NOT');          
+                
           return "ng-hide";
         }
       }
