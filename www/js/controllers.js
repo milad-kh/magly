@@ -360,35 +360,31 @@ $scope.isPostInCollection = function(post, collection)
       }
 
       var remainsPostsToGet = newPostsCollection.length - 3;
-      var kol;
+      var kol,data;
         $http({
           method: 'GET',
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestID +'&userID='+userInfo.ID + '&numberToGetPost' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){          
-          kol = _.union($scope.posts,data);                   
-          $scope.posts = kol;
-          console.log(kol);
-          localStorage.removeItem('posts');
-          $localstorage.setObject('posts',$scope.posts);
-          var args = $scope.posts.length;
-          $scope.$broadcast('scroll.infiniteScrollComplete', args);                    
-
-          /************************** START **************************/
-          // check the capacity of scroll
-          // here we must remove extra posts from TOP of scope.posts
-          console.log(args);
-          var difference = $scope.posts.length - 15 ;     
-          $scope.posts.splice(0,difference);
-          $ionicScrollDelegate.scrollTop();
-          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
-          /************************** END **************************/
-
+          
+          data = data;          
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
-        }); 
-        // calculate posts that we fetched from both local and net      
-        
+        });
+
+        // re-calculate posts that we fetched from both local and net      
+        kol = _.union($scope.posts, newPostsCollection, data);                   
+        $scope.posts = kol;
+        console.log('alan majmue datahaye ma inan:', kol);
+        localStorage.removeItem('posts');
+        $localstorage.setObject('posts',$scope.posts);
+        var args = $scope.posts.length;
+        $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+        console.log(args);
+        var difference = $scope.posts.length - 15 ;     
+        $scope.posts.splice(0,difference);
+        $ionicScrollDelegate.scrollTop();
+        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
       }
     };
 
