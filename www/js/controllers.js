@@ -336,7 +336,7 @@ $scope.getMinOfArray = function(numArray) {
       }
   $scope.loadMoreDataForDown = function()
     {  
-            
+       console.info('paeen');
     if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {  
       console.log('down');
@@ -362,8 +362,8 @@ $scope.getMinOfArray = function(numArray) {
       var smallestIDinLocalStorage = $scope.getMinOfArray(tempIDarray);
       console.info('smallestIDinLocalStorage', smallestIDinLocalStorage);
       
-
       var i = 0;
+      smallestIDinPosts -- ;
       while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
       {
         ng.forEach($localstorage.getObject('posts'), function(post){
@@ -378,36 +378,50 @@ $scope.getMinOfArray = function(numArray) {
         i ++;
       }
 
-      var remainsPostsToGet = postsFromLocal.length - 3;
+      var remainsPostsToGet = 3 - postsFromLocal.length;
+      console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
       var kol,postsFromNet;
+      if(remainsPostsToGet > 0)
+      {
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost' + remainsPostsToGet,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){          
-          
+          console.info('succcccc', data);
           postsFromNet = data;
-          var posts ;
-          posts = _.union($localstorage.getObject('posts'), $scope.posts);
+          // update localstorage
+          var posts = _.union($localstorage.getObject('posts'), postsFromNet);
           localStorage.removeItem('posts');
-          $localstorage.setObject('posts',$scope.posts);
-
+          $localstorage.setObject('posts',posts);
+          kol = _.union($scope.posts, postsFromNet);                   
+          $scope.posts = kol;
+          console.info('alan majmue inan', $scope.posts);
+          var args = $scope.posts.length;
+          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+          console.log(args);
+          var difference = $scope.posts.length - 15 ;     
+          $scope.posts.splice(0,difference);
+          $ionicScrollDelegate.scrollTop();
+          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
         });
+      }
+      else
+      {
 
-        // re-calculate posts that we fetched from both local and net      
-        kol = _.union($scope.posts, postsFromLocal, postsFromNet);                   
-        $scope.posts = kol;
-        console.log('alan majmue datahaye ma inan:', kol);
-        
-        var args = $scope.posts.length;
-        $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
-        console.log(args);
-        var difference = $scope.posts.length - 15 ;     
-        $scope.posts.splice(0,difference);
-        $ionicScrollDelegate.scrollTop();
-        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+          kol = _.union($scope.posts, postsFromLocal);                   
+          $scope.posts = kol;
+          console.info('alan majmue inan', $scope.posts);
+          var args = $scope.posts.length;
+          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+          console.log(args);
+          var difference = $scope.posts.length - 15 ;     
+          $scope.posts.splice(0,difference);
+          $ionicScrollDelegate.scrollTop();
+          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+        }
       }
     };
 
