@@ -264,6 +264,8 @@
     }
   $scope.loadMoreDataForTop = function()
     {
+            var userInfo = $localstorage.getObject('userInfo');      
+
       if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {
       console.log('top');
@@ -291,9 +293,11 @@
       biggestIDinPosts ++ ;
       while(biggestIDinPosts <= biggestIDinLocalStorage && i <= 3)
       {
+        console.info(biggestIDinPosts);
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == biggestIDinPosts)
           {
+            console.log(post);
             postsFromLocal.push(post);
             alert('این تو حافظه بود');
             return false;
@@ -302,12 +306,13 @@
         biggestIDinPosts ++ ;
         i ++;
       }
+      console.warn(postsFromLocal);
       ///////////////////////////////////////////////
       var biggestID = $scope.getMaxOfArray(tempIDarray);
       // step 2 : Ajax request to server
       remainsPostsToGet = 3 - postsFromLocal.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-      kol,postsFromNet = [];
+      var kol,postsFromNet = [];
       if(remainsPostsToGet > 0)
       {
         $http({
@@ -324,11 +329,11 @@
           localStorage.removeItem('posts');
           $localstorage.setObject('posts',posts);
 
-          $cordovaVibration.vibrate(700);
+          /*$cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
-
+*/
           $scope.$broadcast('scroll.refreshComplete');
-          console.warn('haji amaliat b payan resid');
+          console.warn('haji amaliat b payan resid', data);
           /************************** START **************************/
           // check the capacity of scroll
           // here we must remove extra posts from TOP of scope.posts
