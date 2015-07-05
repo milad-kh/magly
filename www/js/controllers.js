@@ -267,43 +267,69 @@
       if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {
       console.log('top');
-      var IDarray = [];
+      
       // step 1 : find biggest post ID in local
-      ng.forEach($scope.posts, function(value){
-        IDarray.push(value.ID);
+      
+      ///////////////////////////////////////////////
+      var postsFromLocal = []; // array of posts that we success to cache from local
+      var tempIDarray = [];
+      
+      ng.forEach($scope.posts, function(post)
+      {
+        tempIDarray.push(post.ID);
       });
-      var biggestID = $scope.getMaxOfArray(IDarray);
+      var biggestIDinPosts = $scope.getMaxOfArray(tempIDarray);
+      console.info('biggestIDinPosts', biggestIDinPosts);
+
+      ng.forEach($localstorage.getObject('posts'), function(post){
+        tempIDarray.push(post.ID);
+      });
+      var biggestIDinLocalStorage = $scope.getMaxOfArray(tempIDarray);
+      console.info('biggestIDinLocalStorage', biggestIDinLocalStorage);
+      
+      var i = 0;
+      biggestIDinPosts ++ ;
+      while(biggestIDinPosts <= biggestIDinLocalStorage && i <= 3)
+      {
+        ng.forEach($localstorage.getObject('posts'), function(post){
+          if(post.ID == biggestIDinPosts)
+          {
+            postsFromLocal.push(post);
+            alert('این تو حافظه بود');
+            return false;
+          }
+        });
+        biggestIDinPosts ++ ;
+        i ++;
+      }
+      ///////////////////////////////////////////////
+      var biggestID = $scope.getMaxOfArray(tempIDarray);
       // step 2 : Ajax request to server
+      remainsPostsToGet = 3 - postsFromLocal.length;
+      console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
+      kol,postsFromNet = [];
+      if(remainsPostsToGet > 0)
+      {
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){
-        if(data != null)
-        {
-          var kol = _.union(data, $scope.posts);
-          $scope.topData = data;
+        
+          var kol = _.union(data, $scope.posts);          
           $scope.posts = kol;
+          postsFromNet = data;
+          // update localstorage
+          var posts = _.union(postsFromNet, $localstorage.getObject('posts'));
           localStorage.removeItem('posts');
-          $localstorage.setObject('posts', $scope.posts);
+          $localstorage.setObject('posts',posts);
 
           $cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
 
-        }
-        else
-        {
-          $cordovaToast.show('داده ی جدید موجود نیست', 'long', 'top');
-        }; 
-          // also replace localStorage posts lists with new lists
-        
-        }).error(function(data,status,headers,config){
-          console.log('error in get data for top');
-        }).finally(function() {
-       // Stop the ion-refresher from spinning
-         $scope.$broadcast('scroll.refreshComplete');
-         console.warn('haji amaliat b payan resid');
-         /************************** START **************************/
+          $scope.$broadcast('scroll.refreshComplete');
+          console.warn('haji amaliat b payan resid');
+          /************************** START **************************/
           // check the capacity of scroll
           // here we must remove extra posts from TOP of scope.posts
           var args = $scope.posts.length;
@@ -311,10 +337,24 @@
           var difference = $scope.posts.length - 15 ;     
           $scope.posts.splice(15 - 1,difference);          
           console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
-          /************************** END **************************/
-        });      
-      // step 4 : Arrange scope.posts object ASC
-       // $scope.reArrangePosts();
+         ///////////////////////////////////
+          
+        
+        }).error(function(data,status,headers,config){
+          console.log('error in get data for top');
+        }); 
+      }
+      else
+      {
+        kol = _.union(postsFromLocal, $scope.posts);                   
+        $scope.posts = kol;
+        console.info('alan majmue inan', $scope.posts);  
+        var args = $scope.posts.length;
+        var difference = $scope.posts.length - 15 ;     
+        $scope.posts.splice(15 - 1,difference);          
+        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+      }       
+      
        }
     };
 
