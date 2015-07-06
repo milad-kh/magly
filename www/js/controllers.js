@@ -366,6 +366,67 @@
       }       
       
        }
+       else
+       {
+        //////////////////////////////////////////////// call pull down when user selected a category
+        console.log('top when category selected');
+        var postsFromLocal = [];
+        var tempIDarray = [];
+        
+        ng.forEach($scope.posts, function(post)
+        {
+          tempIDarray.push(post.ID);
+        });
+
+        var biggestIDinPosts = $scope.getMaxOfArray(tempIDarray);
+        console.info('biggestIDinPosts', biggestIDinPosts);
+
+        ng.forEach($localstorage.getObject('posts'), function(post){
+          tempIDarray.push(post.ID);
+        });
+
+        var biggestIDinLocalStorage = $scope.getMaxOfArray(tempIDarray);
+        console.info('biggestIDinLocalStorage', biggestIDinLocalStorage);
+
+        var i = 0;
+        biggestIDinPosts ++ ;
+        while(biggestIDinPosts <= biggestIDinLocalStorage && i < 3)
+        {
+          ng.forEach($localstorage.getObject('posts'), function(post){
+            if(post.ID == biggestIDinPosts)
+            {
+              ng.forEach(post.catId, function(categoryId){
+                if(categoryId == $localstorage.getObject('cat'))
+                {
+                  postsFromLocal.push(post);
+                  i ++;
+                }
+              });
+
+            }
+          });
+          biggestIDinPosts ++ ;
+        }
+
+        // ascending order
+        var postsFromLocalTemp = [];
+        for (var i=(postsFromLocal.length - 1);i>=0;i--)
+        {
+          postsFromLocalTemp.push(postsFromLocal[i]);
+        }
+        postsFromLocal = postsFromLocalTemp;
+
+        ///////////////////////////////////////////////
+        var biggestID = $scope.getMaxOfArray(tempIDarray);
+        var kol = [];        
+        kol = _.union(postsFromLocal, $scope.posts);                   
+        $scope.posts = kol;
+        $scope.$broadcast('scroll.refreshComplete');
+        var args = $scope.posts.length;
+        var difference = $scope.posts.length - 15 ;     
+        $scope.posts.splice(15 - 1,difference);
+        /////////////////////////////////////////////////////////////////////////////////////////////
+       }
     };
 
     // check the number of posts in RAM
