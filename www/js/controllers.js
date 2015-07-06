@@ -616,8 +616,12 @@ $scope.getMinOfArray = function(numArray) {
 
   $scope.search = function()
   {
+    if($scope.data.searchKey.length > 4)
+    {
+
+
     $ionicLoading.show({
-      template: '<span class="yekan">... در حال جستجو</span>'
+      template: '<span class="yekan">... در حال جستجو</span><div class="yekan">لطفا شکیبا باشید</div>'
     });
     console.warn($scope);
     $http({
@@ -632,6 +636,19 @@ $scope.getMinOfArray = function(numArray) {
       console.log('error in update!');
       $ionicLoading.hide();
     });
+  }
+  else
+  {
+    
+      var alertPopup = $ionicPopup.alert({
+        title: '<span class="yekan">خطا در جستجو</span>',
+        template: '<span class="yekan">عبارت مورد جستجو باید بیشتر از 4 حرف داشته باشد</span>'
+      });
+    alertPopup.then(function(res) {
+      console.log('Thank you for not eating my delicious ice cream cone');
+    });
+   
+  }
   }
 
   $scope.ch = function(id)
