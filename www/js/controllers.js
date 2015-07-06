@@ -288,23 +288,19 @@
       });
       var biggestIDinLocalStorage = $scope.getMaxOfArray(tempIDarray);
       console.info('biggestIDinLocalStorage', biggestIDinLocalStorage);
-      
       var i = 0;
       biggestIDinPosts ++ ;
-      while(biggestIDinPosts <= biggestIDinLocalStorage && i <= 3)
+      while(biggestIDinPosts <= biggestIDinLocalStorage && i < 3)
       {
-        console.info(biggestIDinPosts);
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == biggestIDinPosts)
           {
             console.log(post);
             postsFromLocal.push(post);
-            alert('این تو حافظه بود');
-            return false;
+            i ++;
           }
         });
         biggestIDinPosts ++ ;
-        i ++;
       }
       console.warn(postsFromLocal);
       ///////////////////////////////////////////////
@@ -353,6 +349,8 @@
       {
         kol = _.union(postsFromLocal, $scope.posts);                   
         $scope.posts = kol;
+        $scope.$broadcast('scroll.refreshComplete');
+        console.warn('haji amaliat b payan resid', data);
         console.info('alan majmue inan', $scope.posts);  
         var args = $scope.posts.length;
         var difference = $scope.posts.length - 15 ;     
