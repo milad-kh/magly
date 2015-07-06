@@ -71,9 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         }
       }
       });
-      
     }
-
   })
   
   .state('signup', {

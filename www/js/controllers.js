@@ -187,7 +187,6 @@
     {
       $scope.posts = $localstorage.getObject('posts');
       console.warn('alan bayad', $scope.posts);
-      
       $scope.posts = $localstorage.getObject('posts');
     }
     if(_.isEmpty($localstorage.getObject('posts')))
@@ -196,8 +195,8 @@
     {
       $ionicLoading.hide();
     }
-    $scope.$on('scrollToTop', function(){
 
+    $scope.$on('scrollToTop', function(){
       console.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
       console.info($rootScope.prevState);
       if($rootScope.prevState == 'tab.dash')
