@@ -303,6 +303,18 @@
         biggestIDinPosts ++ ;
       }
       console.warn(postsFromLocal);
+
+      // ascending order
+      var postsFromLocalTemp = [];
+      console.log(postsFromLocal.length);
+      for (var i=(postsFromLocal.length - 1);i>=0;i--)
+      {
+        console.log(i,':', postsFromLocal[i]);
+        postsFromLocalTemp.push(postsFromLocal[i]);
+      }
+      postsFromLocal = postsFromLocalTemp;
+      console.info(postsFromLocal);
+
       ///////////////////////////////////////////////
       var biggestID = $scope.getMaxOfArray(tempIDarray);
       // step 2 : Ajax request to server
@@ -317,7 +329,7 @@
           cache: false
         }).success(function(data,status,headers,config){
         
-          var kol = _.union(data, $scope.posts);          
+          var kol = _.union(data, postsFromLocal, $scope.posts);          
           $scope.posts = kol;
           postsFromNet = data;
           // update localstorage
@@ -347,6 +359,7 @@
       }
       else
       {
+
         kol = _.union(postsFromLocal, $scope.posts);                   
         $scope.posts = kol;
         $scope.$broadcast('scroll.refreshComplete');
