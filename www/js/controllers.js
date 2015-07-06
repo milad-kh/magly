@@ -170,12 +170,12 @@
       ///////////////////
       if ($localstorage.getObject('cat') == 'all')
       {
-        $scope.posts = $localstorage.getObject('posts');                      
+        $scope.posts = $localstorage.getObject('savedPosts');                      
       }
       else
       {
         console.warn('ye category');
-        $scope.posts = $localstorage.getObject('posts');
+        $scope.posts = $localstorage.getObject('savedPosts');
         var currentCategoryPosts = [];
         ng.forEach($scope.posts, function(article){
           ng.forEach(article.catId, function(oneOfCatId){
@@ -193,9 +193,8 @@
     }
     else
     {
-      $scope.posts = $localstorage.getObject('posts');
-      console.warn('alan bayad', $scope.posts);
-      $scope.posts = $localstorage.getObject('posts');
+      $scope.posts = $localstorage.getObject('savedPosts');
+      
     }
     if(_.isEmpty($localstorage.getObject('posts')))
       $scope.doesLocalHaveData();
@@ -270,7 +269,7 @@
     }
   $scope.loadMoreDataForTop = function()
     {
-            var userInfo = $localstorage.getObject('userInfo');      
+      var userInfo = $localstorage.getObject('userInfo');      
 
       if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {
