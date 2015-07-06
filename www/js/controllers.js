@@ -237,12 +237,11 @@
 
   $scope.addToFavorite = function(postID)
   {
-      generalActions.addToFavorite(postID);
-      $scope.posts = $localstorage.getObject('posts');
-      console.info('................');
-      console.info($scope.posts);
-      console.info('................');
-    
+    generalActions.addToFavorite(postID);
+    $scope.posts = $localstorage.getObject('posts');
+    console.info('................');
+    console.info($scope.posts);
+    console.info('................');
   };
 
   $ionicLoading.show({
@@ -270,8 +269,6 @@
     {
       console.log('top');
       
-      // step 1 : find biggest post ID in local
-      
       ///////////////////////////////////////////////
       var postsFromLocal = []; // array of posts that we success to cache from local
       var tempIDarray = [];
@@ -295,25 +292,20 @@
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == biggestIDinPosts)
           {
-            console.log(post);
             postsFromLocal.push(post);
             i ++;
           }
         });
         biggestIDinPosts ++ ;
       }
-      console.warn(postsFromLocal);
 
       // ascending order
       var postsFromLocalTemp = [];
-      console.log(postsFromLocal.length);
       for (var i=(postsFromLocal.length - 1);i>=0;i--)
       {
-        console.log(i,':', postsFromLocal[i]);
         postsFromLocalTemp.push(postsFromLocal[i]);
       }
       postsFromLocal = postsFromLocalTemp;
-      console.info(postsFromLocal);
 
       ///////////////////////////////////////////////
       var biggestID = $scope.getMaxOfArray(tempIDarray);
@@ -328,7 +320,6 @@
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet,
           cache: false
         }).success(function(data,status,headers,config){
-        
           var kol = _.union(data, postsFromLocal, $scope.posts);          
           $scope.posts = kol;
           postsFromNet = data;
@@ -339,7 +330,7 @@
 
           /*$cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
-*/
+          */
           $scope.$broadcast('scroll.refreshComplete');
           console.warn('haji amaliat b payan resid', data);
           /************************** START **************************/
@@ -363,12 +354,9 @@
         kol = _.union(postsFromLocal, $scope.posts);                   
         $scope.posts = kol;
         $scope.$broadcast('scroll.refreshComplete');
-        console.warn('haji amaliat b payan resid', data);
-        console.info('alan majmue inan', $scope.posts);  
         var args = $scope.posts.length;
         var difference = $scope.posts.length - 15 ;     
         $scope.posts.splice(15 - 1,difference);          
-        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
       }       
       
        }

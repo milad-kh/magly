@@ -50,7 +50,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     templateUrl: "templates/tabs.html",
     controller: function(checkUserAuth, $scope, $rootScope)
     {
-
       $scope.$on('$ionicView.afterEnter', function(){
       $scope.showSignIn = checkUserAuth.isUserLogin();      
       $scope.$on('signOutOfApp', function(){
@@ -65,11 +64,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
         {
           console.info('logine agha');
           return "ng-show";
-
         }
         else
         {
-                
           return "ng-hide";
         }
       }
