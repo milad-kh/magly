@@ -2,7 +2,7 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
   
-  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state, $ionicPopover,checkUserAuth, generalActions) {
+  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
@@ -19,19 +19,9 @@
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
-      $scope.popover.hide();
     });
 
   console.warn('DashCtrl initialized');
-  $ionicPopover.fromTemplateUrl('templates/popover.html', {
-      scope: $scope
-    }).then(function(popover) {
-      $scope.popover = popover;
-  });
-  
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
 
   $scope.filterPostsByCategory = function(catID)
   {
@@ -71,7 +61,7 @@
   };
 })
 
-.controller('MostCtrl', function(generalActions, $state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopover, $ionicPopup, $cordovaSocialSharing){
+.controller('MostCtrl', function(generalActions, $state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
   
   $scope.$on('$ionicView.afterEnter', function(){
@@ -94,14 +84,9 @@
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
-      $scope.popover.hide();
     })
 
-  $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
+  
   
   $scope.goToComment = function(postID)
   {    
@@ -148,7 +133,7 @@
   }
 })
 
-.controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $ionicPopover, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+.controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
   
   $scope.shareToSocial = function(postID, host)
@@ -194,7 +179,6 @@
     else
     {
       $scope.posts = $localstorage.getObject('savedPosts');
-      
     }
     if(_.isEmpty($localstorage.getObject('posts')))
       $scope.doesLocalHaveData();
@@ -534,6 +518,59 @@ $scope.getMinOfArray = function(numArray) {
           console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
         }
       }
+      else
+      {
+        ///////////////////////////////////////////////////////////////////
+        console.info('ohoh');
+      var postsFromLocal = []; // array of posts that we success to cache from local
+      var tempIDarray = [];
+      
+      ng.forEach($scope.posts, function(post)
+      {
+        tempIDarray.push(post.ID);
+      });
+      var smallestIDinPosts = $scope.getMinOfArray(tempIDarray);
+      console.info('smallestIDinPosts', smallestIDinPosts);
+
+      ng.forEach($localstorage.getObject('posts'), function(post){
+        tempIDarray.push(post.ID);
+      });
+      var smallestIDinLocalStorage = $scope.getMinOfArray(tempIDarray);
+      console.info('smallestIDinLocalStorage', smallestIDinLocalStorage);
+      
+      var i = 0;
+      smallestIDinPosts -- ;
+      while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
+      {
+        ng.forEach($localstorage.getObject('posts'), function(post){
+          if(post.ID == smallestIDinPosts)
+          {
+            ng.forEach(post.catId, function(categoryId){
+              if(categoryId == $localstorage.getObject('cat'))
+              {
+                postsFromLocal.push(post);
+                i ++;
+              }
+            });
+          }
+        });
+        smallestIDinPosts -- ;
+        i ++;
+      }
+
+      var kol;
+      kol = _.union($scope.posts, postsFromLocal);                   
+      $scope.posts = kol;
+      console.info('alan majmue inan', $scope.posts);
+      var args = $scope.posts.length;
+      $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+      console.log(args);
+      var difference = $scope.posts.length - 15 ;     
+      $scope.posts.splice(0,difference);
+      $ionicScrollDelegate.scrollTop();
+      console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+        ///////////////////////////////////////////////////////////////////        
+      }
     };
 
   $scope.ch = function(id)
@@ -584,7 +621,7 @@ $scope.getMinOfArray = function(numArray) {
 
 })
 
-.controller('signupCtrl', function($ionicLoading, $state, $ionicPopup, $localstorage, $rootScope, $scope, $ionicPopover, $http, checkUserAuth){
+.controller('signupCtrl', function($ionicLoading, $state, $ionicPopup, $localstorage, $rootScope, $scope, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
   
   $scope.backToHome = function()
@@ -596,7 +633,6 @@ $scope.getMinOfArray = function(numArray) {
     function(event, toState, toParams, fromState, fromParams){
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
-      $scope.popover.hide();
     })
   $scope.$on('$ionicView.afterEnter', function(){    
     $scope.info = {};    
@@ -604,15 +640,6 @@ $scope.getMinOfArray = function(numArray) {
   $scope.showSignIn = checkUserAuth.isUserLogin(); 
   console.warn('signinCtrl initialized');
 
-  $ionicPopover.fromTemplateUrl('templates/popover.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
-  
-  $scope.openPopover = function($event) {
-    $scope.popover.show($event);
-  };
   $scope.signup = function()
     {
       $ionicLoading.show({
