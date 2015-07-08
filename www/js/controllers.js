@@ -142,8 +142,11 @@
   };
 
   $scope.$on('$ionicView.beforeLeave', function(){
-    $localstorage.setObject('savedPosts', $scope.posts);
-    console.info('akharin posta: ', $scope.posts);
+    if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
+      {
+        $localstorage.setObject('savedPosts', $scope.posts);
+        console.info('akharin posta: ', $scope.posts);
+      }
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
@@ -377,13 +380,18 @@
         while(biggestIDinPosts <= biggestIDinLocalStorage && i < 3)
         {
           ng.forEach($localstorage.getObject('posts'), function(post){
+            
             if(post.ID == biggestIDinPosts)
             {
               ng.forEach(post.catId, function(categoryId){
-                if(categoryId == $localstorage.getObject('cat'))
+                if(categoryId.cat_ID == $localstorage.getObject('cat'))
                 {
                   postsFromLocal.push(post);
                   i ++;
+                }
+                else
+                {
+                  console.info('hichi peida nashod');
                 }
               });
 
