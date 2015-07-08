@@ -505,7 +505,7 @@ $scope.isPostInCollection = function(post, collection)
           console.log(args);
           var difference = $scope.posts.length - 15 ;     
           $scope.posts.splice(0,difference);
-          $ionicScrollDelegate.scrollTop();
+          $ionicScrollDelegate.scrollBy(0, 3, 'shouldAnimate');
           console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
