@@ -434,9 +434,9 @@ $scope.isPostInCollection = function(post, collection)
     if (flag)
       return true;
   }
-$scope.getMinOfArray = function(numArray) {
+/*$scope.getMinOfArray = function(numArray) {
         return Math.min.apply(null, numArray);
-      }
+      }*/
   $scope.loadMoreDataForDown = function()
     {  
        console.info('paeen');
