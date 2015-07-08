@@ -439,7 +439,7 @@ $scope.isPostInCollection = function(post, collection)
       }*/
   $scope.loadMoreDataForDown = function()
     {  
-       console.info('paeen');
+       alert('paeen');
     if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
     {  
       console.log('down');
@@ -501,29 +501,29 @@ $scope.isPostInCollection = function(post, collection)
           $scope.posts = kol;
           console.info('alan majmue inan', $scope.posts);
           var args = $scope.posts.length;
-          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
           console.log(args);
           var difference = $scope.posts.length - 15 ;     
           $scope.posts.splice(0,difference);
-          $ionicScrollDelegate.scrollBy(0, 3, 'shouldAnimate');
+          console.info('majmue dovom inan', $scope.posts);
+          $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
           console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
         });
       }
       else
       {
-
-          kol = _.union($scope.posts, postsFromLocal);                   
-          $scope.posts = kol;
-          console.info('alan majmue inan', $scope.posts);
-          var args = $scope.posts.length;
-          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
-          console.log(args);
-          var difference = $scope.posts.length - 15 ;     
-          $scope.posts.splice(0,difference);
-          $ionicScrollDelegate.scrollTop();
-          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+        kol = _.union($scope.posts, postsFromLocal);                   
+        $scope.posts = kol;
+        console.info('alan majmue inan', $scope.posts);
+        var args = $scope.posts.length;
+        console.log(args);
+        var difference = $scope.posts.length - 15 ;     
+        $scope.posts.splice(0,difference);
+        $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
+        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+        $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
         }
       }
       else
@@ -550,14 +550,12 @@ $scope.isPostInCollection = function(post, collection)
       smallestIDinPosts -- ;
       while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
       {
-        console.info('while...');
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == smallestIDinPosts)
           {
             ng.forEach(post.catId, function(categoryId){
               if(categoryId.cat_ID == $localstorage.getObject('cat'))
               {
-                console.info('yuuuuuuuuuuuuuuhuuuuuuuuuuuuuuu :', post);
                 postsFromLocal.push(post);
                 i ++;
               }
@@ -570,14 +568,12 @@ $scope.isPostInCollection = function(post, collection)
       var kol;
       kol = _.union($scope.posts, postsFromLocal);                   
       $scope.posts = kol;
-      console.info('alan majmue inan', $scope.posts);
       var args = $scope.posts.length;
-      $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
-      console.log(args);
       var difference = $scope.posts.length - 15 ;     
       $scope.posts.splice(0,difference);
-      $ionicScrollDelegate.scrollTop();
+      $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
       console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+      $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
         ///////////////////////////////////////////////////////////////////        
       }
     };
