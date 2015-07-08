@@ -528,8 +528,8 @@ $scope.getMinOfArray = function(numArray) {
       }
       else
       {
+        console.log('alan dorost umad');
         ///////////////////////////////////////////////////////////////////
-        console.info('ohoh');
       var postsFromLocal = []; // array of posts that we success to cache from local
       var tempIDarray = [];
       
@@ -550,20 +550,21 @@ $scope.getMinOfArray = function(numArray) {
       smallestIDinPosts -- ;
       while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
       {
+        console.info('while...');
         ng.forEach($localstorage.getObject('posts'), function(post){
           if(post.ID == smallestIDinPosts)
           {
             ng.forEach(post.catId, function(categoryId){
-              if(categoryId == $localstorage.getObject('cat'))
+              if(categoryId.cat_ID == $localstorage.getObject('cat'))
               {
+                console.info('yuuuuuuuuuuuuuuhuuuuuuuuuuuuuuu :', post);
                 postsFromLocal.push(post);
                 i ++;
               }
             });
           }
         });
-        smallestIDinPosts -- ;
-        i ++;
+        smallestIDinPosts -- ;        
       }
 
       var kol;
