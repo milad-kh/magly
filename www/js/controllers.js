@@ -144,7 +144,6 @@
   $scope.$on('$ionicView.beforeLeave', function(){
     if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
       {
-        $localstorage.setObject('savedPosts', $scope.posts);
         console.info('akharin posta: ', $scope.posts);
       }
   });
@@ -393,149 +392,61 @@ $scope.isPostInCollection = function(post, collection)
     if (flag)
       return true;
   }
-/*$scope.getMinOfArray = function(numArray) {
-        return Math.min.apply(null, numArray);
-      }*/
+
   $scope.loadMoreDataForDown = function()
     {  
-       alert('paeen');
-    if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
-    {  
-      console.log('down');
+      alert('paeen');
+      var 
+      cat,
+      newPosts = [];
+      var category = $localstorage.getObject('cat');
+    if (category == 'all')
+      cat = 'posts';
+    else
+      cat = category;
       var userInfo = $localstorage.getObject('userInfo');      
-      var IDarray = [];      
-      ng.forEach($scope.posts, function(value){
-        IDarray.push(value.ID);        
-      });
+    ///////////////////
+    var smallestIDinPosts = $scope.posts [$scope.posts.length - 1];
+    console.info('smallestIDinPosts', smallestIDinPosts.ID);
 
-      var postsFromLocal = []; // array of posts that we success to cache from local
-      var tempIDarray = [];
-      
-      ng.forEach($scope.posts, function(post)
-      {
-        tempIDarray.push(post.ID);
-      });
-      var smallestIDinPosts = $scope.getMinOfArray(tempIDarray);
-      console.info('smallestIDinPosts', smallestIDinPosts);
+    var postsInLocal = $localstorage.getObject(cat);
+    console.info(postsInLocal);
+    var smallestIDinLocal = postsInLocal[postsInLocal.length - 1];
+    console.info('smallestIDinLocal', smallestIDinLocal.ID);
+    //////////////////
+    smallestIDinPosts --;
 
-      ng.forEach($localstorage.getObject('posts'), function(post){
-        tempIDarray.push(post.ID);
-      });
-      var smallestIDinLocalStorage = $scope.getMinOfArray(tempIDarray);
-      console.info('smallestIDinLocalStorage', smallestIDinLocalStorage);
-      
-      var i = 0;
-      smallestIDinPosts -- ;
-      while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
-      {
-        ng.forEach($localstorage.getObject('posts'), function(post){
-          if(post.ID == smallestIDinPosts)
-          {
-            postsFromLocal.push(post);
-            alert('این تو حافظه بود');
-            return false;
-          }
-        });
-        smallestIDinPosts -- ;
-        i ++;
-      }
-
-      var remainsPostsToGet = 3 - postsFromLocal.length;
+    while (smallestIDinPosts >= smallestIDinLocal && i < 3)
+    {
+      if ($scope.isPostInCollection(smallestIDinPosts,postsInLocal))
+        newPosts.push(post);
+    }
+    if (newPosts.length < 3)
+    {
+      var remainsPostsToGet = 3 - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-      var kol,postsFromNet;
-      if(remainsPostsToGet > 0)
-      {
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
           cache: false
         }).success(function(data,status,headers,config){          
           console.info('succcccc', data);
-          postsFromNet = data;
-          // update localstorage
-          var posts = _.union($localstorage.getObject('posts'), postsFromNet);
-          localStorage.removeItem('posts');
-          $localstorage.setObject('posts',posts);
-          kol = _.union($scope.posts, postsFromNet);                   
-          $scope.posts = kol;
+          newPosts.push(data);
+          var posts = _.union($localstorage.getObject(cat), newPosts);
+          $localstorage.setObject(cat,posts);
+          $scope.posts = posts;
           console.info('alan majmue inan', $scope.posts);
-          var args = $scope.posts.length;
-          console.log(args);
-          var difference = $scope.posts.length - 15 ;     
-          $scope.posts.splice(0,difference);
-          console.info('majmue dovom inan', $scope.posts);
-          $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
-          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
-          $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+          $scope.$broadcast('scroll.infiniteScrollComplete');                          
         }).error(function(data,status,headers,config){
           console.log('error in get posts for down');
         });
-      }
-      else
-      {
-        kol = _.union($scope.posts, postsFromLocal);                   
-        $scope.posts = kol;
-        console.info('alan majmue inan', $scope.posts);
-        var args = $scope.posts.length;
-        console.log(args);
-        var difference = $scope.posts.length - 15 ;     
-        $scope.posts.splice(0,difference);
-        $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
-        console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
-        $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
-        }
-      }
-      else
-      {
-        console.log('alan dorost umad');
-        ///////////////////////////////////////////////////////////////////
-      var postsFromLocal = []; // array of posts that we success to cache from local
-      var tempIDarray = [];
-      
-      ng.forEach($scope.posts, function(post)
-      {
-        tempIDarray.push(post.ID);
-      });
-      var smallestIDinPosts = $scope.getMinOfArray(tempIDarray);
-      console.info('smallestIDinPosts', smallestIDinPosts);
-
-      ng.forEach($localstorage.getObject('posts'), function(post){
-        tempIDarray.push(post.ID);
-      });
-      var smallestIDinLocalStorage = $scope.getMinOfArray(tempIDarray);
-      console.info('smallestIDinLocalStorage', smallestIDinLocalStorage);
-      
-      var i = 0;
-      smallestIDinPosts -- ;
-      while(smallestIDinPosts >= smallestIDinLocalStorage && i <= 3)
-      {
-        ng.forEach($localstorage.getObject('posts'), function(post){
-          if(post.ID == smallestIDinPosts)
-          {
-            ng.forEach(post.catId, function(categoryId){
-              if(categoryId.cat_ID == $localstorage.getObject('cat'))
-              {
-                postsFromLocal.push(post);
-                i ++;
-              }
-            });
-          }
-        });
-        smallestIDinPosts -- ;        
-      }
-
-      var kol;
-      kol = _.union($scope.posts, postsFromLocal);                   
-      $scope.posts = kol;
-      var args = $scope.posts.length;
-      var difference = $scope.posts.length - 15 ;     
-      $scope.posts.splice(0,difference);
-      $ionicScrollDelegate.scrollBy(0, 5, 'shouldAnimate');
-      console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
+    }
+    else
+    {
+      $scope.posts = _.union($scope.posts, newPosts);                   
       $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
-        ///////////////////////////////////////////////////////////////////        
-      }
-    };
+    } 
+  };
 
   $scope.ch = function(id)
   {
@@ -1065,12 +976,12 @@ $scope.isPostInCollection = function(post, collection)
     $state.go('tab.chat-detail', ({chatId:id}));
   };
   
-  $scope.isPostInCollection = function(post, collection)
+  $scope.isPostInCollection = function(postId, collection)
   {
     var
     flag = false;
-    ng.forEach(collection, function(collectionPost){
-      if (post.ID == collectionPost.ID)
+    ng.forEach(collection, function(post){
+      if (postId == post.ID)
         flag = true;
     });
     if (flag)
