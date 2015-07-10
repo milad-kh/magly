@@ -382,24 +382,24 @@
     // check the number of posts in RAM
     
 $scope.isPostInCollection = function(post, collection)
-  {
-    var
-    flag = false;
-    ng.forEach(collection, function(collectionPost){
-      if (post.ID == collectionPost.ID)
-        flag = true;
-    });
-    if (flag)
-      return true;
-  }
+{
+  var
+  flag = false;
+  ng.forEach(collection, function(collectionPost){
+    if (post.ID == collectionPost.ID)
+      flag = true;
+  });
+  if (flag)
+    return true;
+}
 
   $scope.loadMoreDataForDown = function()
-    {  
-      alert('paeen');
-      var 
-      cat,
-      newPosts = [];
-      var category = $localstorage.getObject('cat');
+  {  
+    alert('paeen');
+    var 
+    cat,
+    newPosts = {};
+    var category = $localstorage.getObject('cat');
     if (category == 'all')
       cat = 'posts';
     else
@@ -415,26 +415,33 @@ $scope.isPostInCollection = function(post, collection)
     console.info('smallestIDinLocal', smallestIDinLocal.ID);
     //////////////////
     smallestIDinPosts --;
-
     while (smallestIDinPosts >= smallestIDinLocal && i < 3)
     {
-      if ($scope.isPostInCollection(smallestIDinPosts,postsInLocal))
-        newPosts.push(post);
+      ng.forEach(postsInLocal, function(post){
+        if (post.ID == smallestIDinPosts)
+        {
+          newPosts[newPosts.length] = _.union(newPosts, post);
+          i ++;
+        }
+        smallestIDinPosts --;
+      });
     }
+    if(newPosts.length == undefined)
+      newPosts.length = 0;
+    console.log(newPosts.length);
     if (newPosts.length < 3)
     {
       var remainsPostsToGet = 3 - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinPosts +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
           cache: false
         }).success(function(data,status,headers,config){          
           console.info('succcccc', data);
-          newPosts.push(data);
-          var posts = _.union($localstorage.getObject(cat), newPosts);
-          $localstorage.setObject(cat,posts);
-          $scope.posts = posts;
+          newPosts = _.union(newPosts, data);          
+          $scope.posts = _.union($scope.posts, newPosts);
+          $localstorage.setObject(cat, $scope.posts);
           console.info('alan majmue inan', $scope.posts);
           $scope.$broadcast('scroll.infiniteScrollComplete');                          
         }).error(function(data,status,headers,config){
@@ -444,7 +451,8 @@ $scope.isPostInCollection = function(post, collection)
     else
     {
       $scope.posts = _.union($scope.posts, newPosts);                   
-      $scope.$broadcast('scroll.infiniteScrollComplete', args);                          
+      $localstorage.setObject(cat, $scope.posts);
+      $scope.$broadcast('scroll.infiniteScrollComplete');                          
     } 
   };
 
