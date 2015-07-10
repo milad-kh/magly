@@ -472,7 +472,8 @@ $scope.isPostInCollection = function(post, collection)
           $localstorage.setObject('posts', data);
         else
           $localstorage.setObject(category, data);
-        $ionicLoading.hide();        
+        $ionicLoading.hide();     
+        $ionicScrollDelegate.scrollTop();
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
         $ionicLoading.hide();
