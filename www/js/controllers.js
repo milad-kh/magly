@@ -150,58 +150,27 @@
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
-    console.info('ina bayad mibud:', $localstorage.getObject('posts'));
-
+    console.info('after render');
     $scope.showSignIn = checkUserAuth.isUserLogin();
-    if (!_.isEmpty($localstorage.getObject('cat')))
+    var cat = $localstorage.getObject('cat');
+    console.info(cat);
+    if(_.isEmpty($localstorage.getObject('cat')))
     {
-      ///////////////////
-      if ($localstorage.getObject('cat') == 'all')
-      {
-        $scope.posts = $localstorage.getObject('savedPosts');                      
-      }
-      else
-      {
-        console.warn('ye category');
-        $scope.posts = $localstorage.getObject('savedPosts');
-        var currentCategoryPosts = [];
-        ng.forEach($scope.posts, function(article){
-          ng.forEach(article.catId, function(oneOfCatId){
-            if ($localstorage.getObject('cat') == oneOfCatId.cat_ID)
-            {              
-              currentCategoryPosts.push(article);
-            }
-          })
-        });        
-        $scope.posts = currentCategoryPosts; 
-        console.warn('inaram bayad neshun bede', $scope.posts);  
-        $ionicScrollDelegate.scrollTop();
-      }
-      ///////////////////
+      $scope.doesLocalHaveData('all');
     }
     else
     {
-      $scope.posts = $localstorage.getObject('savedPosts');
-    }
-    if(_.isEmpty($localstorage.getObject('posts')))
-      $scope.doesLocalHaveData();
-    else
-    {
-      $ionicLoading.hide();
-    }
-
-    $scope.$on('scrollToTop', function(){
-      console.info('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-      console.info($rootScope.prevState);
-      if($rootScope.prevState == 'tab.dash')
-      {
-        console.info('bero bala');
-      }
+      if (cat == 'all')
+       $scope.posts = $localstorage.getObject('posts');
       else
       {
-        $ionicScrollDelegate.scrollTop(); 
+        if(_.isEmpty($localstorage.getObject(cat)))
+          $scope.doesLocalHaveData(cat);
+        else
+          $scope.posts = $localstorage.getObject(cat);
       }
-    });
+    }
+    $ionicScrollDelegate.scrollTop();
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -236,16 +205,6 @@
     console.info($scope.posts);
     console.info('................');
   };
-
-  $ionicLoading.show({
-    template: '<span class=yekan>... بارگذاری مطالب</span>'
-  });
-  
-  $scope.$on('changeCategory', function(event, args){
-    console.warn('badaz avaz shodan alan ina umadan inja baradar', args);
-    $scope.posts = args;
-    console.info('motaviate alane scope.posts:',$scope.posts);
-  });
 
   $scope.getMaxOfArray = function(numArray) {
       return Math.max.apply(null, numArray);
@@ -583,47 +542,36 @@ $scope.isPostInCollection = function(post, collection)
     console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
   }
-  $scope.fillLocalWithData = function()
+  $scope.fillLocalWithData = function(category)
     {
       $ionicLoading.show({
         template:'<span class="yekan">... در حال بارگذاری مطالب</span>'
       });
       var userInfo = $localstorage.getObject('userInfo');
-      console.log('userInfo:', userInfo);
       $scope.posts = [];
       var randomInt = new Date().getTime();
       console.log(randomInt);
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt + '&userID='+userInfo.ID,
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
         cache: false
       }).success(function(data,status,headers,config){                
-        console.log(data);
         $scope.posts = data;
+        if(category == 'all')
+          $localstorage.setObject('posts', data);
+        else
+          $localstorage.setObject(category, data);
         $ionicLoading.hide();        
-        $localstorage.setObject('posts', data);
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
         $ionicLoading.hide();
       });
     };
 
-    $scope.doesLocalHaveData = function()
+    $scope.doesLocalHaveData = function(category)
     {
-      var sign = $localstorage.getObject('posts');
-      if(_.isEmpty(sign))
-        {
-
-        $scope.fillLocalWithData();    
-        }
-      else
-        {
-          $scope.posts = sign;
-          console.log($scope.posts);                
-        }
-
+      $scope.fillLocalWithData(category);    
     };      
-
 })
 
 .controller('signupCtrl', function($ionicLoading, $state, $ionicPopup, $localstorage, $rootScope, $scope, $http, checkUserAuth){
