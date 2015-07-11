@@ -9,9 +9,6 @@ $biggestIDinLocal= $_GET['biggestIDinLocal'];
 $userID = $_GET['userID'];
 $number_to_get_post = $_GET['numberToGetPost'];
 $category = $_GET['category'];
-/*echo "<pre>";
-print_r($_GET);
-echo "</pre>";*/
 $pattern4='/^[^\.]*/i';
 $guidPattern = '/http:\/\/magly.ir\/\?p=\d+/i';
 
@@ -19,33 +16,12 @@ if ($category == 'posts')
   $catID = '';
 else
   $catID = $category;
-// fetch lastest posts ID
 
 for($i=($biggestIDinLocal+1);$i<8500;$i++)
 { 
 $currentPost = get_post($i);
 $catId=get_the_category($currentPost->ID);
 $currentPost->catId = $catId;
-/*$args = array(
-	'posts_per_page'   => $number_to_get_post,
-	'offset'           => 0,
-	'category'         => '',
-	'category_name'    => '',
-	'orderby'          => 'post_date',
-	'order'            => 'DESC',
-	'include'          => '',
-	'exclude'          => '',
-	'meta_key'         => '',
-	'meta_value'       => '',
-	'post_type'        => 'post',
-	'post_mime_type'   => '',
-	'post_parent'      => '',
-	'post_status'      => 'publish',
-	'suppress_filters' => true 
-);
-
-$most_recent_post = get_posts($args);
-*/
 $categoryArray = '';
 foreach ($currentPost->catId as $key=>$val)
 {

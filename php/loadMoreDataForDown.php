@@ -27,47 +27,25 @@ $tempData = explode(";",$rawlist[0]->meta_value);
 
 for ($i=0;$i<count($tempData);$i++)
 {
-
   if(preg_match("/s:4:\"\d{1,}\"/i", $tempData[$i]))
   {
     $temp = explode("s:4:", $tempData[$i]);
     $listOfPostsID[] = str_replace('"', '', $temp[1]);    
   }
-
 }
 
 for ($i=($smallestIDinLocal-1);$i>0;$i--)
 {  
-    $currentPost = get_post($i);
-    /*$args = array(
-	'posts_per_page'   => 1,
-	'offset'           => 0,
-	'category'         => $category,
-	'category_name'    => '',
-	'orderby'          => 'ID',
-	'order'            => 'DESC',
-	'include'          => '',
-	'exclude'          => '',
-	'meta_key'         => '',
-	'meta_value'       => '',
-	'post_type'        => 'post',
-	'post_mime_type'   => '',
-	'post_parent'      => '',
-	'post_status'      => 'publish',
-	'suppress_filters' => true 
-    );
-
-$currentPost = get_posts($args);*/
-    
+    $currentPost = get_post($i);    
     $catId=get_the_category($currentPost->ID);
     $currentPost->catId = $catId;
-  
     $categoryArray = '';
     foreach ($currentPost->catId as $key=>$val)
     {
       $categoryArray[]=$val->term_id;
     }
-
+    if($catID == '')
+    $categoryArray[] ='';
     if ($currentPost->post_status == 'publish' && $currentPost->menu_order == 0 && preg_match($guidPattern, $currentPost->guid)) 
     {
         if ($k < $number_to_get_post && in_array($catID,$categoryArray))
@@ -79,8 +57,7 @@ $currentPost = get_posts($args);*/
        {
          break 1;
        }     
-    }
-    //$smallestIDinLocal --;
+    }   
 }
 
 // add thumbnail to posts
@@ -95,12 +72,12 @@ for($i = 0;$i < count($posts_array);$i++)
   $posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
   
   $posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
-	preg_match( $pattern4, $posts_array[$i]->summary, $match );
-	$posts_array[$i]->summary = $match;
-	if (in_array($posts_array[$i]->ID, $listOfPostsID))
-	  $posts_array[$i]->isFavorite= true;
-	else
-	  $posts_array[$i]->isFavorite= false;
-  $posts_array[$i]->isLike = false;	  
+  preg_match( $pattern4, $posts_array[$i]->summary, $match );
+  $posts_array[$i]->summary = $match;
+  if (in_array($posts_array[$i]->ID, $listOfPostsID))
+    $posts_array[$i]->isFavorite= true;
+  else
+    $posts_array[$i]->isFavorite= false;
+  $posts_array[$i]->isLike = false;   
 };
 echo json_encode($posts_array);
