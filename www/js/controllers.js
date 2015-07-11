@@ -215,85 +215,64 @@
   $scope.loadMoreDataForTop = function()
     {
       var userInfo = $localstorage.getObject('userInfo');      
-
-      if ($localstorage.getObject('cat') == 'all' || _.isEmpty($localstorage.getObject('cat')))
-    {
+      var category = $localstorage.getObject('cat');
+      newPosts = {};
+      if (category == 'all')
+        cat = 'posts';
+      else
+        cat = category;
+     
       console.log('top');
-      
+      console.log(category);
       ///////////////////////////////////////////////
-      var postsFromLocal = []; // array of posts that we success to cache from local
-      var tempIDarray = [];
+      var postsFromLocal = []; // array of posts that we success to cache from local      
       
-      ng.forEach($scope.posts, function(post)
-      {
-        tempIDarray.push(post.ID);
-      });
-      var biggestIDinPosts = $scope.getMaxOfArray(tempIDarray);
+      var biggestIDinPosts = $scope.posts[$scope.posts.length - 1].ID;
       console.info('biggestIDinPosts', biggestIDinPosts);
 
-      ng.forEach($localstorage.getObject('posts'), function(post){
-        tempIDarray.push(post.ID);
-      });
-      var biggestIDinLocalStorage = $scope.getMaxOfArray(tempIDarray);
-      console.info('biggestIDinLocalStorage', biggestIDinLocalStorage);
+      var postsInLocal = $localstorage.getObject(cat);
+      console.info(postsInLocal);
+      var biggestIDinLocal = postsInLocal[postsInLocal.length - 1];
+      console.info('biggestIDinLocal', biggestIDinLocal.ID);
+
       var i = 0;
       biggestIDinPosts ++ ;
-      while(biggestIDinPosts <= biggestIDinLocalStorage && i < 3)
+      while (biggestIDinPosts <= smallestIDinLocal && i < 3)
       {
-        ng.forEach($localstorage.getObject('posts'), function(post){
-          if(post.ID == biggestIDinPosts)
+        ng.forEach(postsInLocal, function(post){
+          if (post.ID == biggestIDinPosts)
           {
-            postsFromLocal.push(post);
+            newPosts[newPosts.length] = _.union(newPosts, post);
             i ++;
           }
+          biggestIDinPosts ++;
         });
-        biggestIDinPosts ++ ;
       }
 
-      // ascending order
-      var postsFromLocalTemp = [];
-      for (var i=(postsFromLocal.length - 1);i>=0;i--)
-      {
-        postsFromLocalTemp.push(postsFromLocal[i]);
-      }
-      postsFromLocal = postsFromLocalTemp;
-
-      ///////////////////////////////////////////////
-      var biggestID = $scope.getMaxOfArray(tempIDarray);
-      // step 2 : Ajax request to server
-      remainsPostsToGet = 3 - postsFromLocal.length;
+      console.info('enghad az local giremun umad', newPosts);
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-      var kol,postsFromNet = [];
-      if(remainsPostsToGet > 0)
+      
+      if(newPosts.length == undefined)
+        newPosts.length = 0;
+      console.log(newPosts.length);
+
+      remainsPostsToGet = 3 - newPosts.length;
+      if(remainsPostsToGet <= 3)
       {
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
           cache: false
         }).success(function(data,status,headers,config){
-          var kol = _.union(data, postsFromLocal, $scope.posts);          
-          $scope.posts = kol;
-          postsFromNet = data;
-          // update localstorage
-          var posts = _.union(postsFromNet, $localstorage.getObject('posts'));
+          $scope.posts = _.union(data, newPosts, $scope.posts);          
           localStorage.removeItem('posts');
           $localstorage.setObject('posts',posts);
 
-          /*$cordovaVibration.vibrate(700);
+          $cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);
-          */
+          
           $scope.$broadcast('scroll.refreshComplete');
           console.warn('haji amaliat b payan resid', data);
-          /************************** START **************************/
-          // check the capacity of scroll
-          // here we must remove extra posts from TOP of scope.posts
-          var args = $scope.posts.length;
-          console.log(args);
-          var difference = $scope.posts.length - 15 ;     
-          $scope.posts.splice(15 - 1,difference);          
-          console.info('tedad hamishe 15 mimune dadash', $scope.posts.length);
-         ///////////////////////////////////
-          
         
         }).error(function(data,status,headers,config){
           console.log('error in get data for top');
@@ -301,83 +280,12 @@
       }
       else
       {
-
-        kol = _.union(postsFromLocal, $scope.posts);                   
-        $scope.posts = kol;
+        $scope.posts = _.union(newPosts, $scope.posts);                   
         $scope.$broadcast('scroll.refreshComplete');
-        var args = $scope.posts.length;
-        var difference = $scope.posts.length - 15 ;     
-        $scope.posts.splice(15 - 1,difference);          
+              
       }       
-      
-       }
-       else
-       {
-        //////////////////////////////////////////////// call pull down when user selected a category
-        console.log('top when category selected');
-        var postsFromLocal = [];
-        var tempIDarray = [];
-        
-        ng.forEach($scope.posts, function(post)
-        {
-          tempIDarray.push(post.ID);
-        });
-
-        var biggestIDinPosts = $scope.getMaxOfArray(tempIDarray);
-        console.info('biggestIDinPosts', biggestIDinPosts);
-
-        ng.forEach($localstorage.getObject('posts'), function(post){
-          tempIDarray.push(post.ID);
-        });
-
-        var biggestIDinLocalStorage = $scope.getMaxOfArray(tempIDarray);
-        console.info('biggestIDinLocalStorage', biggestIDinLocalStorage);
-
-        var i = 0;
-        biggestIDinPosts ++ ;
-        while(biggestIDinPosts <= biggestIDinLocalStorage && i < 3)
-        {
-          ng.forEach($localstorage.getObject('posts'), function(post){
-            
-            if(post.ID == biggestIDinPosts)
-            {
-              ng.forEach(post.catId, function(categoryId){
-                if(categoryId.cat_ID == $localstorage.getObject('cat'))
-                {
-                  postsFromLocal.push(post);
-                  i ++;
-                }
-                else
-                {
-                  console.info('hichi peida nashod');
-                }
-              });
-
-            }
-          });
-          biggestIDinPosts ++ ;
-        }
-
-        // ascending order
-        var postsFromLocalTemp = [];
-        for (var i=(postsFromLocal.length - 1);i>=0;i--)
-        {
-          postsFromLocalTemp.push(postsFromLocal[i]);
-        }
-        postsFromLocal = postsFromLocalTemp;
-
-        ///////////////////////////////////////////////
-        var biggestID = $scope.getMaxOfArray(tempIDarray);
-        var kol = [];        
-        kol = _.union(postsFromLocal, $scope.posts);                   
-        $scope.posts = kol;
-        $scope.$broadcast('scroll.refreshComplete');
-        var args = $scope.posts.length;
-        var difference = $scope.posts.length - 15 ;     
-        $scope.posts.splice(15 - 1,difference);
-        /////////////////////////////////////////////////////////////////////////////////////////////
-       }
-    };
+   
+};
 
     // check the number of posts in RAM
     
@@ -429,7 +337,7 @@ $scope.isPostInCollection = function(post, collection)
     if(newPosts.length == undefined)
       newPosts.length = 0;
     console.log(newPosts.length);
-    if (newPosts.length < 3)
+    if (newPosts.length <= 3)
     {
       var remainsPostsToGet = 3 - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
