@@ -304,7 +304,6 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.loadMoreDataForDown = function()
   {  
-    alert('paeen');
     var 
     cat,
     newPosts = {};
