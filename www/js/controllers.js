@@ -237,7 +237,7 @@
 
       var i = 0;
       biggestIDinPosts ++ ;
-      while (biggestIDinPosts <= smallestIDinLocal && i < 3)
+      while (biggestIDinPosts <= biggestIDinLocal.ID && i < 3)
       {
         ng.forEach(postsInLocal, function(post){
           if (post.ID == biggestIDinPosts)
@@ -250,26 +250,26 @@
       }
 
       console.info('enghad az local giremun umad', newPosts);
-      console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
       
       if(newPosts.length == undefined)
         newPosts.length = 0;
       console.log(newPosts.length);
 
       remainsPostsToGet = 3 - newPosts.length;
+      console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
       if(remainsPostsToGet <= 3)
       {
         $http({
           method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal='+biggestID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
+          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal=' + biggestIDinLocal.ID +'&userID=' + userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
           cache: false
         }).success(function(data,status,headers,config){
           $scope.posts = _.union(data, newPosts, $scope.posts);          
           localStorage.removeItem('posts');
-          $localstorage.setObject('posts',posts);
+          $localstorage.setObject('posts',$scope.posts);
 
-          $cordovaVibration.vibrate(700);
-          $cordovaDialogs.beep(1);
+         /* $cordovaVibration.vibrate(700);
+          $cordovaDialogs.beep(1);*/
           
           $scope.$broadcast('scroll.refreshComplete');
           console.warn('haji amaliat b payan resid', data);
@@ -341,20 +341,20 @@ $scope.isPostInCollection = function(post, collection)
     {
       var remainsPostsToGet = 3 - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-        $http({
-          method: 'GET',
-          url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
-          cache: false
-        }).success(function(data,status,headers,config){          
-          console.info('succcccc', data);
-          newPosts = _.union(newPosts, data);          
-          $scope.posts = _.union($scope.posts, newPosts);
-          $localstorage.setObject(cat, $scope.posts);
-          console.info('alan majmue inan', $scope.posts);
-          $scope.$broadcast('scroll.infiniteScrollComplete');                          
-        }).error(function(data,status,headers,config){
-          console.log('error in get posts for down');
-        });
+      $http({
+        method: 'GET',
+        url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
+        cache: false
+      }).success(function(data,status,headers,config){          
+        console.info('succcccc', data);
+        newPosts = _.union(newPosts, data);          
+        $scope.posts = _.union($scope.posts, newPosts);
+        $localstorage.setObject(cat, $scope.posts);
+        console.info('alan majmue inan', $scope.posts);
+        $scope.$broadcast('scroll.infiniteScrollComplete');                          
+      }).error(function(data,status,headers,config){
+        console.log('error in get posts for down');
+      });
     }
     else
     {
