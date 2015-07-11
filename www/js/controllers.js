@@ -160,7 +160,12 @@
     else
     {
       if (cat == 'all')
-       $scope.posts = $localstorage.getObject('posts');
+      {
+        if (!_.isEmpty($scope.posts))
+          $scope.posts = $localstorage.getObject('posts');
+        else
+          $scope.doesLocalHaveData('all');
+      }
       else
       {
         if(_.isEmpty($localstorage.getObject(cat)))
@@ -224,8 +229,6 @@
      
       console.log('top');
       console.log(category);
-      ///////////////////////////////////////////////
-      var postsFromLocal = []; // array of posts that we success to cache from local      
       
       var biggestIDinPosts = $scope.posts[$scope.posts.length - 1].ID;
       console.info('biggestIDinPosts', biggestIDinPosts);
@@ -282,9 +285,7 @@
       {
         $scope.posts = _.union(newPosts, $scope.posts);                   
         $scope.$broadcast('scroll.refreshComplete');
-              
       }       
-   
 };
 
     // check the number of posts in RAM

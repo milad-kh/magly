@@ -6,9 +6,27 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 require_once("../wp-load.php");
 $biggestIDinLocal= $_GET['biggestIDinLocal'];
+$userID = $_GET['userID'];
 $number_to_get_post = $_GET['numberToGetPost'];
+$category = $_GET['category'];
+/*echo "<pre>";
+print_r($_GET);
+echo "</pre>";*/
+$pattern4='/^[^\.]*/i';
+$guidPattern = '/http:\/\/magly.ir\/\?p=\d+/i';
+
+if ($category == 'posts')
+  $catID = '';
+else
+  $catID = $category;
 // fetch lastest posts ID
-$args = array(
+
+for($i=($biggestIDinLocal+1);$i<8500;$i++)
+{ 
+$currentPost = get_post($i);
+$catId=get_the_category($currentPost->ID);
+$currentPost->catId = $catId;
+/*$args = array(
 	'posts_per_page'   => $number_to_get_post,
 	'offset'           => 0,
 	'category'         => '',
@@ -27,27 +45,34 @@ $args = array(
 );
 
 $most_recent_post = get_posts($args);
-$pattern4='/^[^\.]*/i';
-$guidPattern = '/http:\/\/magly.ir\/\?p=\d+/i';
-for ($i=($biggestIDinLocal + 1);$i < $most_recent_post[0]->ID;$i++)
-{  
-  $currentPost = get_post($i);
-  if ($currentPost->post_status == 'publish' && $currentPost->menu_order == 0 && preg_match($guidPattern, $currentPost->guid))
-  {
-    if ($k < $number_to_get_post)
-     {
-       $posts_array[] = $currentPost;  
-       $k++;
-     }  
-  }
+*/
+$categoryArray = '';
+foreach ($currentPost->catId as $key=>$val)
+{
+  $categoryArray[]=$val->term_id;
+}
+if($catID == '')
+  $categoryArray[] ='';
+if ($currentPost->post_status == 'publish' && $currentPost->menu_order == 0 && preg_match($guidPattern, $currentPost->guid)) 
+    {
+        if ($k < $number_to_get_post && in_array($catID,$categoryArray))
+        {
+          $posts_array[] = $currentPost;  
+          $k++;
+        }
+       if ($k >= $number_to_get_post) 
+       {
+         break 1;
+       }     
+    }
+
 }
 // add thumbnail to posts
 for($i = 0;$i < count($posts_array);$i++)
 {	
 	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);	
 	$thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-	$catId=get_the_category($posts_array[$i]->ID);
-	$posts_array[$i]->catId = $catId;
+	
 	$posts_array[$i]->thumbnail = $thumb_url[0];
 	
 	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
