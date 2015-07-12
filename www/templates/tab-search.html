@@ -7,8 +7,20 @@
     <label class="item item-input">
       <input type="text" style="direction:rtl" class="yekan" placeholder="جستجو کنید" ng-model="data.searchKey">
     </label>
-    <button class="button button-balanced yekan item-left" ng-click="search()">بگرد</button>
-	</div>
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      <button class="button button-block button-calm yekan" ng-click="search()"> جستجو کن </button>
+    </div>
+  </div>  
+
+  <div class="list yekan" ng-show="posts" style="direction:rtl">
+    <div class="item">
+      {{posts.length}} مورد پیدا شد
+    </div>
+  </div>  
+    <!-- <button class="button button-calm yekan item-left" ng-click="search()">جستجو کن</button> -->
 	<!-- posts -->
   <div class="list" ng-repeat="post in posts | filter:query track by $index">
 	<div>

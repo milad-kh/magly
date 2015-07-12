@@ -480,12 +480,12 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.$on('$ionicView.afterEnter', function(){  
     $scope.data = {};
-    // $scope.posts = $localstorage.getObject('posts');
-    // $scope.info = $localstorage.getObject('userInfo');
   });
 
   $scope.search = function()
   {
+    if(_.isEmpty($scope.data.searchKey))
+      $scope.data.searchKey = ' ';
     if($scope.data.searchKey.length > 4)
     {
       $ionicLoading.show({
@@ -514,7 +514,7 @@ $scope.isPostInCollection = function(post, collection)
     alertPopup.then(function(res) {
       console.log('Thank you for not eating my delicious ice cream cone');
     });
-   
+   $scope.data.searchKey ='';
   }
   }
 

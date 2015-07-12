@@ -7,31 +7,37 @@
 
   <div class="list">
     <label class="item item-input item-floating-label" style="direction:rtl">
-      <span class="input-label iraniansans" style="padding-right:16px">نام کامل</span>
-      <input type="text" class="iraniansans" placeholder="نام کامل شما" style="padding-right:16px" ng-model="info.fullName">
+      <span class="input-label yekan" style="padding-right:16px">نام کامل</span>
+      <input type="text" class="yekan" placeholder="نام کامل شما" style="padding-right:16px" ng-model="info.fullName">
     </label>
     
     <label class="item item-input item-floating-label" style="direction:rtl">
-      <span class="input-label iraniansans" style="padding-right:16px">نام کاربری</span>
-      <input ng-model="info.niceName" type="text" class="iraniansans" style="padding-right:16px" placeholder="نام کاربری">
+      <span class="input-label yekan" style="padding-right:16px">نام کاربری</span>
+      <input ng-model="info.niceName" type="text" class="yekan" style="padding-right:16px" placeholder="نام کاربری">
     </label>
 
     <label class="item item-input item-floating-label">
-      <span class="input-label">پست الکترونیک</span>
+      <span class="input-label yekan">پست الکترونیک</span>
       <input type="text" placeholder="Email" ng-model="info.email">
     </label>
 
     <label class="item item-input item-floating-label">
-      <span class="input-label">کلمه ی عبور</span>
+      <span class="input-label yekan">کلمه ی عبور</span>
       <input type="text" placeholder="Passwors" ng-model="info.password">
     </label>
     
-    <button class="iraniansans button button-block button-balanced" style="font-family:yekan" ng-click="signup()">
+    <div class="row">
+      <div class="col">
+        <button class="button button-block button-calm yekan icon-left ion-chevron-left"> برگشت </button>
+      </div>
+      <div class="col">
+        <button class="button button-block button-balanced yekan icon-right ion-ios-plus-outline" ng-click="signup()"> ثبت نام </button>
+      </div>
+    </div>
+    <!-- <button class="yekan button button-block button-balanced" style="font-family:yekan" ng-click="signup()">
       ثبت نام
-    </button> 
-
+    </button>  -->
   </div>
 
 </ion-content>
-
 </ion-view>
