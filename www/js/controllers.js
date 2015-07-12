@@ -162,9 +162,9 @@
     {
       if (cat == 'all')
       {
-        if (!_.isEmpty($scope.posts))
-          $scope.posts = $localstorage.getObject('posts');
-        else
+        console.info('injast alan');
+        $scope.posts = $localstorage.getObject('posts');
+        if (_.isEmpty($scope.posts))
           $scope.doesLocalHaveData('all');
       }
       else
@@ -175,7 +175,7 @@
           $scope.posts = $localstorage.getObject(cat);
       }
     }
-    $ionicScrollDelegate.scrollTop();
+    $ionicScrollDelegate.resize();
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -381,7 +381,7 @@ $scope.isPostInCollection = function(post, collection)
       console.log(randomInt);
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?catID=0&randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
         cache: false
       }).success(function(data,status,headers,config){                
         $scope.posts = data;
@@ -390,7 +390,6 @@ $scope.isPostInCollection = function(post, collection)
         else
           $localstorage.setObject(category, data);
         $ionicLoading.hide();     
-        $ionicScrollDelegate.scrollTop();
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
         $ionicLoading.hide();
@@ -588,7 +587,15 @@ $scope.isPostInCollection = function(post, collection)
     $scope.targetPost.isFavorite = !$scope.targetPost.isFavorite;
   };
 
-  $scope.posts = $localstorage.getObject('posts');
+  var cat = $localstorage.getObject('cat');
+  $scope.posts = $localstorage.getObject(cat);
+  console.info($scope.posts);
+  if(_.isEmpty($scope.posts))
+  {
+    console.info('az inja sar daravord');
+    $scope.posts = $localstorage.getObject('posts');
+  }
+
   angular.forEach($scope.posts, function(post){
     if (post.ID == $stateParams.chatId)
     {
@@ -596,6 +603,7 @@ $scope.isPostInCollection = function(post, collection)
       $scope.targetPost = post;
     }    
   });
+
   if (!_.isEmpty($scope.targetPost))
   {
     var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
@@ -627,13 +635,7 @@ $scope.isPostInCollection = function(post, collection)
         x = $sce.trustAsHtml($scope.targetPost.post_content);
         $scope.targetPost.post_content = x;
         
-      // re-make scope.posts and localStorage
-        var kol = _.union($scope.posts,data);                   
-        $scope.posts = kol;
-        console.log(kol);
-        localStorage.removeItem('posts');
-        $localstorage.setObject('posts',$scope.posts);
-      //                 
+        $scope.posts = _.union($scope.posts,data);                   
       console.log('target posts got :P');            
       console.log(data);            
     }).error(function(data,status,headers,config){
@@ -648,12 +650,7 @@ $scope.isPostInCollection = function(post, collection)
     }).success(function(data,status,headers,config){  
         $scope.relatedPosts = data;
       // re-make scope.posts and localStorage
-        var kol = _.union($scope.posts,data);                   
-        $scope.posts = kol;
-        console.log(kol);
-        localStorage.removeItem('posts');
-        $localstorage.setObject('posts',$scope.posts);
-      //                 
+        $scope.posts = _.union($scope.posts,data);                   
       console.log('related posts');            
       console.log(data);            
     }).error(function(data,status,headers,config){
