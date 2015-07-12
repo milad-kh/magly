@@ -8,33 +8,37 @@
       خوش آمدید {{info.display_name}}
     </div>
   </div>
-  <button ng-if="!showSignIn" class="button button-block button-positive yekan" ng-click="signOut()">
+  <button ng-if="!showSignIn" class="button button-block button-assertive yekan" ng-click="signOut()">
   خروج از برنامه
 </button>
 <!-- sign in -->
 <div class="list" ng-if="showSignIn">
 
   <label class="item item-input item-floating-label">
-    <span class="input-label">نام کاربری</span>
+    <span class="input-label yekan">نام کاربری</span>
     <input type="text" placeholder="نام کاربری" ng-model="info.username">
   </label>
 
   <label class="item item-input item-floating-label">
-    <span class="input-label">کلمه عبور</span>
+    <span class="input-label yekan">کلمه عبور</span>
     <input type="password" placeholder="کلمه عبور" ng-model="info.password">
   </label> 
+
 
 <button class="button button-calm button-block yekan" ng-click="signin()">
   ورود به برنامه 
 </button>
 
 </div>
-<button class="button button-energized button-block yekan" ng-if="!showSignIn" ng-click="showForgetPassModal()">
+
+
+<button class="button button-calm button-block yekan" ng-if="!showSignIn" ng-click="showForgetPassModal()">
   تعویض کلمه عبور
 </button>
+
 <button ng-if="showSignIn" class="button button-balanced button-block yekan" ng-click="goToSignup()">
   ثبت نام
 </button>
-<!--  -->
+
   </ion-content>
 </ion-view>
