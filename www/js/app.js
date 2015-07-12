@@ -53,10 +53,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       $scope.$on('$ionicView.afterEnter', function(){
       $scope.showSignIn = checkUserAuth.isUserLogin();      
       $scope.$on('signOutOfApp', function(){
-        console.info('alan dge khodayee bayad miraft');
         $scope.checkUserLogin();
       });  
-      console.info('execute');
       $scope.checkUserLogin = function()
       {
         $scope.showSignIn = checkUserAuth.isUserLogin();

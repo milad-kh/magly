@@ -49,11 +49,9 @@
           tempArr = [];
         }
       }
-      console.log(arr);
       $scope.categories = arr;
       $localstorage.setObject('categories', $scope.categories);
       $scope.all = data[1];
-      console.log($scope.all);
       $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
@@ -150,10 +148,8 @@
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
-    console.info('after render');
     $scope.showSignIn = checkUserAuth.isUserLogin();
     var cat = $localstorage.getObject('cat');
-    console.info(cat);
     if(_.isEmpty($localstorage.getObject('cat')))
     {
       $scope.doesLocalHaveData('all');
@@ -351,7 +347,6 @@ $scope.isPostInCollection = function(post, collection)
         newPosts = _.union(newPosts, data);          
         $scope.posts = _.union($scope.posts, newPosts);
         $localstorage.setObject(cat, $scope.posts);
-        console.info('alan majmue inan', $scope.posts);
         $scope.$broadcast('scroll.infiniteScrollComplete');                          
       }).error(function(data,status,headers,config){
         console.log('error in get posts for down');
@@ -367,7 +362,6 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.ch = function(id)
   {
-    console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
   }
   $scope.fillLocalWithData = function(category)
@@ -378,7 +372,6 @@ $scope.isPostInCollection = function(post, collection)
       var userInfo = $localstorage.getObject('userInfo');
       $scope.posts = [];
       var randomInt = new Date().getTime();
-      console.log(randomInt);
       $http({
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/showPostList.php?randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
@@ -389,6 +382,7 @@ $scope.isPostInCollection = function(post, collection)
           $localstorage.setObject('posts', data);
         else
           $localstorage.setObject(category, data);
+        $ionicScrollDelegate.scrollTop();
         $ionicLoading.hide();     
       }).error(function(data,status,headers,config){
         console.log('error in get posts');
@@ -589,10 +583,8 @@ $scope.isPostInCollection = function(post, collection)
 
   var cat = $localstorage.getObject('cat');
   $scope.posts = $localstorage.getObject(cat);
-  console.info($scope.posts);
   if(_.isEmpty($scope.posts))
   {
-    console.info('az inja sar daravord');
     $scope.posts = $localstorage.getObject('posts');
   }
 
@@ -608,8 +600,6 @@ $scope.isPostInCollection = function(post, collection)
   {
     var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
     $scope.targetPost.post_content = x;
-    console.info('content:', $scope.targetPost.post_content);
-    console.info('alan', $scope.targetPost);
   }
   if (_.isEmpty($scope.targetPost))    
   {
@@ -621,23 +611,15 @@ $scope.isPostInCollection = function(post, collection)
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/getOnePost.php?postID='+$stateParams.chatId
     }).success(function(data,status,headers,config){ 
-        console.info('inam yeki jadid', data);
-        
         $ionicLoading.hide();
-        
         $scope.targetPost = data;
-
         var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
         var y = x.replace('width="640"','width="100%"');
-        
-        console.info('avali', y);
         $scope.targetPost.post_content = y;
         x = $sce.trustAsHtml($scope.targetPost.post_content);
         $scope.targetPost.post_content = x;
         
         $scope.posts = _.union($scope.posts,data);                   
-      console.log('target posts got :P');            
-      console.log(data);            
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
@@ -651,8 +633,6 @@ $scope.isPostInCollection = function(post, collection)
         $scope.relatedPosts = data;
       // re-make scope.posts and localStorage
         $scope.posts = _.union($scope.posts,data);                   
-      console.log('related posts');            
-      console.log(data);            
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
