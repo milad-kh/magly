@@ -37,9 +37,10 @@
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'      
     }).success(function(data,status,headers,config){    
+      console.info(data);
       var arr = new Array();
       var tempArr = new Array();                  
-      for(var i = 0;i<data[0].length;i++)
+      for(var i = 0;i<=data[0].length;i++)
       {
         tempArr.push(data[0][i]);
         if(tempArr.length == 2)
