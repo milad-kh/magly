@@ -400,12 +400,12 @@ $scope.isPostInCollection = function(post, collection)
     };      
 })
 
-.controller('signupCtrl', function($ionicLoading, $state, $ionicPopup, $localstorage, $rootScope, $scope, $http, checkUserAuth){
+.controller('signupCtrl', function($ionicLoading,$ionicHistory, $state, $ionicPopup, $localstorage, $rootScope, $scope, $http, checkUserAuth){
   console.warn('signupCtrl initialized');
   
-  $scope.backToHome = function()
+  $scope.goBack = function()
   {
-    $state.go('tab.chats');
+    $ionicHistory.goBack();
   }
 
   $rootScope.$on('$stateChangeStart', 
@@ -469,11 +469,10 @@ $scope.isPostInCollection = function(post, collection)
         });      
     }
 })
-.controller('searchCtrl', function(generalActions, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
+.controller('searchCtrl', function(generalActions, $rootScope, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
   $scope.ch = function(id)
   {
-    console.log(id);
     $state.go('tab.chat-detail', ({chatId:id}));
   };
 
@@ -488,8 +487,7 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.search = function()
   {
-    $scope.posts = $localstorage.getObject('posts');
-    /*if(_.isEmpty($scope.data.searchKey))
+    if(_.isEmpty($scope.data.searchKey))
       $scope.data.searchKey = ' ';
     if($scope.data.searchKey.length > 4)
     {
@@ -520,15 +518,9 @@ $scope.isPostInCollection = function(post, collection)
         console.log('Thank you for not eating my delicious ice cream cone');
       });
      $scope.data.searchKey ='';
-    }*/
+    }
   }
 
-  $scope.ch = function(id)
-  {
-    console.log(id);
-    $state.go('tab.chat-detail', ({chatId:id}));
-  }
-  
   $scope.goToComment = function(postID)
   {    
     $state.go('comment',({postID:postID}))
@@ -586,11 +578,20 @@ $scope.isPostInCollection = function(post, collection)
     $scope.targetPost.isFavorite = !$scope.targetPost.isFavorite;
   };
 
-  var cat = $localstorage.getObject('cat');
-  $scope.posts = $localstorage.getObject(cat);
-  if(_.isEmpty($scope.posts))
+  var stateName = $ionicHistory.backView().stateName;
+  console.info(stateName);
+  if(stateName == 'tab.search')
+    $scope.posts = $localstorage.getObject('search');
+  if(stateName == 'tab.chat-detail')
+    $scope.posts = $localstorage.getObject('relatedPosts');
+  if (_.isEmpty($scope.posts))
   {
-    $scope.posts = $localstorage.getObject('posts');
+    var cat = $localstorage.getObject('cat');
+    $scope.posts = $localstorage.getObject(cat);
+    if(_.isEmpty($scope.posts))
+    {
+      $scope.posts = $localstorage.getObject('posts');
+    }
   }
 
   angular.forEach($scope.posts, function(post){
@@ -601,43 +602,15 @@ $scope.isPostInCollection = function(post, collection)
     }    
   });
 
-  if (!_.isEmpty($scope.targetPost))
-  {
-    var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
-    $scope.targetPost.post_content = x;
-  }
-  if (_.isEmpty($scope.targetPost))    
-  {
-    $ionicLoading.show({
-      template:'<span class="yekan">...در حال دریافت مقاله ی مورد نظر</span>'
-    });
-    // here we get a post that does not in our list ($scope.posts)
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/getOnePost.php?postID='+$stateParams.chatId
-    }).success(function(data,status,headers,config){ 
-        $ionicLoading.hide();
-        $scope.targetPost = data;
-        var x = $scope.targetPost.post_content.replace(/(\r\n|\n|\r)+/gmi,"<br />");
-        var y = x.replace('width="640"','width="100%"');
-        $scope.targetPost.post_content = y;
-        x = $sce.trustAsHtml($scope.targetPost.post_content);
-        $scope.targetPost.post_content = x;
-        
-        $scope.posts = _.union($scope.posts,data);                   
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-  }
-
   // sample related post
   $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/relatedPosts.php?postID='+$stateParams.chatId
     }).success(function(data,status,headers,config){  
         $scope.relatedPosts = data;
+        $localstorage.setObject('relatedPosts', data);
       // re-make scope.posts and localStorage
-        $scope.posts = _.union($scope.posts,data);                   
+        // $scope.posts = _.union($scope.posts,data);                   
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
