@@ -772,7 +772,7 @@ $scope.isPostInCollection = function(post, collection)
   }
 })
 
-.controller('commentCtrl', function($ionicTabsDelegate, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($ionicTabsDelegate,$ionicHistory, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   $scope.$on('$ionicView.afterEnter', function(){
     var userInfo = $localstorage.getObject('userInfo');  
@@ -796,8 +796,7 @@ $scope.isPostInCollection = function(post, collection)
   
   $scope.goBack = function()
   {
-    console.log('mot',$stateParams);
-    $state.go('tab.chat-detail',{chatId:$stateParams.postID});
+    $ionicHistory.goBack();
   }
 
   $scope.sendComment = function()
