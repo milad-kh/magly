@@ -134,7 +134,11 @@
 
 .controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
-  
+  $scope.t=[];
+  for (var x=0;x<5000;x++)
+  {
+    $scope.t.push(x);
+  }
   $scope.shareToSocial = function(postID, host)
   {
     generalActions.shareToSocial(postID, host);
