@@ -89,7 +89,7 @@
   
   $scope.goToComment = function(postID)
   {    
-    $state.go('material',({postID:postID}))
+    $state.go('comment',({postID:postID}))
   }
 
   $scope.sendLike = function(postID)
@@ -189,7 +189,7 @@
 
   $scope.goToComment = function(postID)
   {
-    $state.go('material',({postID:postID}));
+    $state.go('comment',({postID:postID}));
   };
 
   $scope.sendLike = function(postID)
@@ -488,7 +488,8 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.search = function()
   {
-    if(_.isEmpty($scope.data.searchKey))
+    $scope.posts = $localstorage.getObject('posts');
+    /*if(_.isEmpty($scope.data.searchKey))
       $scope.data.searchKey = ' ';
     if($scope.data.searchKey.length > 4)
     {
@@ -509,17 +510,17 @@ $scope.isPostInCollection = function(post, collection)
         $ionicLoading.hide();
       });
     }
-  else
-  {
-    var alertPopup = $ionicPopup.alert({
-      title: '<span class="yekan">خطا در جستجو</span>',
-      template: '<span class="yekan">عبارت مورد جستجو باید بیشتر از 4 حرف داشته باشد</span>'
-    });
-    alertPopup.then(function(res) {
-      console.log('Thank you for not eating my delicious ice cream cone');
-    });
-   $scope.data.searchKey ='';
-  }
+    else
+    {
+      var alertPopup = $ionicPopup.alert({
+        title: '<span class="yekan">خطا در جستجو</span>',
+        template: '<span class="yekan">عبارت مورد جستجو باید بیشتر از 4 حرف داشته باشد</span>'
+      });
+      alertPopup.then(function(res) {
+        console.log('Thank you for not eating my delicious ice cream cone');
+      });
+     $scope.data.searchKey ='';
+    }*/
   }
 
   $scope.ch = function(id)
@@ -530,7 +531,7 @@ $scope.isPostInCollection = function(post, collection)
   
   $scope.goToComment = function(postID)
   {    
-    $state.go('material',({postID:postID}))
+    $state.go('comment',({postID:postID}))
   }
 
   $scope.addToFavorite = function(postID)
@@ -550,7 +551,7 @@ $scope.isPostInCollection = function(post, collection)
   };    
 })
 
-.controller('ChatDetailCtrl', function(generalActions,$sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
+.controller('ChatDetailCtrl', function(generalActions,$ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   
   $scope.shareToSocial = function(postID)
@@ -561,11 +562,11 @@ $scope.isPostInCollection = function(post, collection)
   $scope.showSignIn = checkUserAuth.isUserLogin();
   $scope.goBack = function()
   {
-    $state.go('tab.chats');
+    $ionicHistory.goBack();
   }  
   $scope.goToComment = function()
   {    
-    $state.go('material',({postID:$stateParams.chatId}))
+    $state.go('comment',({postID:$stateParams.chatId}))
   }
 
   $scope.sendLike = function(postID) // we MUST GET postID from $stateParams
@@ -855,12 +856,6 @@ $scope.isPostInCollection = function(post, collection)
       console.log('error in update!');
     });
   };
-  $ionicModal.fromTemplateUrl('templates/sendCommentForm.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
 
   $scope.openModal = function() {
     $scope.modal.show();
@@ -976,7 +971,7 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.goToComment = function(postID)
   {    
-    $state.go('material',({postID:postID}))
+    $state.go('comment',({postID:postID}))
   }
 
   $scope.mailArticleToFriend = function(postID) {

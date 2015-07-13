@@ -21,18 +21,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    //// function of cordova
     
-    //
   });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
-  $sceDelegateProvider.resourceUrlWhitelist([
-   // Allow same origin resource loads.
-   'self',
-   // Allow loading from our assets domain.  Notice the difference between * and **.
-   'http://www.aparat.com/*']);
+  
   $ionicConfigProvider.tabs.position('bottom');
   // $ionicConfigProvider.views.forwardCache(true);
   // $ionicConfigProvider.views.maxCache(0);
@@ -77,15 +71,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
       templateUrl: "templates/signup.html",
       controller: 'signupCtrl'
     })
-
   
-  .state('material', {
-      url: "/material/:postID",
-      templateUrl: "templates/material.html",
+  .state('comment', {
+      url: "/comment/:postID",
+      templateUrl: "templates/comment.html",
       controller: 'commentCtrl'
     })
-
-  
 
   // Each tab has its own nav history stack:
 .state('tab.dash', {

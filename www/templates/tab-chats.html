@@ -1,7 +1,7 @@
 <ion-view>
-<ion-nav-buttons side="right">
-<!-- <a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>           -->
-</ion-nav-buttons>
+<!-- <ion-nav-buttons side="right">
+<a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>          
+</ion-nav-buttons> -->
 
   <ion-content>
   
@@ -12,7 +12,7 @@
  </ion-refresher>
 <div>
    <!-- USUAL POST -->
- <ion-item collection-repeat="post in posts" force-refresh-images="false" item-render-buffer="3">
+ <ion-item collection-repeat="post in posts track by $index" force-refresh-images="false" item-render-buffer="3">
     <div>    
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
