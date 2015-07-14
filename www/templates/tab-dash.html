@@ -1,10 +1,11 @@
 <ion-view>
-<ion-nav-buttons side="right">
+<ion-nav-buttons side="center">
+<span class="yekan"> دستــــــــه ها </span>
 </ion-nav-buttons>
 
   <ion-content>
     
-    <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
+    <!-- <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
       <span style="position:absolute;background-color:seashell;font-size:xx-large" class="yekan">همه ی مقالات</span>
       <img src="{{all}}" style="width:100%">
     </div>
@@ -12,11 +13,37 @@
     <div style="display:table" ng-repeat="row in categories" >
       
       <div style="float:left;width:50%;padding:3px;direction:rtl" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
-        <span style="position:absolute;background-color:white;font-size:xx-large" class="yekan" ng-bind="item.cat_name"></span>
-        <img src="{{item.thumbnail}}" style="width:100%">
+        <span style="position:absolute;background-color:white;font-size:large" class="yekan" ng-bind="item.cat_name"></span>
+        <img src="{{item.thumbnail}}" style="width:100%" />
       </div>
       
+    </div> -->
+    <div style="display:table">
+      <div style="width:100px;height:158px;float:left;overflow:hidden;padding:3px">
+        <img src="http://magly.ir/wp-content/uploads/2015/07/Tony-Robbins-wearing-Panerai-440x639.jpg">
+      </div>
+      <div style="width:250px;height:158px;float:right;overflow:hidden;padding:3px">
+        <img src="http://magly.ir/wp-content/uploads/2015/07/o-HAPPY-facebook-1-440x220.jpg" style="-webkit-filter:hue-rotate(180deg);">
+        <span style="top:20px;left:100px;position:absolute" class="yekan">تجملات</span>
+      </div>
     </div>
+
+    <div style="display:table">
+      <div style="width:400px;height:250px;float:right;overflow:hidden;padding:3px">
+        <img src="http://magly.ir/wp-content/uploads/2015/07/Dollarphotoclub_74264509-440x465.jpg">
+        <span style="top:20px;left:100px;position:absolute" class="yekan">تجملات</span>
+      </div>
+    </div>
+    
+    <div style="display:table">
+      <div style="width:152px;height:250px;float:left;overflow:hidden;padding:3px">
+        <img src="http://magly.ir/wp-content/uploads/2015/07/153269375-15775-440x293.jpg" style="-webkit-filter:invert(1);">
+      </div>
+      <div style="width:200px;height:250px;float:right;overflow:hidden;padding:3px">
+        <img src="http://magly.ir/wp-content/uploads/2015/07/Dollarphotoclub_74264509-440x465.jpg" style="-webkit-filter:brightness(50%);">
+      </div>
+    </div>
+
 
   </ion-content>
 
