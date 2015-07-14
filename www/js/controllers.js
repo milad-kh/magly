@@ -2,8 +2,33 @@
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
   
-  .controller('DashCtrl', function($cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
+  .controller('DashCtrl', function($interval, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
   
+  $interval(refreshCategoryImages, 3000);
+  
+  var categories = $localstorage.getObject('categories');
+  var categoriesArray = [];
+  ng.forEach(categories, function(row){
+    ng.forEach(row, function(category){
+      categoriesArray.push(category);
+    });
+  });
+
+  var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
+  function refreshCategoryImages()
+  {
+    var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
+    ///// HTTP Request
+     $http({
+      method: 'GET',
+      url:'http://www.magly.ir/HybridAppAPI/getCategoryImage.php?catID=' + targetCategory.cat_ID
+    }).success(function(data,status,headers,config){    
+      console.info('data:',data[0]);
+      document.getElementById(targetCategory.cat_ID).src = data[0];
+    }).error(function(data,status,headers,config){
+    });
+  };
+
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.categories = $localstorage.getObject('categories');
     if (_.isEmpty($scope.categories))

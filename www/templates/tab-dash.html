@@ -5,20 +5,21 @@
 
   <ion-content>
     
-    <!-- <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
+    <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
       <span style="position:absolute;background-color:seashell;font-size:xx-large" class="yekan">همه ی مقالات</span>
-      <img src="{{all}}" style="width:100%">
+      <img src="{{all}}" style="width:100%" id="0">
     </div>
 
     <div style="display:table" ng-repeat="row in categories" >
       
       <div style="float:left;width:50%;padding:3px;direction:rtl" ng-repeat="item in row" ng-click="filterPostsByCategory(item.cat_ID)">
         <span style="position:absolute;background-color:white;font-size:large" class="yekan" ng-bind="item.cat_name"></span>
-        <img src="{{item.thumbnail}}" style="width:100%" />
+        <img src="{{item.thumbnail}}" style="width:100%" id="{{item.cat_ID}}" />
       </div>
       
-    </div> -->
-    <div style="display:table">
+    </div>
+
+    <!-- <div style="display:table">
       <div style="width:100px;height:158px;float:left;overflow:hidden;padding:3px">
         <img src="http://magly.ir/wp-content/uploads/2015/07/Tony-Robbins-wearing-Panerai-440x639.jpg">
       </div>
@@ -42,7 +43,7 @@
       <div style="width:200px;height:250px;float:right;overflow:hidden;padding:3px">
         <img src="http://magly.ir/wp-content/uploads/2015/07/Dollarphotoclub_74264509-440x465.jpg" style="-webkit-filter:brightness(50%);">
       </div>
-    </div>
+    </div> -->
 
 
   </ion-content>
