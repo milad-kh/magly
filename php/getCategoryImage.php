@@ -7,10 +7,14 @@ header('Content-Type: application/json');
 require_once("../wp-load.php");
 global $wpdb;
 $catID = $_GET['catID'];
+$oldImage = $_GET['oldImage'];
 if ($catID == 0)
   $catID = '';
-$args = array(
-	'posts_per_page'   => 50,
+
+function image_Generator()
+{
+  $args = array(
+	'posts_per_page'   => 10,
 	'offset'           => 0,
 	'category'         => $catID,
 	'category_name'    => '',
@@ -27,8 +31,17 @@ $args = array(
 	'suppress_filters' => true 
 );
 $posts_array = get_posts($args);
-$randomIndex = rand(1,50);
+$randomIndex = mt_rand(1,10);
 $post_thumbnail_id = get_post_thumbnail_id($posts_array[$randomIndex]->ID);
 $thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-	
-echo json_encode($thumb_url);
+return $thumb_url[0];
+}
+
+while(true)
+{
+  $newImage = image_Generator();
+  if($oldImage != $newImage)
+    break 1;
+}
+
+echo json_encode($newImage);
