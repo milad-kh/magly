@@ -20,14 +20,23 @@
     var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
     if (!_.isEmpty(targetCategory))
     ///// HTTP Request
-     $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/getCategoryImage.php?catID=' + targetCategory.cat_ID
-    }).success(function(data,status,headers,config){    
-      console.info('data:',data[0]);
-      document.getElementById(targetCategory.cat_ID).src = data[0];
-    }).error(function(data,status,headers,config){
-    });
+     {
+      console.info(targetCategory);
+      $http({
+         method: 'GET',
+         url:'http://www.magly.ir/HybridAppAPI/getCategoryImage.php?catID=' + targetCategory.cat_ID + '&oldImage=' + document.getElementById(targetCategory.cat_ID).src
+       }).success(function(data,status,headers,config){    
+         console.info('data:',data);
+         if(!_.isEmpty(data) && data != 'http://magly.ir/wp-includes/images/media/default.png')          
+          {
+            $("#"+targetCategory.cat_ID).fadeOut();
+            document.getElementById(targetCategory.cat_ID).src = data;
+            $("#"+targetCategory.cat_ID).fadeIn();
+          }
+       }).error(function(data,status,headers,config){
+            console.info('error in internet');
+       });
+     }
   };
 
   $scope.$on('$ionicView.afterEnter', function(){
