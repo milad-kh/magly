@@ -18,6 +18,7 @@
   function refreshCategoryImages()
   {
     var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
+    if (!_.isEmpty(targetCategory))
     ///// HTTP Request
      $http({
       method: 'GET',
