@@ -9,6 +9,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
+      $("ion-header-bar").addClass("yekan");
 
     //$cordovaSplashscreen.hide();
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

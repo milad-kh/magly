@@ -331,3 +331,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
 {
 	direction: rtl;
 }
+
+.header-item
+{
+	text-align:center!important;
+}

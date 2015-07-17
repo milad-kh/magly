@@ -1,4 +1,4 @@
-(function(ng, _){
+(function(ng, _, $){
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
   
@@ -13,11 +13,6 @@
         categoriesArray.push(category);
     });
   });
-  categoriesArray.push({
-    cat_ID: "0",
-    cat_name: "تمام پست ها"
-  });
-  // console.info(categoriesArray);
   function refreshCategoryImages()
   {
     var randomCategory = Math.floor((Math.random() * categoriesArray.length-1) + 1);
@@ -90,11 +85,12 @@
       $scope.categories = data;
       console.info($scope.categories);
       $localstorage.setObject('categories', $scope.categories);
-      
       $ionicLoading.hide();
+      // $("ion-header-bar").addClass("yekan");
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
       $ionicLoading.hide();
+
     });
   };
 })
@@ -991,4 +987,4 @@ $scope.isPostInCollection = function(post, collection)
 });
 
 }
-)(this.angular, this._);
+)(this.angular, this._, this.jQuery);
