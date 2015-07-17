@@ -86,7 +86,6 @@
       console.info($scope.categories);
       $localstorage.setObject('categories', $scope.categories);
       $ionicLoading.hide();
-      // $("ion-header-bar").addClass("yekan");
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
       $ionicLoading.hide();
