@@ -326,3 +326,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
     height: 20%;
     background-color: yellow;
 }
+
+.rtl
+{
+	direction: rtl;
+}

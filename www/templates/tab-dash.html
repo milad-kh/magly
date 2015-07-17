@@ -5,7 +5,15 @@
 
   <ion-content>
     
-    <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
+  <div class="list">
+    <a class="item" ng-class="whatClassIsIt($index)" ng-href="" ng-repeat="item in categories" ng-click="filterPostsByCategory(item.cat_ID)">
+      <img ng-src="{{item.thumbnail}}" id="{{item.cat_ID}}" style="border-radius:5px">
+      <h2 class="yekan">{{item.name}}</h2>
+      <p>توضیح دسته</p>
+    </a>
+  </div>
+
+    <!-- <div style="width:100%;height:auto" ng-click="filterPostsByCategory('all')" ng-show="categories">
       <span style="position:absolute;background-color:seashell;font-size:xx-large" class="yekan">همه ی مقالات</span>
       <img src="{{all}}" style="width:100%" id="0">
     </div>
@@ -17,7 +25,7 @@
         <img src="{{item.thumbnail}}" style="width:100%" id="{{item.cat_ID}}" />
       </div>
       
-    </div>
+    </div> -->
 
     <!-- <div style="display:table">
       <div style="width:100px;height:158px;float:left;overflow:hidden;padding:3px">

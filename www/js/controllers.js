@@ -4,39 +4,44 @@
   
   .controller('DashCtrl', function($interval, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
   
-  $interval(refreshCategoryImages, 3000);
-  
+  // $interval(refreshCategoryImages, 4000);
   var categories = $localstorage.getObject('categories');
   var categoriesArray = [];
   ng.forEach(categories, function(row){
     ng.forEach(row, function(category){
-      categoriesArray.push(category);
+      if (!_.isEmpty(category))
+        categoriesArray.push(category);
     });
   });
-
-  var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
+  categoriesArray.push({
+    cat_ID: "0",
+    cat_name: "تمام پست ها"
+  });
+  // console.info(categoriesArray);
   function refreshCategoryImages()
   {
-    var targetCategory = categoriesArray[(Math.floor((Math.random() * categoriesArray.length-1) + 1))];
-    if (!_.isEmpty(targetCategory))
-    ///// HTTP Request
-     {
-      console.info(targetCategory);
-      $http({
-         method: 'GET',
-         url:'http://www.magly.ir/HybridAppAPI/getCategoryImage.php?catID=' + targetCategory.cat_ID + '&oldImage=' + document.getElementById(targetCategory.cat_ID).src
-       }).success(function(data,status,headers,config){    
-         console.info('data:',data);
-         if(!_.isEmpty(data) && data != 'http://magly.ir/wp-includes/images/media/default.png')          
-          {
-            $("#"+targetCategory.cat_ID).fadeOut();
-            document.getElementById(targetCategory.cat_ID).src = data;
-            $("#"+targetCategory.cat_ID).fadeIn();
-          }
-       }).error(function(data,status,headers,config){
-            console.info('error in internet');
-       });
-     }
+    var randomCategory = Math.floor((Math.random() * categoriesArray.length-1) + 1);
+    var targetCategory = categoriesArray[randomCategory];
+    // console.info(targetCategory.cat_ID);
+    // console.info(document.getElementById(targetCategory.cat_ID).src);
+    $http({
+       method: 'GET',
+       cache:false,
+       url:'http://www.magly.ir/HybridAppAPI/getCategoryImage.php?catID=' + targetCategory.cat_ID + '&oldImage=' + document.getElementById(targetCategory.cat_ID).src + '&data=' + new Date()
+     }).success(function(data,status,headers,config){
+        console.warn(targetCategory.cat_ID);
+        console.warn(document.getElementById(targetCategory.cat_ID).src);
+        console.warn(data);
+        console.warn('...................................................');
+        if(!_.isEmpty(data) && data != 'http://magly.ir/wp-includes/images/media/default.png')          
+        {
+          $("#"+targetCategory.cat_ID).fadeOut();
+          document.getElementById(targetCategory.cat_ID).src = data[0];
+          $("#"+targetCategory.cat_ID).fadeIn();
+        }
+     }).error(function(data,status,headers,config){
+          console.info('error in internet');
+     });
   };
 
   $scope.$on('$ionicView.afterEnter', function(){
@@ -66,27 +71,26 @@
     $rootScope.$broadcast('scrollToTop');
   };
 
+
+  $scope.whatClassIsIt = function(index)
+  {
+    if (index % 2 == 0)
+      return 'item-thumbnail-left rtl'
+    else
+      return 'item-thumbnail-right'
+  }
+
   $scope.showCategories = function()
   {
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/showCategoryList.php'      
     }).success(function(data,status,headers,config){    
-      console.info(data);
-      var arr = new Array();
-      var tempArr = new Array();                  
-      for(var i = 0;i<=data[0].length;i++)
-      {
-        tempArr.push(data[0][i]);
-        if(tempArr.length == 2)
-        {
-          arr.push(tempArr);
-          tempArr = [];
-        }
-      }
-      $scope.categories = arr;
+      
+      $scope.categories = data;
+      console.info($scope.categories);
       $localstorage.setObject('categories', $scope.categories);
-      $scope.all = data[1];
+      
       $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in get categories');
