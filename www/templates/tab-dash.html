@@ -2,10 +2,10 @@
   <ion-content>
     
   <div class="list">
-    <a class="item" ng-class="whatClassIsIt($index)" ng-href="" ng-repeat="item in categories" ng-click="filterPostsByCategory(item.cat_ID)">
+    <a class="item" ng-class="whatClassIsIt($index)" ng-href="" ng-repeat="item in categories" ng-click="filterPostsByCategory(item.cat_ID)" style="height">
       <img ng-src="{{item.thumbnail}}" id="{{item.cat_ID}}" style="border-radius:5px">
       <h2 class="yekan">{{item.name}}</h2>
-      <p>توضیح دسته</p>
+      <p>{{item.description}}</p>
     </a>
   </div>
 

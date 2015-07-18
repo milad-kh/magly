@@ -168,6 +168,7 @@
 
 .controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
+  
   $scope.t=[];
   for (var x=0;x<5000;x++)
   {
@@ -579,7 +580,6 @@ $scope.isPostInCollection = function(post, collection)
 
 .controller('ChatDetailCtrl', function(generalActions,$ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
-  
   $scope.shareToSocial = function(postID)
   {
     generalActions.shareToSocial(postID);
