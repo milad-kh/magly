@@ -1,8 +1,8 @@
-<ion-view title="مقـــــــالات">
+<ion-view title="{{categoryName}}">
 <!-- <ion-nav-buttons side="right">
 <a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>          
 </ion-nav-buttons> -->
-
+<img src="img/logo2.png" style="position:absolute;z-index:1000;right:0px" />
   <ion-content>
   
  <ion-refresher
@@ -12,7 +12,7 @@
  </ion-refresher>
 <div>
    <!-- USUAL POST -->
- <ion-item ng-repeat="post in posts track by $index" force-refresh-images="false" item-render-buffer="3">
+ <ion-item ng-repeat="post in posts track by $index" force-refresh-images="false" item-render-buffer="3" sizesetter>
     <div>    
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
@@ -31,16 +31,16 @@
       </p>
     </div>
 
-     <div class="item item-thumbnail" style="padding:0px;border:0px"> 
-     <img class="full-image" src="{{post.thumbnail}}">     
-     </div> 
+    <div class="item item-thumbnail" style="padding:0px;border:0px"> 
+      <img class="full-image" src="{{post.thumbnail}}">     
+    </div> 
      
     <div class="item item-body" style="border:0px">
       <div style="direction:rtl" class="yekan" ng-bind="post.summary+'...'">                      
       </div>
     </div>
 </div>
-   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
+   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">
     
     <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
@@ -64,10 +64,10 @@
    </div> 
 
    </div>
-   <div style="height:1px;background-color:black"></div>
+   <!-- <div style="height:1px;background-color:black"></div> -->
 
    <!-- ADVERTISE  -->
- <div ng-if="$index % 5 == 0">
+ <!-- <div ng-if="$index % 5 == 0">
      
      <div class="item item-thumbnail" style="border:0px">  
      <img class="full-image" src="img/ads2.jpg">     
@@ -79,7 +79,7 @@
       </div>
     </div>
     
-   </div> 
+   </div>  -->
 
    <!-- <div style="height:1px;background-color:black"></div> -->
    </ion-item>

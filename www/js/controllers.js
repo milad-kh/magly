@@ -168,7 +168,7 @@
 
 .controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized');
-  
+
   $scope.t=[];
   for (var x=0;x<5000;x++)
   {
@@ -187,6 +187,11 @@
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
+    var catID = $localstorage.getObject('cat');
+    ng.forEach($localstorage.getObject('categories'), function(category){
+      if (catID == category.cat_ID)
+        $scope.categoryName = category.name;
+    });
     $scope.showSignIn = checkUserAuth.isUserLogin();
     var cat = $localstorage.getObject('cat');
     if(_.isEmpty($localstorage.getObject('cat')))
