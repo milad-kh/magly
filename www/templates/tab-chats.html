@@ -12,7 +12,7 @@
  </ion-refresher>
 <div>
    <!-- USUAL POST -->
- <ion-item ng-repeat="post in posts track by $index" force-refresh-images="false" item-render-buffer="3" sizesetter>
+ <ion-item ng-repeat="post in posts track by $index">
     <div>    
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
