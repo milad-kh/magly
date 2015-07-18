@@ -5,7 +5,7 @@
 
   <ion-content>
     
-   <div ng-repeat="post in posts">
+   <ion-item ng-repeat="post in posts">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
       <p style="direction:rtl">
@@ -55,8 +55,8 @@
         </a>
    </div> 
 
-   </div>
-       <div style="height:1px;background-color:black"></div>
+   </ion-item>
+       <!-- <div style="height:1px;background-color:black"></div> -->
 
   </ion-content>
 </ion-view>

@@ -16,14 +16,12 @@
   </div>  
 
   <div class="list yekan" ng-show="posts" style="direction:rtl">
-    <div class="item">
+    <div class="item noborder">
       {{posts.length}} مورد پیدا شد
     </div>
   </div>  
-    <!-- <button class="button button-calm yekan item-left" ng-click="search()">جستجو کن</button> -->
-	<!-- posts -->
-  <div class="list" ng-repeat="post in posts | filter:query track by $index">
-	<div>
+   
+  <ion-item ng-repeat="post in posts track by $index">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
       <p style="direction:rtl">
@@ -41,7 +39,7 @@
       </p>
     </div>
 
-     <div class="item item-thumbnail" style="border:0px"> 
+     <div class="item item-thumbnail" style="padding:0px;border:0px"> 
      <img class="full-image" src="{{post.thumbnail}}">     
      </div> 
      
@@ -50,7 +48,7 @@
       </div>
     </div>
 </div>
-   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
+   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">
     
     <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
@@ -72,8 +70,6 @@
           <i class="icon ion-ios-email-outline"></i>
         </a>
    </div> 
-   </div>
-   <div style="height:1px;background-color:black"></div>
-   </div>
+   </ion-item>
   </ion-content>
 </ion-view>

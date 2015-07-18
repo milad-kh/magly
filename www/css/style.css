@@ -336,3 +336,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
 {
 	text-align:center!important;
 }
+
+.noborder{
+	border: none;
+}

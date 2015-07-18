@@ -1,13 +1,12 @@
-<ion-view>
+<ion-view title="لــیـــست مـــــورد علاقـــــه">
 <!-- <ion-nav-buttons side="right">
 <a class="button button-icon icon ion-gear-a" ng-click="openPopover($event)"></a>          
 </ion-nav-buttons> -->
  <ion-content>
 <!-- post -->
-<div ng-repeat="post in favoritePosts | filter:query track by $index">
-  <div>
-     <div ng-click="ch(post.ID)">
-    <div class="item item-avatar" style="padding-left:20px">
+<ion-item ng-repeat="post in favoritePosts track by $index">
+ <div ng-click="ch(post.ID)">
+    <div class="item item-avatar" style="padding-left:20px;border:0px">
     <p style="direction:rtl">
       <i class="icon ion-flag" style="color:lightseagreen"></i>
       &nbsp;
@@ -32,7 +31,7 @@
       </div>
     </div>
 </div>
-   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left">
+   <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">
     
     <a class="tab-item" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
@@ -55,9 +54,7 @@
         </a>
    </div> 
 
-   </div>
-   <div style="height:1px;background-color:black"></div>
-</div>
+</ion-item>
 <!-- post -->
   
  </ion-content>
