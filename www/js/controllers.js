@@ -353,7 +353,7 @@ $scope.isPostInCollection = function(post, collection)
     newPosts = {};
     var category = $localstorage.getObject('cat');
     if (category == 'all')
-      cat = 'posts';
+      cat = 'all';
     else
       cat = category;
       var userInfo = $localstorage.getObject('userInfo');      
@@ -904,66 +904,34 @@ $scope.isPostInCollection = function(post, collection)
   }
 
   $scope.$on('$ionicView.enter', function(){
-
-  $scope.info = $localstorage.getObject('userInfo');
-  console.info($scope.info);
-  //$scope.showSignIn = checkUserAuth.isUserLogin();
-  //console.info($scope.showSignIn);    
-  var sign = $localstorage.getObject('favoritePosts');
-  if (_.isEmpty(sign))
-  {
-    $scope.favoritePosts = [];
-    console.warn('khalie');
-    
-    // get some posts from current posts
-    ng.forEach($localstorage.getObject('posts'), function(post){
-      if(post.isFavorite)
-        $scope.favoritePosts.push(post);
-    });
-    // get some post from server
+    $ionicScrollDelegate.scrollTop();
+    if($scope.favoritePosts != 'null' || !_.isEmpty($scope.favoritePosts))
+      $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+    if (_.isEmpty($scope.favoritePosts))
+      $ionicLoading.show({
+          template: '<span class=yekan>... بارگذاری</span>'
+        });
+    $scope.info = $localstorage.getObject('userInfo');
+    if (_.isEmpty($scope.info[0]))
+      $scope.userID = $scope.info.ID;
+    else
+      $scope.userID = $scope.info[0].ID;
     $http({
       method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID
+      url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.userID
     }).success(function(data,status,headers,config){  
-      ng.forEach(data, function(post){
-        if(!$scope.isPostInCollection(post, $scope.favoritePosts))
-          $scope.favoritePosts.push(post);
-      });
-      $localstorage.setObject('favoritePosts', $scope.favoritePosts);      
-      // 
+
+      if(!_.isEmpty(data))
+      {
+        $localstorage.setObject('favoritePosts', data);      
+        $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+      }
+      $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
-    
     $localstorage.setObject('favoritePosts', $scope.favoritePosts);
-  }
-  else
-  {
-    console.warn('dare ye chizayee');
-    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
-    ng.forEach($localstorage.getObject('posts'), function(post){
-      if(post.isFavorite && !$scope.isPostInCollection(post, $scope.favoritePosts))        
-        $scope.favoritePosts.push(post);
-    });
-    // 
-    $http({
-      method: 'GET',
-      url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.info.ID
-    }).success(function(data,status,headers,config){      
-      ng.forEach(data, function(post){
-        if(!$scope.isPostInCollection(post, $scope.favoritePosts))
-          $scope.favoritePosts.push(post);
-      });
-      $localstorage.setObject('favoritePosts', $scope.favoritePosts);
-    }).error(function(data,status,headers,config){
-      console.log('error in update!');
-    });
-    // 
-    $localstorage.setObject('favoritePosts', $scope.favoritePosts);    
-  }
-  console.info($scope.favoritePosts);
   });
-  
   
   $scope.shareToSocial = function(postID, host)
   {
@@ -972,17 +940,8 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);  
-    $scope.favoritePosts = $localstorage.getObject('favoritePosts'); 
-    var arrTemp = [];
-    ng.forEach($scope.favoritePosts, function(post){
-      if (post.isFavorite)
-        arrTemp.push(post);
-    });
-    $scope.favoritePosts = arrTemp;
-    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
-    $ionicScrollDelegate.scrollTop();
-    console.info($scope.favoritePosts);
+    generalActions.addToFavorite(postID);
+    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
   };
 
   $scope.sendLike = function(postID)

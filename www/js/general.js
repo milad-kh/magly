@@ -14,39 +14,49 @@
 	{
 		var generalActions = {
 			addToFavorite : function(postID){
+				console.info('oh umad inja');
 				$ionicLoading.show({
 		      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
 		    });			    		
-
-	      var 
-	      	info = $localstorage.getObject('userInfo');   
-	      console.log(postID);
-	      console.log(info);     
+	      var info = $localstorage.getObject('userInfo'); 
+	      var userID;
+	      if (_.isEmpty(info[0]))
+      		userID = info.ID;
+		    else
+		      userID = info[0].ID;  	
 	      $http({
 	        method: 'GET',
-	        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+info.ID+'&postID='+postID,
+	        url:'http://www.magly.ir/HybridAppAPI/addToFavorite.php?userID='+userID+'&postID='+postID,
 	        cache: false
 	      }).success(function(data,status,headers,config){          
 	        console.log(data);			    
+	        //// update all the keys in our storage
+	      	// first : create list of localstorage target item
+					var localStorageLength = window.localStorage.length;
+		      var localstorageItemArray = [];
+		      for (var i = 0; i< localStorageLength; i++)
+		      {
+		      	localstorageItemArray.push(window.localStorage.key(i));
+		      }
+		      console.info(localstorageItemArray);
+		      ng.forEach(localstorageItemArray, function(localstorageObjectName){
+		      	var item = $localstorage.getObject(localstorageObjectName);
+		      	ng.forEach(item, function(post){
+		      		if (post.ID == postID)
+		      			post.isFavorite = !post.isFavorite;
+		      	});
+		      });
+	        ///////////////////////////////////////////////////
 			  	$ionicLoading.hide();	        
 	      }).error(function(data,status,headers,config){
 	        console.log('error in get categories');
+	        $ionicLoading.hide();
 	      });
-	      // update all the keys in our storage
-	      var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
-	        ng.forEach(localstorageObjects, function(localstorageObject){
-			    	var collection = $localstorage.getObject(localstorageObject);	        	
-		        ng.forEach(collection, function(post){
-		          if(post.ID == postID)
-		          {
-		            post.isFavorite = !post.isFavorite;
-		            console.info('peida shid');
-		          }
-		        });	 
-		        localStorage.removeItem(localstorageObject);
-			  		$localstorage.setObject(localstorageObject, collection);
+	      
+	      
 
-	        });
+	      var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
+	        
 	        console.info('then');
 			},
 
