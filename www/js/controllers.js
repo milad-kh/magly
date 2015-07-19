@@ -205,7 +205,8 @@
       if (cat == 'all')
       {
         console.info('injast alan');
-        $scope.posts = $localstorage.getObject('posts');
+        $scope.posts = $localstorage.getObject('all');
+        // console.info('hiiiiiiiiii', $scope.posts);
         if (_.isEmpty($scope.posts))
           $scope.doesLocalHaveData('all');
       }
@@ -247,10 +248,7 @@
   $scope.addToFavorite = function(postID)
   {
     generalActions.addToFavorite(postID);
-    $scope.posts = $localstorage.getObject('posts');
-    console.info('................');
-    console.info($scope.posts);
-    console.info('................');
+    $scope.posts = $localstorage.getObject('posts');    
   };
 
   $scope.getMaxOfArray = function(numArray) {
@@ -263,22 +261,17 @@
   $scope.loadMoreDataForTop = function()
     {
       var userInfo = $localstorage.getObject('userInfo');      
-      var category = $localstorage.getObject('cat');
+      var cat = $localstorage.getObject('cat');
       newPosts = {};
-      if (category == 'all')
-        cat = 'posts';
-      else
-        cat = category;
-     
       console.log('top');
-      console.log(category);
+      console.log(cat);
       
-      var biggestIDinPosts = $scope.posts[$scope.posts.length - 1].ID;
+      var biggestIDinPosts = $scope.posts[0].ID;
       console.info('biggestIDinPosts', biggestIDinPosts);
 
       var postsInLocal = $localstorage.getObject(cat);
       console.info(postsInLocal);
-      var biggestIDinLocal = postsInLocal[postsInLocal.length - 1];
+      var biggestIDinLocal = postsInLocal[0];
       console.info('biggestIDinLocal', biggestIDinLocal.ID);
 
       var i = 0;
@@ -311,8 +304,9 @@
           cache: false
         }).success(function(data,status,headers,config){
           $scope.posts = _.union(data, newPosts, $scope.posts);          
-          localStorage.removeItem('posts');
-          $localstorage.setObject('posts',$scope.posts);
+          
+          localStorage.removeItem(cat);
+          $localstorage.setObject(cat,$scope.posts);
 
          /* $cordovaVibration.vibrate(700);
           $cordovaDialogs.beep(1);*/
@@ -389,7 +383,7 @@ $scope.isPostInCollection = function(post, collection)
         url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
         cache: false
       }).success(function(data,status,headers,config){          
-        console.info('succcccc', data);
+        console.info('data', data);
         newPosts = _.union(newPosts, data);          
         $scope.posts = _.union($scope.posts, newPosts);
         $localstorage.setObject(cat, $scope.posts);
@@ -431,10 +425,7 @@ $scope.isPostInCollection = function(post, collection)
       }).success(function(data,status,headers,config){   
       console.info(data);
         $scope.posts = data;
-        if(category == 'all')
-          $localstorage.setObject('posts', data);
-        else
-          $localstorage.setObject(category, data);
+        $localstorage.setObject(category, data);
         $ionicScrollDelegate.scrollTop();
         $ionicLoading.hide();     
       }).error(function(data,status,headers,config){
@@ -646,11 +637,12 @@ $scope.isPostInCollection = function(post, collection)
     if (post.ID == $stateParams.chatId)
     {
       $ionicLoading.hide();
-      $scope.targetPost = post;
+      $scope.targetPost = post;            
       x = $sce.trustAsHtml($scope.targetPost.post_content);
-        $scope.targetPost.post_content = x;
+      $scope.targetPost.post_content = x;
     }    
   });
+
 
   // sample related post
   $http({
