@@ -196,6 +196,8 @@
     var cat = $localstorage.getObject('cat');
     if(_.isEmpty($localstorage.getObject('cat')))
     {
+      $localstorage.setObject('cat', 'all');
+      $scope.categoryName = 'همه مقالات';
       $scope.doesLocalHaveData('all');
     }
     else
@@ -410,8 +412,14 @@ $scope.isPostInCollection = function(post, collection)
   }
   $scope.fillLocalWithData = function(category)
     {
+      var catID = $localstorage.getObject('cat');
+      ng.forEach($localstorage.getObject('categories'), function(category){
+        if (catID == category.cat_ID)
+          $scope.categoryName = category.name;
+      });
+      console.info($scope.categoryName);
       $ionicLoading.show({
-        template:'<span class="yekan">... در حال بارگذاری مطالب</span>'
+        template:'<span class="yekan"> در حال بارگذاری مطالب ' + $scope.categoryName + '</span><div class="yekan">لطفا شکیبا باشید</div>'
       });
       var userInfo = $localstorage.getObject('userInfo');
       $scope.posts = [];
@@ -420,7 +428,8 @@ $scope.isPostInCollection = function(post, collection)
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/showPostList.php?randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
         cache: false
-      }).success(function(data,status,headers,config){                
+      }).success(function(data,status,headers,config){   
+      console.info(data);
         $scope.posts = data;
         if(category == 'all')
           $localstorage.setObject('posts', data);
@@ -638,6 +647,8 @@ $scope.isPostInCollection = function(post, collection)
     {
       $ionicLoading.hide();
       $scope.targetPost = post;
+      x = $sce.trustAsHtml($scope.targetPost.post_content);
+        $scope.targetPost.post_content = x;
     }    
   });
 
