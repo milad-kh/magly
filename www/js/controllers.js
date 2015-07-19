@@ -166,14 +166,22 @@
   }
 })
 
-.controller('ChatsCtrl', function(generalActions, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
-  console.warn('ChatsCtrl initialized');
+.controller('ChatsCtrl', function(generalActions, $window, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
+  console.warn('ChatsCtrl initialized', $window);
 
   $scope.t=[];
   for (var x=0;x<5000;x++)
   {
     $scope.t.push(x);
   }
+  $scope.scrollScreen = function(dir)
+  {    
+    if (dir == 'up')
+      $ionicScrollDelegate.scrollTop(true);
+    else
+      $ionicScrollDelegate.scrollBottom(true);
+  };
+
   $scope.shareToSocial = function(postID, host)
   {
     generalActions.shareToSocial(postID, host);
@@ -206,7 +214,6 @@
       {
         console.info('injast alan');
         $scope.posts = $localstorage.getObject('all');
-        // console.info('hiiiiiiiiii', $scope.posts);
         if (_.isEmpty($scope.posts))
           $scope.doesLocalHaveData('all');
       }
@@ -413,7 +420,7 @@ $scope.isPostInCollection = function(post, collection)
       });
       console.info($scope.categoryName);
       $ionicLoading.show({
-        template:'<span class="yekan"> در حال بارگذاری مطالب ' + $scope.categoryName + '</span><div class="yekan">لطفا شکیبا باشید</div>'
+        template:'<span class="yekan"> در حال بارگذاری ' + $scope.categoryName + '</span><div class="yekan">لطفا شکیبا باشید</div>'
       });
       var userInfo = $localstorage.getObject('userInfo');
       $scope.posts = [];
