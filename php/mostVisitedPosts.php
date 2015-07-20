@@ -6,7 +6,7 @@ header("Pragma: no-cache");
 header('Content-Type: application/json');
 require_once("../wp-load.php");
 $userID = $_GET['userID'];
-function popularPosts($num) {
+
     global $wpdb;
     // make a list of user favorite posts
 
@@ -26,11 +26,12 @@ for ($i=0;$i<count($tempData);$i++)
 }
 
 //print_r($listOfPostsID);
-    $pattern1='/\[caption.*\"\]/i';
+
+$pattern1='/\[caption.*\"\]/i';
 $pattern2='/\[\/caption*\]/i';
 $pattern3='/<h2.*><strong>.*<\/strong><\/h2>/i';
 $pattern4='/^[^\.]*/i';
-    $posts_array = $wpdb->get_results("SELECT ID, comment_count, post_title, post_content, guid FROM $wpdb->posts ORDER BY comment_count DESC LIMIT 0 , $num");        
+    $posts_array = $wpdb->get_results("SELECT ID, comment_count, post_title, post_content, guid FROM $wpdb->posts ORDER BY comment_count DESC LIMIT 0 , 10");        
     for($i = 0;$i < count($posts_array);$i++)
 	{
 		$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);
@@ -60,6 +61,4 @@ $pattern4='/^[^\.]*/i';
 	  	$posts_array[$i]->isFavorite= false;
 		
     }		
-    return json_encode ($posts_array);
-}
-echo popularPosts(10);
+    echo json_encode ($posts_array);

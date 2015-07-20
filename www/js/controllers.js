@@ -567,7 +567,7 @@ $scope.isPostInCollection = function(post, collection)
         $scope.posts = data;
         $ionicLoading.hide();
       }).error(function(data,status,headers,config){
-        console.log('error in update!');
+        console.log('اصن خراه');
         $ionicLoading.hide();
       });
     }

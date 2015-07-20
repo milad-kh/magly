@@ -8,6 +8,25 @@ require_once("../wp-load.php");
 global $wpdb;
 
 $searchKey = $_GET['searchKey'];
+$userID = $_GET['userID'];
+  // make a list of user favorite posts
+
+$str = 'select * from wp_usermeta where user_id ='.$userID.' AND meta_key = "wpfp_favorites"';
+$rawlist = $wpdb->get_results($str);
+$tempData = explode(";",$rawlist[0]->meta_value);
+
+for ($i=0;$i<count($tempData);$i++)
+{
+
+  if(preg_match("/s:4:\"\d{1,}\"/i", $tempData[$i]))
+  {
+    $temp = explode("s:4:", $tempData[$i]);
+    $listOfPostsID[] = str_replace('"', '', $temp[1]);    
+  }
+
+}
+
+//print_r($listOfPostsID);
 
 $pattern1='/\[caption.*\"\]/i';
 $pattern2='/\[\/caption*\]/i';
@@ -29,5 +48,9 @@ for($i = 0;$i < count($posts_array);$i++)
 	//$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
 	preg_match( $pattern4, $posts_array[$i]->summary, $match );
 	$posts_array[$i]->summary = $match;
+	if (in_array($posts_array[$i]->ID, $listOfPostsID))
+	  	$posts_array[$i]->isFavorite= true;
+			else
+	  	$posts_array[$i]->isFavorite= false;
 }
 echo json_encode($posts_array);
