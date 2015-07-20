@@ -7,11 +7,12 @@
 	{
 		ng
 		.module('general-actions',['localStorage'])
-		.factory('generalActions', ['$localstorage', '$ionicPopup', '$http', '$ionicLoading', factoryProvider])
+		.factory('generalActions', ['$rootScope', '$localstorage', '$ionicPopup', '$http', '$ionicLoading', factoryProvider])
 	},
 
-	factoryProvider = function($localstorage, $ionicPopup, $http, $ionicLoading)
+	factoryProvider = function($rootScope, $localstorage, $ionicPopup, $http, $ionicLoading)
 	{
+		// console.info($scope);
 		var generalActions = {
 			addToFavorite : function(postID){
 				console.info('oh umad inja');
@@ -19,7 +20,7 @@
 		      template:'<span class="yekan">... لطفا شکیبا باشید</span>'
 		    });			    		
 	      var info = $localstorage.getObject('userInfo'); 
-	      var userID;
+	      var userID, item;
 	      if (_.isEmpty(info[0]))
       		userID = info.ID;
 		    else
@@ -40,11 +41,17 @@
 		      }
 		      console.info(localstorageItemArray);
 		      ng.forEach(localstorageItemArray, function(localstorageObjectName){
-		      	var item = $localstorage.getObject(localstorageObjectName);
+		      	item = $localstorage.getObject(localstorageObjectName);
 		      	ng.forEach(item, function(post){
 		      		if (post.ID == postID)
 		      			post.isFavorite = !post.isFavorite;
 		      	});
+		      	if ($localstorage.getObject('cat') == localstorageObjectName)
+				      {
+				      	window.localStorage.removeItem($localstorage.getObject('cat'));
+  				      $localstorage.setObject($localstorage.getObject('cat'), item);
+		      			$rootScope.$broadcast('updatePosts', item);		      
+  				    }
 		      });
 	        ///////////////////////////////////////////////////
 			  	$ionicLoading.hide();	        

@@ -12,12 +12,13 @@ $category = $_GET['category'];
 $pattern4='/^[^\.]*/i';
 $guidPattern = '/http:\/\/magly.ir\/\?p=\d+/i';
 
-if ($category == 'posts')
+if ($category == 'all')
   $catID = '';
 else
   $catID = $category;
-
-for($i=($biggestIDinLocal+1);$i<8500;$i++)
+$pattern1='/\[caption.*\"\]/i';
+$pattern2='/\[\/caption*\]/i';
+for($i=($biggestIDinLocal+1);$i<10000;$i++)
 { 
 $currentPost = get_post($i);
 $catId=get_the_category($currentPost->ID);
@@ -45,15 +46,16 @@ if ($currentPost->post_status == 'publish' && $currentPost->menu_order == 0 && p
 }
 // add thumbnail to posts
 for($i = 0;$i < count($posts_array);$i++)
-{	
-	$post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID);	
-	$thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-	
-	$posts_array[$i]->thumbnail = $thumb_url[0];
-	
-	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
-	preg_match( $pattern4, $posts_array[$i]->summary, $match );
-	$posts_array[$i]->summary = $match;
-	$posts_array[$i]->isLike = false;
+{ 
+  $post_thumbnail_id = get_post_thumbnail_id($posts_array[$i]->ID); 
+  $thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
+  
+  $posts_array[$i]->thumbnail = $thumb_url[0];
+  $posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
+  $posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+  $posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
+  preg_match( $pattern4, $posts_array[$i]->summary, $match );
+  $posts_array[$i]->summary = $match;
+  $posts_array[$i]->isLike = false;
 };
 echo json_encode($posts_array);

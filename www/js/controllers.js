@@ -99,6 +99,7 @@
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.posts = $localstorage.getObject('most');    
+    $localstorage.setObject('cat','most');
     if (_.isEmpty($scope.posts))
     {    
       $ionicLoading.show({
@@ -135,8 +136,11 @@
 
    $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);
-    $scope.posts = $localstorage.getObject('most');                                                  
+    generalActions.addToFavorite(postID)
+    $scope.$on('updatePosts', function(data){
+      console.log('dar in lahze update shod');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));          
+    });                                                
   };
 
   $scope.mailArticleToFriend = function(postID) {
@@ -196,6 +200,7 @@
 
   $scope.$on('$ionicView.afterEnter', function(){
     var catID = $localstorage.getObject('cat');
+    $localstorage.setObject('cat','all');
     ng.forEach($localstorage.getObject('categories'), function(category){
       if (catID == category.cat_ID)
         $scope.categoryName = category.name;
@@ -254,8 +259,11 @@
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);
-    $scope.posts = $localstorage.getObject('posts');    
+    generalActions.addToFavorite(postID)
+    $scope.$on('updatePosts', function(data){
+      console.log('dar in lahze update shod');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));          
+    });
   };
 
   $scope.getMaxOfArray = function(numArray) {
@@ -310,6 +318,8 @@
           url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForTop.php?biggestIDinLocal=' + biggestIDinLocal.ID +'&userID=' + userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
           cache: false
         }).success(function(data,status,headers,config){
+          if (!_.isEmpty(data))
+            data = data.reverse()
           $scope.posts = _.union(data, newPosts, $scope.posts);          
           
           localStorage.removeItem(cat);
@@ -529,6 +539,7 @@ $scope.isPostInCollection = function(post, collection)
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
+    $localstorage.setObject('cat', 'search')
     $scope.data = {};
   });
 
@@ -536,6 +547,11 @@ $scope.isPostInCollection = function(post, collection)
   {
     if(_.isEmpty($scope.data.searchKey))
       $scope.data.searchKey = ' ';
+    $scope.info = $localstorage.getObject('userInfo');
+    if (_.isEmpty($scope.info[0]))
+      $scope.userID = $scope.info.ID;
+    else
+      $scope.userID = $scope.info[0].ID;
     if($scope.data.searchKey.length > 4)
     {
       $ionicLoading.show({
@@ -544,7 +560,7 @@ $scope.isPostInCollection = function(post, collection)
       console.warn($scope);
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/search.php?searchKey='+$scope.data.searchKey
+        url:'http://www.magly.ir/HybridAppAPI/search.php?searchKey='+$scope.data.searchKey+'&userID='+$scope.userID
       }).success(function(data,status,headers,config){
         console.log(data);
         $localstorage.setObject('search', data);
@@ -575,8 +591,11 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);      
-    $scope.posts = $localstorage.getObject('search');
+    generalActions.addToFavorite(postID)
+    $scope.$on('updatePosts', function(data){
+      console.log('dar in lahze update shod');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));          
+    });
   };
   
   $scope.sendLike = function(postID)
