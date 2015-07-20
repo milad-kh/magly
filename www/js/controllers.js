@@ -200,7 +200,8 @@
 
   $scope.$on('$ionicView.afterEnter', function(){
     var catID = $localstorage.getObject('cat');
-    $localstorage.setObject('cat','all');
+    if (isEmpty($localstorage.getObject('cat')))
+      $localstorage.setObject('cat','all'); 
     ng.forEach($localstorage.getObject('categories'), function(category){
       if (catID == category.cat_ID)
         $scope.categoryName = category.name;
