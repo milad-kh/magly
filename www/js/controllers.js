@@ -974,8 +974,18 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.addToFavorite = function(postID)
   {
-    generalActions.addToFavorite(postID);
-    $scope.favoritePosts = $localstorage.getObject('favoritePosts');
+    $scope.favoritePostsTemps=[];
+    generalActions.addToFavorite(postID)
+    $scope.$on('updatePosts', function(){
+      console.log('dar in lahze update shod');
+      $scope.favoritePosts = $localstorage.getObject($localstorage.getObject('cat'));   
+      console.log($scope.favoritePosts);       
+      ng.forEach($scope.favoritePosts, function(post){
+        if(post.isFavorite)
+          $scope.favoritePostsTemps.push(post);
+      })
+      $scope.favoritePosts = $scope.favoritePostsTemps;
+    });    
   };
 
   $scope.sendLike = function(postID)
