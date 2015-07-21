@@ -46,12 +46,8 @@
 		      		if (post.ID == postID)
 		      			post.isFavorite = !post.isFavorite;
 		      	});
-		      	if ($localstorage.getObject('cat') == localstorageObjectName)
-				      {
-				      	window.localStorage.removeItem($localstorage.getObject('cat'));
-  				      $localstorage.setObject($localstorage.getObject('cat'), item);
-		      			$rootScope.$broadcast('updatePosts', item);		      
-  				    }
+		      	$localstorage.setObject(localstorageObjectName, item);
+		      	$rootScope.$broadcast('updatePosts');		        				  
 		      });
 	        ///////////////////////////////////////////////////
 			  	$ionicLoading.hide();	        
@@ -59,12 +55,6 @@
 	        console.log('error in get categories');
 	        $ionicLoading.hide();
 	      });
-	      
-	      
-
-	      var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
-	        
-	        console.info('then');
 			},
 
 			shareToSocial : function(postID, host)
@@ -96,32 +86,35 @@
 			},
 			sendLike : function(postID)
 			{
-			    console.log('send like');
-			    $http({
-			      method: 'GET',
-			      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
-			    }).success(function(data,status,headers,config){
-			      console.log(data);
-			    }).error(function(data,status,headers,config){
-			      console.log('error in update!');
-			    });
-
-			    // update all the keys in our storage
-			    var localstorageObjects = ['posts', 'most', 'favoritePosts', 'search'];
-			    ng.forEach(localstorageObjects, function(localstorageObject){
-			    	console.info('alan: ', localstorageObject);
-			    	var collection = $localstorage.getObject(localstorageObject);
-				    ng.forEach(collection, function(post){
-				      if (post.ID == postID)
-				      {
-				        post.isLike = !post.isLike;
-				      }
-				    });		
-			  	localStorage.removeItem(localstorageObject);
-			  	$localstorage.setObject(localstorageObject, collection);				    	    	
-			    });
-			    
+				var item;
+		    console.log('send like');
+		    $http({
+		      method: 'GET',
+		      url:'http://www.magly.ir/HybridAppAPI/sendLike.php?postID='+postID
+		    }).success(function(data,status,headers,config){
+		      console.log(data);
+		      var localStorageLength = window.localStorage.length;
+		      var localstorageItemArray = [];
+		      for (var i = 0; i< localStorageLength; i++)
+		      {
+		      	localstorageItemArray.push(window.localStorage.key(i));
+		      }
+		      console.info(localstorageItemArray);
+		      ng.forEach(localstorageItemArray, function(localstorageObjectName){
+		      	item = $localstorage.getObject(localstorageObjectName);
+		      	ng.forEach(item, function(post){
+		      		if (post.ID == postID)
+		      			post.isLike = !post.isLike;
+		      	});
+		      	$localstorage.setObject(localstorageObjectName, item);
+      			$rootScope.$broadcast('updatePostsForLike');		      
+		      });
+			   
+		    }).error(function(data,status,headers,config){
+		      console.log('error in update!');
+		    });
 			},
+
 			mailArticleToFriend : function(postID)
 			{			  
 			  // An elaborate, custom popup

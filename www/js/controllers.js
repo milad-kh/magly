@@ -119,8 +119,6 @@
       $rootScope.prevState = fromState.name;
       console.info('state avaz shod');
     })
-
-  
   
   $scope.goToComment = function(postID)
   {    
@@ -129,9 +127,11 @@
 
   $scope.sendLike = function(postID)
   {
-    generalActions.sendLike(postID);
-    $scope.posts = $localstorage.getObject('most');
-    console.info($scope.posts);
+   generalActions.sendLike(postID);
+    $scope.$on('updatePostsForLike', function(){
+      console.log('updatePostsForLike done!');
+      $scope.posts = $localstorage.getObject('most');
+    });
   };
 
    $scope.addToFavorite = function(postID)
@@ -200,7 +200,7 @@
 
   $scope.$on('$ionicView.afterEnter', function(){
     var catID = $localstorage.getObject('cat');
-    if (isEmpty($localstorage.getObject('cat')))
+    if (_.isEmpty($localstorage.getObject('cat')))
       $localstorage.setObject('cat','all'); 
     ng.forEach($localstorage.getObject('categories'), function(category){
       if (catID == category.cat_ID)
@@ -251,7 +251,10 @@
   $scope.sendLike = function(postID)
   {
     generalActions.sendLike(postID);
-    $scope.posts = $localstorage.getObject('posts');
+    $scope.$on('updatePostsForLike', function(){
+      console.log('updatePostsForLike done!');
+      $scope.posts = $localstorage.getObject('all');
+    });
   };
 
   $scope.mailArticleToFriend = function(postID) {    
@@ -602,6 +605,10 @@ $scope.isPostInCollection = function(post, collection)
   $scope.sendLike = function(postID)
   {
     generalActions.sendLike(postID);
+    $scope.$on('updatePostsForLike', function(){
+      console.log('updatePostsForLike done!');
+      $scope.posts = $localstorage.getObject('search');
+    });
   }
 
   $scope.mailArticleToFriend = function(postID)
@@ -630,7 +637,10 @@ $scope.isPostInCollection = function(post, collection)
   $scope.sendLike = function(postID) // we MUST GET postID from $stateParams
   {
     generalActions.sendLike(postID);
-    $scope.targetPost.isLike = !$scope.targetPost.isLike;
+    $scope.$on('updatePostsForLike', function(){
+      console.log('updatePostsForLike done!');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));
+    });
   };
 
   $scope.mailArticleToFriend = function(postID) {
@@ -640,8 +650,11 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.addToFavorite = function(postID)
   {            
-    generalActions.addToFavorite(postID); // get postID from $stateParams  
-    $scope.targetPost.isFavorite = !$scope.targetPost.isFavorite;
+    generalActions.addToFavorite(postID)
+    $scope.$on('updatePosts', function(data){
+      console.log('dar in lahze update shod');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));          
+    });
   };
 
   var stateName = $ionicHistory.backView().stateName;
@@ -923,7 +936,8 @@ $scope.isPostInCollection = function(post, collection)
       return true;
   }
 
-  $scope.$on('$ionicView.enter', function(){
+  $scope.$on('$ionicView.afterEnter', function(){
+    $localstorage.setObject('cat','favoritePosts');
     $ionicScrollDelegate.scrollTop();
     if($scope.favoritePosts != 'null' || !_.isEmpty($scope.favoritePosts))
       $scope.favoritePosts = $localstorage.getObject('favoritePosts');
