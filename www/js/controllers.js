@@ -974,9 +974,9 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.addToFavorite = function(postID)
   {
-    $scope.favoritePostsTemps=[];
     generalActions.addToFavorite(postID)
     $scope.$on('updatePosts', function(){
+      $scope.favoritePostsTemps=[];
       console.log('dar in lahze update shod');
       $scope.favoritePosts = $localstorage.getObject($localstorage.getObject('cat'));   
       console.log($scope.favoritePosts);       
@@ -984,6 +984,8 @@ $scope.isPostInCollection = function(post, collection)
         if(post.isFavorite)
           $scope.favoritePostsTemps.push(post);
       })
+      console.log('old values', $scope.favoritePosts);
+      console.log('new values', $scope.favoritePostsTemps);
       $scope.favoritePosts = $scope.favoritePostsTemps;
     });    
   };

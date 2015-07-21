@@ -47,7 +47,8 @@
 		      			post.isFavorite = !post.isFavorite;
 		      	});
 		      	$localstorage.setObject(localstorageObjectName, item);
-		      	$rootScope.$broadcast('updatePosts');		        				  
+		      	if(localstorageObjectName == $localstorage.getObject('cat'))
+		      		$rootScope.$broadcast('updatePosts');		        				  
 		      });
 	        ///////////////////////////////////////////////////
 			  	$ionicLoading.hide();	        
