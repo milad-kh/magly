@@ -5,8 +5,10 @@
   The Friends service returns an array of friend data
 -->
 <ion-view title=" ">
-<ion-nav-title side="right">
-</ion-nav-title>
+<ion-nav-buttons side="right">
+  <a class="button button-icon icon ion-ios-arrow-thin-up" ng-click="scrollScreen('up')"></a>    
+  <a class="button button-icon icon ion-ios-arrow-thin-down" ng-click="scrollScreen('down')"></a>          
+</ion-nav-buttons>
 
 <ion-nav-buttons side="left">
   <button class="button yekan icon-left ion-ios-arrow-left" ng-click="goBack()">

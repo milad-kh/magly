@@ -33,7 +33,7 @@
 	        console.log(data);			    
 	        //// update all the keys in our storage
 	      	// first : create list of localstorage target item
-					var localStorageLength = window.localStorage.length;
+			  var localStorageLength = window.localStorage.length;
 		      var localstorageItemArray = [];
 		      for (var i = 0; i< localStorageLength; i++)
 		      {

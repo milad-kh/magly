@@ -99,7 +99,7 @@
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.posts = $localstorage.getObject('most');    
-    $localstorage.setObject('cat','most');
+    // $localstorage.setObject('cat','most');
     if (_.isEmpty($scope.posts))
     {    
       $ionicLoading.show({
@@ -432,6 +432,8 @@ $scope.isPostInCollection = function(post, collection)
         if (catID == category.cat_ID)
           $scope.categoryName = category.name;
       });
+      if(_.isEmpty($scope.categoryName))
+        $scope.categoryName = 'همه مقالات';
       console.info($scope.categoryName);
       $ionicLoading.show({
         template:'<span class="yekan"> در حال بارگذاری ' + $scope.categoryName + '</span><div class="yekan">لطفا شکیبا باشید</div>'
@@ -543,7 +545,7 @@ $scope.isPostInCollection = function(post, collection)
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
-    $localstorage.setObject('cat', 'search')
+    // $localstorage.setObject('cat', 'search')
     $scope.data = {};
   });
 
@@ -556,7 +558,7 @@ $scope.isPostInCollection = function(post, collection)
       $scope.userID = $scope.info.ID;
     else
       $scope.userID = $scope.info[0].ID;
-    if($scope.data.searchKey.length > 4)
+    if($scope.data.searchKey.length > 3)
     {
       $ionicLoading.show({
         template: '<span class="yekan">... در حال جستجو</span><div class="yekan">لطفا شکیبا باشید</div>'
@@ -617,11 +619,19 @@ $scope.isPostInCollection = function(post, collection)
   };    
 })
 
-.controller('ChatDetailCtrl', function(generalActions,$ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
+.controller('ChatDetailCtrl', function(generalActions, $ionicScrollDelegate, $ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
   $scope.shareToSocial = function(postID)
   {
     generalActions.shareToSocial(postID);
+  };
+
+  $scope.scrollScreen = function(dir)
+  {    
+    if (dir == 'up')
+      $ionicScrollDelegate.scrollTop(true);
+    else
+      $ionicScrollDelegate.scrollBottom(true);
   };
 
   $scope.showSignIn = checkUserAuth.isUserLogin();
@@ -663,6 +673,9 @@ $scope.isPostInCollection = function(post, collection)
     $scope.posts = $localstorage.getObject('search');
   if(stateName == 'tab.chat-detail')
     $scope.posts = $localstorage.getObject('relatedPosts');
+  if(stateName == 'tab.most')
+    $scope.posts = $localstorage.getObject('most');
+
   if (_.isEmpty($scope.posts))
   {
     var cat = $localstorage.getObject('cat');
@@ -791,12 +804,7 @@ $scope.isPostInCollection = function(post, collection)
   $scope.signOut = function()
   {
     localStorage.removeItem('userInfo'); 
-    localStorage.removeItem('categories'); 
-    localStorage.removeItem('most'); 
-    localStorage.removeItem('posts'); 
-    localStorage.removeItem('cat'); 
     localStorage.removeItem('favoritePosts'); 
-    localStorage.removeItem('search'); 
     $scope.showSignIn = true;
     $scope.info = {};
     $rootScope.$broadcast('signOutOfApp');
@@ -822,10 +830,10 @@ $scope.isPostInCollection = function(post, collection)
         console.log(data);
         if(data.status == 'ok')
         {
-          localStorage.removeItem('cat'); 
-          localStorage.removeItem('favoritePosts'); 
-          localStorage.removeItem('posts'); 
-
+          var categories = $localstorage.getObject('categories');
+          window.localStorage.clear();
+          $localstorage.setObject('categories', categories);
+          /////////////////////////////////////////
           $ionicLoading.hide();
           $localstorage.setObject('userInfo',data.info);  
           $scope.showSignIn = !$scope.showSignIn;        
@@ -987,6 +995,7 @@ $scope.isPostInCollection = function(post, collection)
       console.log('old values', $scope.favoritePosts);
       console.log('new values', $scope.favoritePostsTemps);
       $scope.favoritePosts = $scope.favoritePostsTemps;
+      $localstorage.setObject('favoritePosts', $scope.favoritePosts);
     });    
   };
 
