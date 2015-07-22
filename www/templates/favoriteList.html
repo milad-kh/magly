@@ -3,8 +3,15 @@
   <a class="button button-icon icon ion-ios-glasses-outline"></a>          
 </ion-nav-buttons>
  <ion-content>
+
+<div class="row" ng-show="!favoritePosts">
+  <div class="col">
+    <button class="button button-block button-assertive yekan icon-right ion-heart-broken"> لیست شما خالی است </button>
+  </div>      
+</div>
+
 <!-- post -->
-<ion-item ng-repeat="post in favoritePosts track by $index">
+<ion-item ng-repeat="post in favoritePosts track by $index" ng-show="favoritePosts">
  <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
     <p style="direction:rtl">
@@ -55,7 +62,6 @@
    </div> 
 
 </ion-item>
-<!-- post -->
-  
+
  </ion-content>
 </ion-view>

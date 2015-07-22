@@ -675,6 +675,8 @@ $scope.isPostInCollection = function(post, collection)
     $scope.posts = $localstorage.getObject('relatedPosts');
   if(stateName == 'tab.most')
     $scope.posts = $localstorage.getObject('most');
+  if(stateName == 'tab.favoriteList')
+    $scope.posts = $localstorage.getObject('favoriteList');
 
   if (_.isEmpty($scope.posts))
   {
@@ -944,35 +946,36 @@ $scope.isPostInCollection = function(post, collection)
       return true;
   }
 
-  $scope.$on('$ionicView.afterEnter', function(){
-    $localstorage.setObject('cat','favoritePosts');
-    $ionicScrollDelegate.scrollTop();
-    if($scope.favoritePosts != 'null' || !_.isEmpty($scope.favoritePosts))
-      $scope.favoritePosts = $localstorage.getObject('favoritePosts');
-    if (_.isEmpty($scope.favoritePosts))
+  $scope.$on('$ionicView.afterEnter', function(){    
+    $ionicScrollDelegate.scrollTop();    
+    if (_.isEmpty($localstorage.getObject('favoritePosts')))
       $ionicLoading.show({
           template: '<span class=yekan>... بارگذاری</span>'
         });
+    else
+      $scope.favoritePosts = $localstorage.getObject('favoritePosts');
     $scope.info = $localstorage.getObject('userInfo');
     if (_.isEmpty($scope.info[0]))
       $scope.userID = $scope.info.ID;
     else
       $scope.userID = $scope.info[0].ID;
+    console.info($scope.userID);
     $http({
       method: 'GET',
       url:'http://www.magly.ir/HybridAppAPI/listMyFavoritePosts.php?userID='+$scope.userID
     }).success(function(data,status,headers,config){  
-
-      if(!_.isEmpty(data))
+      console.info(data);
+      if(!_.isEmpty(data) && data != 'null')
       {
         $localstorage.setObject('favoritePosts', data);      
         $scope.favoritePosts = $localstorage.getObject('favoritePosts');
-      }
+      }      
+
+      console.info($scope.favoritePosts);
       $ionicLoading.hide();
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
-    $localstorage.setObject('favoritePosts', $scope.favoritePosts);
   });
   
   $scope.shareToSocial = function(postID, host)
@@ -992,10 +995,12 @@ $scope.isPostInCollection = function(post, collection)
         if(post.isFavorite)
           $scope.favoritePostsTemps.push(post);
       })
-      console.log('old values', $scope.favoritePosts);
-      console.log('new values', $scope.favoritePostsTemps);
+      
       $scope.favoritePosts = $scope.favoritePostsTemps;
       $localstorage.setObject('favoritePosts', $scope.favoritePosts);
+      $ionicScrollDelegate.resize();
+      if(_.isEmpty($scope.favoritePosts))
+        delete $scope.favoritePosts;
     });    
   };
 
