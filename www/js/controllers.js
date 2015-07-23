@@ -726,7 +726,11 @@ $scope.isPostInCollection = function(post, collection)
       $scope.info = {};
     }
   });  
-  
+  $scope.data = { 'volume' : '5' };
+  $scope.$watch('data.volume', function(newVal, oldVal){
+    $localstorage.setObject('dataVolume', newVal);
+  });
+
   $scope.showForgetPassModal = function()
   {
     $scope.data = {};
