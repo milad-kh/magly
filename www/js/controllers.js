@@ -295,7 +295,7 @@
 
       var i = 0;
       biggestIDinPosts ++ ;
-      while (biggestIDinPosts <= biggestIDinLocal.ID && i < 3)
+      while (biggestIDinPosts <= biggestIDinLocal.ID && i < ($localstorage.getObject('dataVolume')))
       {
         ng.forEach(postsInLocal, function(post){
           if (post.ID == biggestIDinPosts)
@@ -313,9 +313,9 @@
         newPosts.length = 0;
       console.log(newPosts.length);
 
-      remainsPostsToGet = 3 - newPosts.length;
+      remainsPostsToGet = ($localstorage.getObject('dataVolume')) - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-      if(remainsPostsToGet <= 3)
+      if(remainsPostsToGet <= ($localstorage.getObject('dataVolume')))
       {
         $http({
           method: 'GET',
@@ -381,7 +381,7 @@ $scope.isPostInCollection = function(post, collection)
     console.info('smallestIDinLocal', smallestIDinLocal.ID);
     //////////////////
     smallestIDinPosts --;
-    while (smallestIDinPosts >= smallestIDinLocal && i < 3)
+    while (smallestIDinPosts >= smallestIDinLocal && i < ($localstorage.getObject('dataVolume')))
     {
       ng.forEach(postsInLocal, function(post){
         if (post.ID == smallestIDinPosts)
@@ -395,9 +395,9 @@ $scope.isPostInCollection = function(post, collection)
     if(newPosts.length == undefined)
       newPosts.length = 0;
     console.log(newPosts.length);
-    if (newPosts.length <= 3)
+    if (newPosts.length <= ($localstorage.getObject('dataVolume')))
     {
-      var remainsPostsToGet = 3 - newPosts.length;
+      var remainsPostsToGet = ($localstorage.getObject('dataVolume')) - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
       $http({
         method: 'GET',
@@ -726,7 +726,8 @@ $scope.isPostInCollection = function(post, collection)
       $scope.info = {};
     }
   });  
-  $scope.data = { 'volume' : '5' };
+  $scope.data = {};
+  $scope.data.volume = $localstorage.getObject('dataVolume');
   $scope.$watch('data.volume', function(newVal, oldVal){
     $localstorage.setObject('dataVolume', newVal);
   });
