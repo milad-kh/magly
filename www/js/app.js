@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
+angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCordova'])
 
-.run(function($ionicPlatform, $cordovaSplashscreen) {
+.run(function($localstorage, $ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
       $("ion-header-bar").addClass("yekan");
 
@@ -24,6 +24,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     }
     
   });
+  if (_.isEmpty($localstorage.getObject('settings')))
+  {
+    $localstorage.setObject('settings', {
+      numberOfPostDownloaded : 3,
+      numberOfPostDownloadedFirstTime :1,
+      vibrateWhenNewPostsDownloaded : true,
+      beepWhenNewPostsDownloaded : true
+    });    
+  }
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {

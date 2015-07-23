@@ -199,6 +199,7 @@
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
+    $scope.settings = $localstorage.getObject('settings');
     var catID = $localstorage.getObject('cat');
     if (_.isEmpty($localstorage.getObject('cat')))
       $localstorage.setObject('cat','all'); 
@@ -295,7 +296,7 @@
 
       var i = 0;
       biggestIDinPosts ++ ;
-      while (biggestIDinPosts <= biggestIDinLocal.ID && i < ($localstorage.getObject('dataVolume')))
+      while (biggestIDinPosts <= biggestIDinLocal.ID && i < $scope.settings.numberOfPostDownloaded)
       {
         ng.forEach(postsInLocal, function(post){
           if (post.ID == biggestIDinPosts)
@@ -313,9 +314,9 @@
         newPosts.length = 0;
       console.log(newPosts.length);
 
-      remainsPostsToGet = ($localstorage.getObject('dataVolume')) - newPosts.length;
+      remainsPostsToGet = $scope.settings.numberOfPostDownloaded - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
-      if(remainsPostsToGet <= ($localstorage.getObject('dataVolume')))
+      if(remainsPostsToGet <= $scope.settings.numberOfPostDownloaded)
       {
         $http({
           method: 'GET',
@@ -329,8 +330,16 @@
           localStorage.removeItem(cat);
           $localstorage.setObject(cat,$scope.posts);
 
-         /* $cordovaVibration.vibrate(700);
-          $cordovaDialogs.beep(1);*/
+          if ($scope.settings.vibrateWhenNewPostsDownloaded)
+          {
+            console.info('vibrate');
+            $cordovaVibration.vibrate(700);
+          }
+          if($scope.beepWhenNewPostsDownloaded)
+          {
+            console.info('beep');
+            $cordovaDialogs.beep(1);
+          }
           
           $scope.$broadcast('scroll.refreshComplete');
           console.warn('haji amaliat b payan resid', data);
@@ -381,7 +390,7 @@ $scope.isPostInCollection = function(post, collection)
     console.info('smallestIDinLocal', smallestIDinLocal.ID);
     //////////////////
     smallestIDinPosts --;
-    while (smallestIDinPosts >= smallestIDinLocal && i < ($localstorage.getObject('dataVolume')))
+    while (smallestIDinPosts >= smallestIDinLocal && i < $scope.settings.numberOfPostDownloaded)
     {
       ng.forEach(postsInLocal, function(post){
         if (post.ID == smallestIDinPosts)
@@ -395,9 +404,9 @@ $scope.isPostInCollection = function(post, collection)
     if(newPosts.length == undefined)
       newPosts.length = 0;
     console.log(newPosts.length);
-    if (newPosts.length <= ($localstorage.getObject('dataVolume')))
+    if (newPosts.length <= $scope.settings.numberOfPostDownloaded)
     {
-      var remainsPostsToGet = ($localstorage.getObject('dataVolume')) - newPosts.length;
+      var remainsPostsToGet = $scope.settings.numberOfPostDownloaded - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
       $http({
         method: 'GET',
@@ -443,7 +452,7 @@ $scope.isPostInCollection = function(post, collection)
       var randomInt = new Date().getTime();
       $http({
         method: 'GET',
-        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category, 
+        url:'http://www.magly.ir/HybridAppAPI/showPostList.php?randomInt=' + randomInt + '&userID=' + userInfo.ID + '&category=' + category + '&numberOfPostDownloadedFirstTime=' + $scope.settings.numberOfPostDownloadedFirstTime, 
         cache: false
       }).success(function(data,status,headers,config){   
       console.info(data);
@@ -718,6 +727,9 @@ $scope.isPostInCollection = function(post, collection)
 
 .controller('ProfileCtrl', function($ionicLoading, $rootScope, $ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
   
+  $scope.settings = $localstorage.getObject('settings');
+  console.info($scope.settings);
+
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
     $scope.info = $localstorage.getObject('userInfo');    
@@ -726,11 +738,23 @@ $scope.isPostInCollection = function(post, collection)
       $scope.info = {};
     }
   });  
-  $scope.data = {};
-  $scope.data.volume = $localstorage.getObject('dataVolume');
-  $scope.$watch('data.volume', function(newVal, oldVal){
-    $localstorage.setObject('dataVolume', newVal);
+  $scope.$watch('settings.numberOfPostDownloaded', function(newVal, oldVal){
+    console.info(newVal);
+    $scope.settings.numberOfPostDownloaded = newVal;
+    $localstorage.setObject('settings', $scope.settings);
   });
+
+  $scope.$watch('settings.vibrateWhenNewPostsDownloaded', function(newVal, oldVal){
+    console.info(newVal);
+    $scope.settings.vibrateWhenNewPostsDownloaded = newVal;
+    $localstorage.setObject('settings', $scope.settings);
+  });
+
+  $scope.$watch('settings.beepWhenNewPostsDownloaded', function(newVal, oldVal){
+      console.info(newVal);
+      $scope.settings.beepWhenNewPostsDownloaded = newVal;
+      $localstorage.setObject('settings', $scope.settings);
+    });
 
   $scope.showForgetPassModal = function()
   {

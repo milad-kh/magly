@@ -46,10 +46,10 @@
     تعداد پست های دریافتی از سرور
     <div class="item range range-positive">
       <i class="icon ion-ios-minus-empty"></i>
-      <input type="range" name="volume" min="1" max="20" value="33" ng-model="data.volume">
+      <input type="range" name="volume" min="1" max="20" value="33" ng-model="settings.numberOfPostDownloaded">
       <i class="icon ion-ios-plus-empty"></i>
     </div>
-    <div>{{data.volume}} پست</div>
+    <div>{{settings.numberOfPostDownloaded}} پست</div>
   </div>
 </div>
 
@@ -58,7 +58,7 @@
   <li class="item item-toggle" style="direction:rtl">
      ویبره هنگام دریافت داده جدید
      <label class="toggle toggle-calm">
-       <input type="checkbox">
+       <input type="checkbox" ng-model="settings.vibrateWhenNewPostsDownloaded">
        <div class="track">
          <div class="handle"></div>
        </div>
@@ -69,7 +69,7 @@
   <li class="item item-toggle">
      صدا هنگام دریافت داده جدید
      <label class="toggle toggle-energized">
-       <input type="checkbox">
+       <input type="checkbox" ng-model="settings.beepWhenNewPostsDownloaded">
        <div class="track">
          <div class="handle"></div>
        </div>
