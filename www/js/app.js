@@ -28,7 +28,7 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
   {
     $localstorage.setObject('settings', {
       numberOfPostDownloaded : 3,
-      numberOfPostDownloadedFirstTime :1,
+      numberOfPostDownloadedFirstTime :5,
       vibrateWhenNewPostsDownloaded : true,
       beepWhenNewPostsDownloaded : true
     });    

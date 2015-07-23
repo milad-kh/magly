@@ -42,6 +42,7 @@
 </button>
 
 <div class="card" style="direction:rtl">
+
   <div class="item item-text-wrap yekan">
     تعداد پست های دریافتی از سرور
     <div class="item range range-positive">
@@ -51,10 +52,20 @@
     </div>
     <div>{{settings.numberOfPostDownloaded}} پست</div>
   </div>
+
+  <div class="item item-text-wrap yekan">
+    تعداد پست دریافتی برای بار اول
+    <div class="item range range-positive">
+      <i class="icon ion-ios-minus-empty"></i>
+      <input type="range" name="volume" min="1" max="20" value="5" ng-model="settings.numberOfPostDownloadedFirstTime">
+      <i class="icon ion-ios-plus-empty"></i>
+    </div>
+    <div>{{settings.numberOfPostDownloadedFirstTime}} پست</div>
+  </div>
+
 </div>
 
 <ul class="list">
-
   <li class="item item-toggle" style="direction:rtl">
      ویبره هنگام دریافت داده جدید
      <label class="toggle toggle-calm">
