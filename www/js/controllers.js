@@ -931,12 +931,12 @@ $scope.isPostInCollection = function(post, collection)
     $scope.commentObject.url = userInfo.user_url;
 
     var postID = $stateParams.postID;
-    var posts = $localstorage.getObject('posts');
+    var posts = $localstorage.getObject($localstorage.getObject('cat'));
     ng.forEach(posts, function(post){
       if (post.ID == postID)
       { 
-
         $scope.comments = post.comments;
+        console.log(post);
       }
     });
     console.log($scope.comments);
