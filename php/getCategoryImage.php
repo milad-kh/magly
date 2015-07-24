@@ -7,6 +7,7 @@ header('Content-Type: application/json');
 require_once("../wp-load.php");
 global $wpdb;
 $catID = $_GET['catID'];
+//echo $catID;
 $oldImage = $_GET['oldImage'];
 if ($catID == 0)
   $catID = '';
@@ -14,9 +15,9 @@ if ($catID == 0)
 function image_Generator()
 {
   $args = array(
-	'posts_per_page'   => 10,
+	'posts_per_page'   => 15,
 	'offset'           => 0,
-	'category'         => $catID,
+	'category'         => '',
 	'category_name'    => '',
 	'orderby'          => 'ID',
 	'order'            => 'DESC',
@@ -31,17 +32,18 @@ function image_Generator()
 	'suppress_filters' => true 
 );
 $posts_array = get_posts($args);
-$randomIndex = mt_rand(1,10);
+$randomIndex = mt_rand(1,15);
 $post_thumbnail_id = get_post_thumbnail_id($posts_array[$randomIndex]->ID);
 $thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
-return $thumb_url[0];
+return $thumb_url;
 }
 
 while(true)
 {
   $newImage = image_Generator();
-  if($oldImage != $newImage)
+  if($oldImage != $newImage[0] && $newImage[0]!='http://magly.ir/wp-includes/images/media/default.png')
+  {
+    echo json_encode($newImage);
     break 1;
+  }
 }
-
-echo json_encode($newImage);

@@ -51,8 +51,9 @@ $pattern4='/^[^\.]*/i';
     {
     		$posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
 		$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
-      		$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
-		//$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
+		$posts_array[$i]->post_content = str_replace('width="640"','width="100%"',$posts_array[$i]->post_content);
+		$posts_array[$i]->post_content = str_replace('height="360"',' ',$posts_array[$i]->post_content);
+      	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
 		preg_match( $pattern4, $posts_array[$i]->summary, $match );
 		$posts_array[$i]->summary = $match;
 		if (in_array($posts_array[$i]->ID, $listOfPostsID))

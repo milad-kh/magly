@@ -32,8 +32,9 @@ $pattern1='/\[caption.*\"\]/i';
 $pattern2='/\[\/caption*\]/i';
 $pattern3='/<h2.*><strong>.*<\/strong><\/h2>/i';
 $pattern4='/^[^\.]*/i';
+$guidPattern = '/http:\/\/magly.ir\/\?p=\d+/i';
+$str = "select * from wp_posts where post_content LIKE '%" . $searchKey . "%' OR post_title LIKE '%".$searchKey."%' AND post_type = 'post' AND post_status = 'publish'";
 
-$str = "select * from wp_posts where post_content LIKE '%" . $searchKey . "%' AND post_type = 'post' AND post_status = 'publish'";
 $posts_array = $wpdb->get_results($str);
 for($i = 0;$i < count($posts_array);$i++)
 {
@@ -42,8 +43,12 @@ for($i = 0;$i < count($posts_array);$i++)
 	$catId = get_the_category($posts_array[$i]->ID);
 	$posts_array[$i]->catId = $catId;
 	$posts_array[$i]->thumbnail = $thumb_url[0];
+	$args = array ('post_id' => $posts_array[$i]->ID);
+	$posts_array[$i]->comments = get_comments($args);
 	$posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
 	$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+	$posts_array[$i]->post_content = str_replace('width="640"','width="100%"',$posts_array[$i]->post_content);
+	
 	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
 	//$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
 	preg_match( $pattern4, $posts_array[$i]->summary, $match );
@@ -53,4 +58,9 @@ for($i = 0;$i < count($posts_array);$i++)
 			else
 	  	$posts_array[$i]->isFavorite= false;
 }
-echo json_encode($posts_array);
+for($i = 0;$i < count($posts_array);$i++)
+{
+	if (preg_match($guidPattern, $posts_array[$i]->guid))
+		$finalPostArray [] = $posts_array[$i];
+	}
+echo json_encode($finalPostArray);

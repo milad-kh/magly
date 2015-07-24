@@ -8,12 +8,13 @@ require_once("../wp-load.php");
 global $wpdb;
 $category = $_GET['category'];
 $userID = $_GET['userID'];
+$numberOfPostDownloadedFirstTime = $_GET['numberOfPostDownloadedFirstTime'];
 if ($category == 'all')
   $categorySign = '';
 else
   $categorySign = $category;  
 $args = array(
-	'posts_per_page'   => 5,
+	'posts_per_page'   => $numberOfPostDownloadedFirstTime,
 	'offset'           => 0,
 	'category'         => $categorySign,
 	'category_name'    => '',
@@ -72,9 +73,10 @@ for($i = 0;$i < count($posts_array);$i++)
 	$posts_array[$i]->likes = $likes;
 	
 	$posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
-	$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+	$posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);	
+	$posts_array[$i]->post_content = str_replace('width="640"','width="100%"',$posts_array[$i]->post_content);
+	$posts_array[$i]->post_content = str_replace('height="360"',' ',$posts_array[$i]->post_content);
 	$posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
-	//$posts_array[$i]->summary = preg_replace($pattern3,'',$posts_array[$i]->post_content);
 	preg_match( $pattern4, $posts_array[$i]->summary, $match );
 	$posts_array[$i]->summary = $match;
 	if (in_array($posts_array[$i]->ID, $listOfPostsID))

@@ -9,7 +9,7 @@ $smallestIDinLocal= $_GET['smallestIDinLocal'];
 $userID = $_GET['userID'];
 $number_to_get_post = $_GET['numberToGetPost'];
 $category = $_GET['category'];
-if ($category == 'posts')
+if ($category == 'all')
   $catID = '';
 else
   $catID = $category;  
@@ -45,7 +45,7 @@ for ($i=($smallestIDinLocal-1);$i>0;$i--)
       $categoryArray[]=$val->term_id;
     }
     if($catID == '')
-    $categoryArray[] ='';
+  	$categoryArray[] ='';
     if ($currentPost->post_status == 'publish' && $currentPost->menu_order == 0 && preg_match($guidPattern, $currentPost->guid)) 
     {
         if ($k < $number_to_get_post && in_array($catID,$categoryArray))
@@ -67,17 +67,20 @@ for($i = 0;$i < count($posts_array);$i++)
   $thumb_url = wp_get_attachment_image_src($post_thumbnail_id,'small', true);
   
   $posts_array[$i]->thumbnail = $thumb_url[0];
-  
+  $args = array ('post_id' => $posts_array[$i]->ID);
+  $posts_array[$i]->comments = get_comments($args);
   $posts_array[$i]->post_content = preg_replace($pattern1,'',$posts_array[$i]->post_content);
   $posts_array[$i]->post_content = preg_replace($pattern2,'',$posts_array[$i]->post_content);
+  $posts_array[$i]->post_content = str_replace('width="640"','width="100%"',$posts_array[$i]->post_content);
   
+	$posts_array[$i]->post_content = str_replace('height="360"',' ',$posts_array[$i]->post_content);
   $posts_array[$i]->summary = strip_tags($posts_array[$i]->post_content);
-  preg_match( $pattern4, $posts_array[$i]->summary, $match );
-  $posts_array[$i]->summary = $match;
-  if (in_array($posts_array[$i]->ID, $listOfPostsID))
-    $posts_array[$i]->isFavorite= true;
-  else
-    $posts_array[$i]->isFavorite= false;
-  $posts_array[$i]->isLike = false;   
+	preg_match( $pattern4, $posts_array[$i]->summary, $match );
+	$posts_array[$i]->summary = $match;
+	if (in_array($posts_array[$i]->ID, $listOfPostsID))
+	  $posts_array[$i]->isFavorite= true;
+	else
+	  $posts_array[$i]->isFavorite= false;
+  $posts_array[$i]->isLike = false;	  
 };
 echo json_encode($posts_array);
