@@ -554,7 +554,9 @@ $scope.isPostInCollection = function(post, collection)
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
-    $scope.posts = $localstorage.getObject('search');
+    if(!_.isEmpty($localstorage.getObject('search')))
+      $scope.posts = $localstorage.getObject('search');
+    console.info($scope.posts);
     $localstorage.setObject('cat', 'search');
     $scope.data = {};
   });
