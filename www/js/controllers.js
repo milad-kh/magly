@@ -554,7 +554,7 @@ $scope.isPostInCollection = function(post, collection)
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
-    // $localstorage.setObject('cat', 'search')
+    $scope.posts = $localstorage.getObject('search');
     $scope.data = {};
   });
 
@@ -578,6 +578,23 @@ $scope.isPostInCollection = function(post, collection)
         url:'http://www.magly.ir/HybridAppAPI/search.php?searchKey='+$scope.data.searchKey+'&userID='+$scope.userID
       }).success(function(data,status,headers,config){
         console.log(data);
+        //////////////////// update 'isLike' attr 
+        var localStorageLength = window.localStorage.length;
+          var localstorageItemArray = [];
+          for (var i = 0; i< localStorageLength; i++)
+          {
+            localstorageItemArray.push(window.localStorage.key(i));
+          }          
+          ng.forEach(localstorageItemArray, function(localstorageObjectName){
+            item = $localstorage.getObject(localstorageObjectName);
+            ng.forEach(item, function(post){
+              ng.forEach(data, function(searchedPost){
+                if (post.ID == searchedPost.ID)
+                  searchedPost.isLike = post.isLike;                
+              })
+            });
+          });
+        /////////////////////
         $localstorage.setObject('search', data);
         $scope.posts = data;
         $ionicLoading.hide();
@@ -608,8 +625,8 @@ $scope.isPostInCollection = function(post, collection)
   {
     generalActions.addToFavorite(postID)
     $scope.$on('updatePosts', function(data){
-      console.log('dar in lahze update shod');
-      $scope.posts = $localstorage.getObject($localstorage.getObject('cat'));          
+      console.log('dar in lahze update shod search');
+      $scope.posts = $localstorage.getObject($localstorage.getObject('search'));          
     });
   };
   
@@ -738,6 +755,13 @@ $scope.isPostInCollection = function(post, collection)
       $scope.info = {};
     }
   });  
+  
+  $scope.$watch('settings.numberOfPostDownloadedFirstTime', function(newVal, oldVal){
+    console.info(newVal);
+    $scope.settings.numberOfPostDownloadedFirstTime = newVal;
+    $localstorage.setObject('settings', $scope.settings);
+  });
+
   $scope.$watch('settings.numberOfPostDownloaded', function(newVal, oldVal){
     console.info(newVal);
     $scope.settings.numberOfPostDownloaded = newVal;
@@ -862,8 +886,10 @@ $scope.isPostInCollection = function(post, collection)
         if(data.status == 'ok')
         {
           var categories = $localstorage.getObject('categories');
+          var settings = $localstorage.getObject('settings');
           window.localStorage.clear();
           $localstorage.setObject('categories', categories);
+          $localstorage.setObject('settings', settings);
           /////////////////////////////////////////
           $ionicLoading.hide();
           $localstorage.setObject('userInfo',data.info);  
