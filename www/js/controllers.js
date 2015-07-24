@@ -109,9 +109,9 @@
     $scope.fillMostPosts();    
   });
   
-  $scope.shareToSocial = function(postID, host)
+  $scope.shareToSocial = function(postID)
   {
-    generalActions.shareToSocial(postID, host);
+    generalActions.shareToSocial(postID);
   };
 
   $rootScope.$on('$stateChangeStart', 
@@ -186,9 +186,9 @@
       $ionicScrollDelegate.scrollBottom(true);
   };
 
-  $scope.shareToSocial = function(postID, host)
+  $scope.shareToSocial = function(postID)
   {
-    generalActions.shareToSocial(postID, host);
+    generalActions.shareToSocial(postID);
   };
 
   $scope.$on('$ionicView.beforeLeave', function(){
@@ -541,20 +541,21 @@ $scope.isPostInCollection = function(post, collection)
         });      
     }
 })
-.controller('searchCtrl', function(generalActions, $rootScope, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
+.controller('searchCtrl', function(generalActions, $ionicHistory, $stateParams, $rootScope, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
   $scope.ch = function(id)
   {
     $state.go('tab.chat-detail', ({chatId:id}));
   };
 
-  $scope.shareToSocial = function(postID, host)
+  $scope.shareToSocial = function(postID)
   {
-    generalActions.shareToSocial(postID, host);                
+    generalActions.shareToSocial(postID);                
   };
 
   $scope.$on('$ionicView.afterEnter', function(){  
     $scope.posts = $localstorage.getObject('search');
+    $localstorage.setObject('cat', 'search');
     $scope.data = {};
   });
 
@@ -624,11 +625,12 @@ $scope.isPostInCollection = function(post, collection)
   $scope.addToFavorite = function(postID)
   {
     generalActions.addToFavorite(postID)
-    $scope.$on('updatePosts', function(data){
-      console.log('dar in lahze update shod search');
-      $scope.posts = $localstorage.getObject($localstorage.getObject('search'));          
-    });
   };
+  $scope.$on('updatePosts', function(){
+    console.log('dar in lahze update shod search');
+    $scope.posts = $localstorage.getObject('search');
+    console.info($scope.posts);              
+  });
   
   $scope.sendLike = function(postID)
   {
@@ -1033,9 +1035,9 @@ $scope.isPostInCollection = function(post, collection)
     });
   });
   
-  $scope.shareToSocial = function(postID, host)
+  $scope.shareToSocial = function(postID)
   {
-    generalActions.shareToSocial(postID, host);
+    generalActions.shareToSocial(postID);
   };
 
   $scope.addToFavorite = function(postID)

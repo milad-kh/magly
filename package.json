@@ -37,7 +37,9 @@
     "cordova-plugin-device-orientation",
     "cordova-plugin-device-motion",
     "cordova-plugin-splashscreen",
-    "http://github.com/apache/cordova-plugin-whitelist.git"
+    "http://github.com/apache/cordova-plugin-whitelist.git",
+    "..\\..\\cordova-plugin-whitelist",
+    "..\\..\\SocialSharing-PhoneGap-Plugin"
   ],
   "cordovaPlatforms": [
     "android"

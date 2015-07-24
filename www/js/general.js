@@ -7,10 +7,10 @@
 	{
 		ng
 		.module('general-actions',['localStorage'])
-		.factory('generalActions', ['$rootScope', '$localstorage', '$ionicPopup', '$http', '$ionicLoading', factoryProvider])
+		.factory('generalActions', ['$cordovaSocialSharing', '$rootScope', '$localstorage', '$ionicPopup', '$http', '$ionicLoading', factoryProvider])
 	},
 
-	factoryProvider = function($rootScope, $localstorage, $ionicPopup, $http, $ionicLoading)
+	factoryProvider = function($cordovaSocialSharing, $rootScope, $localstorage, $ionicPopup, $http, $ionicLoading)
 	{
 		// console.info($scope);
 		var generalActions = {
@@ -46,7 +46,8 @@
 		      		if (post.ID == postID)
 		      			post.isFavorite = !post.isFavorite;
 		      	});
-		      	$localstorage.setObject(localstorageObjectName, item);
+
+		      	$localstorage.setObject(localstorageObjectName, item);		      	
 		      	if(localstorageObjectName == $localstorage.getObject('cat'))
 		      		$rootScope.$broadcast('updatePosts');		        				  
 		      });
@@ -58,15 +59,17 @@
 	      });
 			},
 
-			shareToSocial : function(postID, host)
+			shareToSocial : function(postID)
 			{
+				console.info('injast');
 				var
 			    message,
 			    title,
 			    link,
 			    xxx
 			  ;		    
-		    _.each($localstorage.getObject(host), function(post){
+
+		    _.each($localstorage.getObject($localstorage.getObject('cat')), function(post){
 		      if (post.ID == postID)
 		      {
 		        console.info('peida shod');
@@ -75,7 +78,8 @@
 		        link = post.guid;
 		        xxx= post;
 		      }
-		    });    
+		    });
+		    // console.log(message, title, link);
 
 		    $cordovaSocialSharing
 		    .share(message, title, null, link)
@@ -83,7 +87,7 @@
 		      console.log('successfully shared');
 		    }, function(err) {
 		      console.log('failed');
-		    });                
+		    });        
 			},
 			sendLike : function(postID)
 			{
