@@ -335,7 +335,7 @@
             console.info('vibrate');
             $cordovaVibration.vibrate(700);
           }
-          if($scope.beepWhenNewPostsDownloaded)
+          if($scope.settings.beepWhenNewPostsDownloaded)
           {
             console.info('beep');
             $cordovaDialogs.beep(1);
@@ -412,7 +412,17 @@ $scope.isPostInCollection = function(post, collection)
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
         cache: false
-      }).success(function(data,status,headers,config){          
+      }).success(function(data,status,headers,config){ 
+        if ($scope.settings.vibrateWhenNewPostsDownloaded)
+          {
+            console.info('vibrate');
+            $cordovaVibration.vibrate(700);
+          }
+          if($scope.settings.beepWhenNewPostsDownloaded)
+          {
+            console.info('beep');
+            $cordovaDialogs.beep(1);
+          }         
         console.info('data', data);
         newPosts = _.union(newPosts, data);          
         $scope.posts = _.union($scope.posts, newPosts);
@@ -940,7 +950,7 @@ $scope.isPostInCollection = function(post, collection)
     var postID = $stateParams.postID;
     var posts = $localstorage.getObject($localstorage.getObject('cat'));
     ng.forEach(posts, function(post){
-      if (post.ID == postID)
+      if (post.ID == postID && !_.isEmpty(post.comments))
       { 
         $scope.comments = post.comments;
         console.log(post);
