@@ -329,18 +329,19 @@
           
           localStorage.removeItem(cat);
           $localstorage.setObject(cat,$scope.posts);
-
-          if ($scope.settings.vibrateWhenNewPostsDownloaded)
+          if (!_.isEmpty(data))
           {
-            console.info('vibrate');
-            $cordovaVibration.vibrate(700);
+            if ($scope.settings.vibrateWhenNewPostsDownloaded)
+            {
+              console.info('vibrate');
+              $cordovaVibration.vibrate(700);
+            }
+            if($scope.settings.beepWhenNewPostsDownloaded)
+            {
+              console.info('beep');
+              $cordovaDialogs.beep(1);
+            }
           }
-          if($scope.settings.beepWhenNewPostsDownloaded)
-          {
-            console.info('beep');
-            $cordovaDialogs.beep(1);
-          }
-          
           $scope.$broadcast('scroll.refreshComplete');
           console.warn('haji amaliat b payan resid', data);
         
@@ -413,6 +414,8 @@ $scope.isPostInCollection = function(post, collection)
         url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
         cache: false
       }).success(function(data,status,headers,config){ 
+        if (!_.isEmpty(data))
+        {
         if ($scope.settings.vibrateWhenNewPostsDownloaded)
           {
             console.info('vibrate');
@@ -423,6 +426,7 @@ $scope.isPostInCollection = function(post, collection)
             console.info('beep');
             $cordovaDialogs.beep(1);
           }         
+        }
         console.info('data', data);
         newPosts = _.union(newPosts, data);          
         $scope.posts = _.union($scope.posts, newPosts);
