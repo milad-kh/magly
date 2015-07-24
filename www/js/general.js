@@ -79,7 +79,7 @@
 		        xxx= post;
 		      }
 		    });
-		    // console.log(message, title, link);
+		    console.log(message, title, link);
 
 		    $cordovaSocialSharing
 		    .share(message, title, null, link)

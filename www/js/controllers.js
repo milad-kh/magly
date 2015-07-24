@@ -651,6 +651,11 @@ $scope.isPostInCollection = function(post, collection)
 
 .controller('ChatDetailCtrl', function(generalActions, $ionicScrollDelegate, $ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
+  
+  $scope.$on('$ionicView.afterEnter', function(){
+    $scope.showSignIn = checkUserAuth.isUserLogin();    
+  });
+
   $scope.shareToSocial = function(postID)
   {
     generalActions.shareToSocial(postID);
@@ -1006,6 +1011,7 @@ $scope.isPostInCollection = function(post, collection)
   }
 
   $scope.$on('$ionicView.afterEnter', function(){    
+    $localstorage.setObject('cat', 'favoritePosts');
     $ionicScrollDelegate.scrollTop();    
     if (_.isEmpty($localstorage.getObject('favoritePosts')))
       $ionicLoading.show({
