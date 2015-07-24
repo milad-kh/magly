@@ -99,7 +99,7 @@
   
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.posts = $localstorage.getObject('most');    
-    // $localstorage.setObject('cat','most');
+    $localstorage.setObject('cat','most');
     if (_.isEmpty($scope.posts))
     {    
       $ionicLoading.show({
