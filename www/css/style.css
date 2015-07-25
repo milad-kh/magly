@@ -349,3 +349,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
   background: url(../img/logo.svg);
   background-size: 38px 38px;
 }
+
+.background-highlight-in-comment
+{
+	background-color: rgba(86, 210, 236, 0.1)
+}

@@ -12,25 +12,27 @@ navigation history that also transitions its views in and out.
   &nbsp;  برگشت
   </button>
 </ion-nav-buttons>
-<ion-tabs class="tabs-icon-only tabs-striped tabs-color-active-positive">
+<ion-tabs class="tabs-striped tabs-icon-top tabs-color-active-positive">
   <!-- List of comments -->
-  <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book">
-   <ion-content style="margin-top:15%">
-   <div ng-show="!comments" class="yekan" style="direction:rtl">
-      اولین نفری باشید که نظر می دهید
-   </div>
+  <ion-tab icon-off="ion-ios-book" icon-on="ion-ios-book-outline" title="لیست نظرات">
+   <ion-content style="margin-top:10%">
+  
+   <div class="row" ng-show="!comments" class="yekan">
+      <div class="col">
+        <button ng-click="activeSendCommentTab(1)" class="button button-block button-balanced yekan icon-right ion-ios-checkmark-outline"> اولین نفری باشید که نظر می دهید </button>
+      </div>      
+    </div>
     <div class="list" style="direction:rtl" ng-show="comments">
-      <a class="item item-avatar" ng-repeat="comment in comments">        
-        <h2 ng-bind="comment.comment_author" class="yekan"></h2>
+      <a class="item item-avatar" ng-class='setCommentClass($index)' ng-repeat="comment in comments">        
+        <h2 class="yekan">{{$index+1+ '- ' + comment.comment_author}}</h2>
         <p ng-bind="comment.comment_content" class="yekan" style="overflow:visible;white-space:normal"></p>     
       </a>
     </div>
-
   </ion-content>
   </ion-tab>
 
   <!-- send comment form -->
-  <ion-tab icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble-outline">
+  <ion-tab icon-off="ion-ios-chatbubble-outline" icon-on="ion-ios-chatbubble-outline" title="نظر جدید">
     <ion-content style="margin-top:10%">
     <div style="height:auto;direction:rtl">
 

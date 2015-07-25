@@ -94,7 +94,7 @@
   };
 })
 
-.controller('MostCtrl', function(generalActions, $state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopup, $cordovaSocialSharing){
+.controller('MostCtrl', function(generalActions,$ionicScrollDelegate, $state, $ionicLoading, $localstorage, $rootScope, $scope, $http, $ionicPopup, $cordovaSocialSharing){
   console.warn('MostCtrl initialized');
   
   $scope.$on('$ionicView.afterEnter', function(){
@@ -106,7 +106,9 @@
         template:'<span class="yekan">... در حال بارگذاری</span>'
       });
     }
-    $scope.fillMostPosts();    
+    $scope.fillMostPosts();
+    var settings = $localstorage.getObject('settings');
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;    
   });
   
   $scope.shareToSocial = function(postID)
@@ -178,9 +180,11 @@
   {
     $scope.t.push(x);
   }
+  
   $scope.scrollScreen = function(dir)
   {    
-    if (dir == 'up')
+    
+   if (dir == 'up')
       $ionicScrollDelegate.scrollTop(true);
     else
       $ionicScrollDelegate.scrollBottom(true);
@@ -233,6 +237,8 @@
       }
     }
     $ionicScrollDelegate.resize();
+    var settings = $localstorage.getObject('settings');
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;
   });
 
   $rootScope.$on('$stateChangeStart', 
@@ -555,7 +561,7 @@ $scope.isPostInCollection = function(post, collection)
         });      
     }
 })
-.controller('searchCtrl', function(generalActions, $ionicHistory, $stateParams, $rootScope, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
+.controller('searchCtrl', function(generalActions, $ionicScrollDelegate, $ionicHistory, $stateParams, $rootScope, $ionicLoading, $scope, $localstorage, $ionicPopup, $http, $state, $cordovaSocialSharing){
   
   $scope.ch = function(id)
   {
@@ -573,6 +579,8 @@ $scope.isPostInCollection = function(post, collection)
     console.info($scope.posts);
     $localstorage.setObject('cat', 'search');
     $scope.data = {};
+    var settings = $localstorage.getObject('settings');
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;    
   });
 
   $scope.search = function()
@@ -803,6 +811,12 @@ $scope.isPostInCollection = function(post, collection)
       $localstorage.setObject('settings', $scope.settings);
     });
 
+  $scope.$watch('settings.scrollSpeed', function(newVal, oldVal){
+      console.info(newVal);
+      $scope.settings.scrollSpeed = newVal;
+      $localstorage.setObject('settings', $scope.settings);
+    });
+
   $scope.showForgetPassModal = function()
   {
     $scope.data = {};
@@ -942,7 +956,7 @@ $scope.isPostInCollection = function(post, collection)
   }
 })
 
-.controller('commentCtrl', function($ionicTabsDelegate,$ionicHistory, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
+.controller('commentCtrl', function($ionicTabsDelegate, $ionicScrollDelegate, $ionicHistory, $ionicLoading, $state, $rootScope,$http, $localstorage, $scope, $ionicModal, $stateParams){
   console.log('comments controller initialized');
   $scope.$on('$ionicView.afterEnter', function(){
     var userInfo = $localstorage.getObject('userInfo');  
@@ -961,12 +975,25 @@ $scope.isPostInCollection = function(post, collection)
       }
     });
     console.log($scope.comments);
+    var settings = $localstorage.getObject('settings');
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;    
   });
   $scope.commentObject = {};
   
   $scope.goBack = function()
   {
     $ionicHistory.goBack();
+  }
+
+  $scope.setCommentClass = function(index)
+  {
+    if(index % 2 == 0)
+      return "background-highlight-in-comment";    
+  }
+
+  $scope.activeSendCommentTab = function(index)
+  {
+    $ionicTabsDelegate.select(index);
   }
 
   $scope.sendComment = function()
@@ -1055,6 +1082,8 @@ $scope.isPostInCollection = function(post, collection)
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
+    var settings = $localstorage.getObject('settings');
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;
   });
   
   $scope.shareToSocial = function(postID)

@@ -27,6 +27,7 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
   if (_.isEmpty($localstorage.getObject('settings')))
   {
     $localstorage.setObject('settings', {
+      scrollSpeed:3,
       numberOfPostDownloaded : 3,
       numberOfPostDownloadedFirstTime :5,
       vibrateWhenNewPostsDownloaded : true,
