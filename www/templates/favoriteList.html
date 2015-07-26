@@ -11,7 +11,7 @@
 </div>
 
 <!-- post -->
-<ion-item ng-repeat="post in favoritePosts track by $index" ng-show="favoritePosts">
+<ion-item collection-repeat="post in favoritePosts track by $index" ng-show="favoritePosts" item-render-buffer="8" force-refresh-images="false">
  <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
     <p style="direction:rtl">
@@ -30,11 +30,11 @@
     </div>
 
      <div class="item item-thumbnail" style="padding:0px;border:0px"> 
-     <img class="full-image" src="{{post.thumbnail}}">     
+      <div class="item-cover-mode" style="background-image: url({{post.thumbnail}})"></div>
      </div> 
      
     <div class="item item-body" style="border:0px">
-      <div style="direction:rtl" class="yekan" ng-bind-html="post.summary+'...'">                      
+      <div style="direction:rtl;overflow:hidden;height:60px" class="yekan" ng-bind-html="post.summary">                      
       </div>
     </div>
 </div>
