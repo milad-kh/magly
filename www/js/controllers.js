@@ -62,6 +62,7 @@
   {
     console.log(catID);
     $localstorage.setObject('cat', catID);
+    $localstorage.setObject('orginalCat', catID);
     $state.go('tab.chats');
     $rootScope.$broadcast('scrollToTop');
   };
@@ -203,10 +204,16 @@
   });
 
   $scope.$on('$ionicView.afterEnter', function(){
+    if($localstorage.getObject('cat') != $localstorage.getObject('orginalCat'))
+      $localstorage.setObject('cat', $localstorage.getObject('orginalCat'));
     $scope.settings = $localstorage.getObject('settings');
     var catID = $localstorage.getObject('cat');
+
     if (_.isEmpty($localstorage.getObject('cat')))
-      $localstorage.setObject('cat','all'); 
+    {
+      $localstorage.setObject('orginalCat', 'all');
+      $localstorage.setObject('cat', 'all'); 
+    }
     ng.forEach($localstorage.getObject('categories'), function(category){
       if (catID == category.cat_ID)
         $scope.categoryName = category.name;
