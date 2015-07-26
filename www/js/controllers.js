@@ -239,6 +239,7 @@
     $ionicScrollDelegate.resize();
     var settings = $localstorage.getObject('settings');
     $ionicScrollDelegate.getScrollView().options.speedMultiplier = settings.scrollSpeed;
+    $ionicScrollDelegate.getScrollView().options.speedMultiplier = 3;
   });
 
   $rootScope.$on('$stateChangeStart', 
