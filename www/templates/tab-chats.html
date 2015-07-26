@@ -17,7 +17,7 @@
  </ion-refresher>
 <div>
    <!-- USUAL POST -->
- <ion-item collection-repeat="post in posts track by $index" item-render-buffer="10" force-refresh-images="false">
+ <ion-item collection-repeat="post in posts track by $index" item-render-buffer="3" force-refresh-images="false">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
     <p style="direction:rtl">
@@ -42,7 +42,7 @@
     </div> 
      
     <div class="item item-body" style="border:0px">
-      <div style="direction:rtl" class="yekan" ng-bind="post.summary+'...'"></div>
+      <div style="direction:rtl;overflow:hidden;height:60px;text-overflow:ellipsis" class="yekan" ng-bind="post.summary"></div>
     </div>
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">
