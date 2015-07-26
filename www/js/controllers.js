@@ -386,6 +386,12 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.loadMoreDataForDown = function()
   {  
+     $ionicLoading.show({
+        // duration: 30000,
+        // noBackdrop: true,
+        // noBackdrop: false,
+        template: '<div><p class="yekan">دریافت مطالب جدید </p><ion-spinner icon="android"/></div>'
+      });
     var 
     cat,
     newPosts = {};
@@ -423,6 +429,7 @@ $scope.isPostInCollection = function(post, collection)
     {
       var remainsPostsToGet = $scope.settings.numberOfPostDownloaded - newPosts.length;
       console.info('in tedad ro byad az net begirim ', remainsPostsToGet);
+     
       $http({
         method: 'GET',
         url:'http://www.magly.ir/HybridAppAPI/loadMoreDataForDown.php?smallestIDinLocal=' + smallestIDinLocal.ID +'&userID='+userInfo.ID + '&numberToGetPost=' + remainsPostsToGet + '&category=' + cat,
@@ -430,6 +437,7 @@ $scope.isPostInCollection = function(post, collection)
       }).success(function(data,status,headers,config){ 
         if (!_.isEmpty(data))
         {
+          $ionicLoading.hide();
         if ($scope.settings.vibrateWhenNewPostsDownloaded)
           {
             console.info('vibrate');
@@ -445,17 +453,21 @@ $scope.isPostInCollection = function(post, collection)
         newPosts = _.union(newPosts, data);          
         $scope.posts = _.union($scope.posts, newPosts);
         $localstorage.setObject(cat, $scope.posts);
-        $scope.$broadcast('scroll.infiniteScrollComplete');                          
+        $scope.$broadcast('scroll.infiniteScrollComplete'); 
+        $ionicLoading.hide();                         
       }).error(function(data,status,headers,config){
         console.log('error in get posts for down');
+        $ionicLoading.hide();
       });
     }
     else
     {
       $scope.posts = _.union($scope.posts, newPosts);                   
       $localstorage.setObject(cat, $scope.posts);
-      $scope.$broadcast('scroll.infiniteScrollComplete');                          
+      $scope.$broadcast('scroll.infiniteScrollComplete'); 
+      $ionicLoading.hide();                         
     } 
+    // $ionicLoading.hide();
   };
 
   $scope.ch = function(id)
