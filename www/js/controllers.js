@@ -387,8 +387,7 @@ $scope.isPostInCollection = function(post, collection)
   $scope.loadMoreDataForDown = function()
   {  
      $ionicLoading.show({
-        // duration: 30000,
-        // noBackdrop: true,
+        duration: 10000,
         // noBackdrop: false,
         template: '<div><p class="yekan">دریافت مطالب جدید </p><ion-spinner icon="android"/></div>'
       });
