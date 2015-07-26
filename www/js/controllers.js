@@ -386,11 +386,11 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.loadMoreDataForDown = function()
   {  
-     $ionicLoading.show({
+     /*$ionicLoading.show({
         duration: 10000,
         // noBackdrop: false,
         template: '<div><p class="yekan">دریافت مطالب جدید </p><ion-spinner icon="android"/></div>'
-      });
+      });*/
     var 
     cat,
     newPosts = {};
