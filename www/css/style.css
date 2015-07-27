@@ -356,14 +356,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
 }
 
 .item-cover-mode {
-    width: 80px;
-    height: 80px;       
+    width: 100%;
+    height: 230px;       
     background-size: cover;
     background-repeat: no-repeat;
+    border-radius: 7px;
   }
 .category-cover-mode{
 	width: 80px;
     height: 80px;       
     background-size: cover;
     background-repeat: no-repeat;
+
 }  

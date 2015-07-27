@@ -386,11 +386,6 @@ $scope.isPostInCollection = function(post, collection)
 
   $scope.loadMoreDataForDown = function()
   {  
-     /*$ionicLoading.show({
-        duration: 10000,
-        // noBackdrop: false,
-        template: '<div><p class="yekan">دریافت مطالب جدید </p><ion-spinner icon="android"/></div>'
-      });*/
     var 
     cat,
     newPosts = {};
@@ -650,7 +645,7 @@ $scope.isPostInCollection = function(post, collection)
     else
     {
       var alertPopup = $ionicPopup.alert({
-        title: '<span class="yekan">خطا در جستجو</span>',
+        title: '<span class="yekan">راهنمایی</span>',
         template: '<span class="yekan">عبارت مورد جستجو باید بیشتر از 4 حرف داشته باشد</span>'
       });
       alertPopup.then(function(res) {
