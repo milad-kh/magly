@@ -39,6 +39,7 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
   
   $ionicConfigProvider.tabs.position('bottom');
+  $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
   // $ionicConfigProvider.views.forwardCache(true);
   // $ionicConfigProvider.views.maxCache(0);
   

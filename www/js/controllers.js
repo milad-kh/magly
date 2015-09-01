@@ -1,7 +1,6 @@
 (function(ng, _, $){
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
-  
   .controller('DashCtrl', function($interval, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
   
   // $interval(refreshCategoryImages, 4000);
@@ -16,9 +15,7 @@
   function refreshCategoryImages()
   {
     var randomCategory = Math.floor((Math.random() * categoriesArray.length-1) + 1);
-    var targetCategory = categoriesArray[randomCategory];
-    // console.info(targetCategory.cat_ID);
-    // console.info(document.getElementById(targetCategory.cat_ID).src);
+    var targetCategory = categoriesArray[randomCategory];    
     $http({
        method: 'GET',
        cache:false,
@@ -175,7 +172,7 @@
 
 .controller('ChatsCtrl', function(generalActions, $window, $ionicScrollDelegate, $ionicLoading, $cordovaToast, $cordovaDialogs, $cordovaVibration, $ionicPopup, $rootScope, $ionicModal, $cordovaSocialSharing, $ionicLoading, $localstorage, $http, $scope, $state,  $ionicActionSheet, checkUserAuth) {
   console.warn('ChatsCtrl initialized', $window);
-
+  
   $scope.t=[];
   for (var x=0;x<5000;x++)
   {
@@ -764,11 +761,13 @@ $scope.isPostInCollection = function(post, collection)
     {
       $ionicLoading.hide();
       $scope.targetPost = post;            
+      // $scope.targetPost.post_content.replace(/(<([^>]+)>)/ig,"");            
       x = $sce.trustAsHtml($scope.targetPost.post_content);
-      $scope.targetPost.post_content = x;
+      $scope.targetPost.post_content = x;      
     }    
   });
 
+  // console.log($scope.targetPost);
 
   // sample related post
   $http({
