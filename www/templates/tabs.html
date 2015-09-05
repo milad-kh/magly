@@ -3,32 +3,32 @@ Create tabs with an icon and label, using the tabs-positive style.
 Each tab's child <ion-nav-view> directive will have its own
 navigation history that also transitions its views in and out.
 -->
-<ion-tabs class="tabs-icon-only tabs-striped tabs-color-active-positive">
+<ion-tabs class="tabs-icon-top tabs-striped tabs-color-active-positive">
   <!-- Dashboard Tab -->
-  <ion-tab icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash">
+  <ion-tab icon-off="ion-ios-pulse" icon-on="ion-ios-pulse-strong" href="#/tab/dash" title="موضوعات">
     <ion-nav-view name="tab-dash"></ion-nav-view>
   </ion-tab>
   <!-- Chats Tab -->
-  <ion-tab icon-off="ion-ios-book-outline" icon-on="ion-ios-book" href="#/tab/chats">
+  <ion-tab icon-off="ion-ios-book-outline" icon-on="ion-ios-book" href="#/tab/chats" title="مطالب">
     <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>
 
   <!-- most visisted -->
-  <ion-tab icon-off="ion-flame" icon-on="ion-fireball" href="#/tab/most">
-    <ion-nav-view name="tab-most"></ion-nav-view>
+  <ion-tab icon-off="ion-flame" icon-on="ion-fireball" href="#/tab/most" title="بیشترین" class="yekan">
+    <ion-nav-view name="tab-most"></ion-nav-view>    
   </ion-tab>
 
   <!-- favorite posts -->
-    <ion-tab icon-off="ion-ios-glasses-outline" class="{{checkUserLogin()}}" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
+    <ion-tab icon-off="ion-ios-glasses-outline" class="{{checkUserLogin()}}" title="علاقه مندیها" icon-on="ion-ios-glasses" href="#/tab/favoriteList">
       <ion-nav-view name="tab-favoriteList"></ion-nav-view>
     </ion-tab>
   <!-- search posts -->
-  <ion-tab icon-off="ion-ios-search" icon-on="ion-ios-search-strong" href="#/tab/search">
+  <ion-tab icon-off="ion-ios-search" icon-on="ion-ios-search-strong" href="#/tab/search" title="جستجو">
     <ion-nav-view name="tab-search"></ion-nav-view>
   </ion-tab>
 
   <!-- profile posts -->
-  <ion-tab icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/profile">
+  <ion-tab icon-off="ion-ios-person-outline" icon-on="ion-ios-person" href="#/tab/profile" title="تنظیمات">
     <ion-nav-view name="tab-profile"></ion-nav-view>
   </ion-tab>
 
