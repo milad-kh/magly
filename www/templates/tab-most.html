@@ -1,12 +1,12 @@
 <ion-view title="بیـــــشترین بازدیــــد ها">
 <!-- <ion-nav-buttons side="right">
-<a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>          
+<a class="button button-icon icon ion-ios-keypad" ng-click="openPopover($event)"></a>
 </ion-nav-buttons> -->
 <ion-nav-buttons side="right">
-  <a class="button button-icon icon ion-flame"></a>          
+  <a class="button button-icon icon ion-ribbon-a"></a>          
 </ion-nav-buttons>
   <ion-content>
-    
+
    <ion-item collection-repeat="post in posts track by $index" item-render-buffer="8" force-refresh-images="false">
      <div ng-click="ch(post.ID)">
     <div class="item item-avatar" style="padding-left:20px;border:0px">
@@ -25,22 +25,22 @@
       </p>
     </div>
 
-     <div class="item item-thumbnail" style="padding:0px;border:0px"> 
+     <div class="item item-thumbnail" style="padding:0px;border:0px">
       <div class="item-cover-mode" style="background-image: url({{post.thumbnail}})"></div>
-     </div> 
-     
+     </div>
+
     <div class="item item-body" style="border:0px">
-      <div style="direction:rtl;overflow:hidden;height:60px" class="yekan" ng-bind-html="post.summary">                      
+      <div style="direction:rtl;overflow:hidden;height:60px" class="yekan" ng-bind-html="post.summary">
       </div>
     </div>
   </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:0px">
-    
+
     <a class="tab-item" ng-click="sendLike(post.ID)" ng-if="!showSignIn">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
-      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>       
+      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>
     </a>
-  
+
     <a class="tab-item" ng-click="goToComment(post.ID)">
       <i class="icon ion-chatbox"></i>
     </a>
@@ -55,7 +55,7 @@
     <a class="tab-item" ng-click="mailArticleToFriend(post.ID)">
           <i class="icon ion-ios-email-outline"></i>
         </a>
-   </div> 
+   </div>
 
    </ion-item>
        <!-- <div style="height:1px;background-color:black"></div> -->

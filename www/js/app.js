@@ -75,6 +75,9 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
         }
       }
       });
+      $scope.$on('$ionicView.afterEnter', function(){
+        $('span.tab-title').addClass('yekan');
+      });
     }
   })
   

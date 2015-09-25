@@ -1,18 +1,18 @@
 <ion-view title="{{categoryName}}">
 <ion-nav-buttons side="left">
-  <a class="button button-icon icon ion-ios-arrow-thin-up" ng-click="scrollScreen('up')"></a>    
-  <a class="button button-icon icon ion-ios-arrow-thin-down" ng-click="scrollScreen('down')"></a>          
+  <a class="button button-icon icon ion-ios-arrow-thin-up" ng-click="scrollScreen('up')"></a>
+  <a class="button button-icon icon ion-ios-arrow-thin-down" ng-click="scrollScreen('down')"></a>
 </ion-nav-buttons>
 <ion-nav-buttons side="right">
   <!-- <a class="button logo"></a>           -->
-  <a class="button button-icon icon ion-ios-book-outline"></a>          
+  <a class="button button-icon icon ion-compose"></a>          
 </ion-nav-buttons>
 <!-- <img src="img/logo2.png" style="position:absolute;z-index:1000;right:0px" /> -->
   <ion-content>
-  
+
  <ion-refresher
    pulling-text="در حال بارگیری پست های جدید..."
-   on-refresh="loadMoreDataForTop()"       
+   on-refresh="loadMoreDataForTop()"
  >
  </ion-refresher>
 <div>
@@ -23,9 +23,9 @@
     <p style="direction:rtl">
     <i class="icon ion-flag" style="color:lightseagreen"></i>
     &nbsp;
-    
+
       <span class="yekan notOverFlow" style="direction:rtl;overflow:visible;white-space:normal;font-size:medium;color:black" ng-bind="post.post_title"></span>
-    
+
       </p>
       <p class="yekan" style="direction:rtl">
       <i class="icon ion-ios-pulse" style="color:lightseagreen"></i>
@@ -37,21 +37,21 @@
       </p>
     </div>
 
-    <div class="item item-thumbnail" style="padding:0px;border:0px">       
+    <div class="item item-thumbnail" style="padding:0px;border:0px">
       <div class="item-cover-mode" style="background-image: url({{post.thumbnail}})"></div>
-    </div> 
-     
+    </div>
+
     <div class="item item-body" style="border:0px">
       <div style="direction:rtl;overflow:hidden;height:60px" class="yekan" ng-bind="post.summary"></div>
     </div>
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">
-    
+
     <a class="tab-item" ng-if="!showSignIn" ng-click="sendLike(post.ID)">
       <i class="icon ion-thumbsup" ng-if="!post.isLike"></i>
-      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>      
+      <i class="icon ion-thumbsup" style="color:green" ng-if="post.isLike"></i>
     </a>
-  
+
     <a class="tab-item" ng-click="goToComment(post.ID)">
       <i class="icon ion-chatbox"></i>
     </a>
@@ -66,36 +66,36 @@
     <a class="tab-item" ng-click="mailArticleToFriend(post.ID)">
           <i class="icon ion-ios-email-outline"></i>
         </a>
-   </div>   
+   </div>
    <!-- <div style="height:1px;background-color:black"></div> -->
 
    <!-- ADVERTISE  -->
  <!-- <div ng-if="$index % 5 == 0">
-     
-     <div class="item item-thumbnail" style="border:0px">  
-     <img class="full-image" src="img/ads2.jpg">     
-     </div> 
-     
+
+     <div class="item item-thumbnail" style="border:0px">
+     <img class="full-image" src="img/ads2.jpg">
+     </div>
+
     <div class="item item-body" style="border:0px">
       <div style="direction:rtl" class="yekan">
-      متن تبلیغ را اینجا می گذاریم                      
+      متن تبلیغ را اینجا می گذاریم
       </div>
     </div>
-    
+
    </div>  -->
 
    <!-- <div style="height:1px;background-color:black"></div> -->
    </ion-item>
 
-   
+
 </div>
   <ion-infinite-scroll
        ng-if="posts.length > 0"
        on-infinite="loadMoreDataForDown()"
-       distance="1%"       
-       
+       distance="1%"
+
        >
-     </ion-infinite-scroll> 
-   
+     </ion-infinite-scroll>
+
   </ion-content>
 </ion-view>
