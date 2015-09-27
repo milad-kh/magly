@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.summitmobile502140" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.summitmobile502140" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>magly</name>
   <description>
         An Ionic Framework and Cordova project.
@@ -52,7 +52,7 @@
     <splash src="resources/android/splash/landscape.png" density="land-xhdpi"/>
     <splash src="resources/android/splash/landscape.png" density="land-xxhdpi"/>
     <splash src="resources/android/splash/landscape.png" density="land-xxxhdpi"/>
-    
+
     <splash src="resources/android/splash/portrait.png" density="port-ldpi"/>
     <splash src="resources/android/splash/portrait.png" density="port-mdpi"/>
     <splash src="resources/android/splash/portrait.png" density="port-hdpi"/>

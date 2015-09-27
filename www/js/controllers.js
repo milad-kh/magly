@@ -772,8 +772,9 @@ $scope.isPostInCollection = function(post, collection)
   angular.forEach($scope.posts, function(post){
     if (post.ID == $stateParams.chatId)
     {
+      console.info(post);
       $ionicLoading.hide();
-      $scope.targetPost = post;      
+      $scope.targetPost = post;
       x = $sce.trustAsHtml($scope.targetPost.post_content);
       $scope.targetPost.post_content = x;
     }
