@@ -349,7 +349,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
   background: url(../img/logo.svg);
   background-size: 38px 38px;
 }
-
 .background-highlight-in-comment
 {
 	background-color: rgba(86, 210, 236, 0.1)
@@ -357,15 +356,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#febbbb', end
 
 .item-cover-mode {
     width: 100%;
-    height: 230px;       
+    height: 230px;
     background-size: cover;
     background-repeat: no-repeat;
     border-radius: 7px;
   }
 .category-cover-mode{
 	width: 80px;
-    height: 80px;       
+    height: 80px;
     background-size: cover;
     background-repeat: no-repeat;
 
-}  
+} 

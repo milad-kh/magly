@@ -22,7 +22,7 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
-    
+
   });
   if (_.isEmpty($localstorage.getObject('settings')))
   {
@@ -32,17 +32,17 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
       numberOfPostDownloadedFirstTime :5,
       vibrateWhenNewPostsDownloaded : true,
       beepWhenNewPostsDownloaded : true
-    });    
+    });
   }
 })
 
 .config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $sceDelegateProvider) {
-  
+
   $ionicConfigProvider.tabs.position('bottom');
-  $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
+  // $ionicConfigProvider.platform.android.scrolling.jsScrolling(false);
   // $ionicConfigProvider.views.forwardCache(true);
   // $ionicConfigProvider.views.maxCache(0);
-  
+
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -57,10 +57,10 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
     controller: function(checkUserAuth, $scope, $rootScope)
     {
       $scope.$on('$ionicView.afterEnter', function(){
-      $scope.showSignIn = checkUserAuth.isUserLogin();      
+      $scope.showSignIn = checkUserAuth.isUserLogin();
       $scope.$on('signOutOfApp', function(){
         $scope.checkUserLogin();
-      });  
+      });
       $scope.checkUserLogin = function()
       {
         $scope.showSignIn = checkUserAuth.isUserLogin();
@@ -80,13 +80,13 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
       });
     }
   })
-  
+
   .state('signup', {
       url: "/signup",
       templateUrl: "templates/signup.html",
       controller: 'signupCtrl'
     })
-  
+
   .state('comment', {
       url: "/comment/:postID",
       templateUrl: "templates/comment.html",
@@ -109,7 +109,7 @@ angular.module('starter', ['localStorage', 'ionic', 'starter.controllers', 'ngCo
       views: {
         'tab-chats': {
           templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'          
+          controller: 'ChatsCtrl'
         }
       }
     })
