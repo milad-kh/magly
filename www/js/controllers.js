@@ -345,12 +345,12 @@
             if ($scope.settings.vibrateWhenNewPostsDownloaded)
             {
               console.info('vibrate');
-              $cordovaVibration.vibrate(700);
+              // $cordovaVibration.vibrate(700);
             }
             if($scope.settings.beepWhenNewPostsDownloaded)
             {
               console.info('beep');
-              $cordovaDialogs.beep(1);
+              // $cordovaDialogs.beep(1);
             }
           }
           $scope.$broadcast('scroll.refreshComplete');
@@ -432,12 +432,12 @@ $scope.isPostInCollection = function(post, collection)
         if ($scope.settings.vibrateWhenNewPostsDownloaded)
           {
             console.info('vibrate');
-            $cordovaVibration.vibrate(700);
+            // $cordovaVibration.vibrate(700);
           }
           if($scope.settings.beepWhenNewPostsDownloaded)
           {
             console.info('beep');
-            $cordovaDialogs.beep(1);
+            // $cordovaDialogs.beep(1);
           }
         }
         console.info('data', data);
@@ -684,7 +684,20 @@ $scope.isPostInCollection = function(post, collection)
 
 .controller('ChatDetailCtrl', function(generalActions, $ionicScrollDelegate, $ionicHistory, $sce, $ionicLoading, $rootScope, $http, $ionicPopup, $cordovaSocialSharing, $ionicModal, $localstorage, $scope, $stateParams, $state, checkUserAuth) {
   console.warn('ChatDetailCtrl initialized');
-
+  $scope.stripTag = function(str, tag)
+  {
+    var a, parent, div = document.createElement('div');
+    div.innerHTML = str;
+    a = div.getElementsByTagName( tag );
+    while( a[0] ) {
+        parent = a[0].parentNode;
+        while (a[0].firstChild) {
+            parent.insertBefore(a[0].firstChild, a[0]);
+        }
+        parent.removeChild(a[0]);
+    }
+    return div.innerHTML;
+  };
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
   });
@@ -760,14 +773,11 @@ $scope.isPostInCollection = function(post, collection)
     if (post.ID == $stateParams.chatId)
     {
       $ionicLoading.hide();
-      $scope.targetPost = post;
-      // $scope.targetPost.post_content.replace(/(<([^>]+)>)/ig,"");
+      $scope.targetPost = post;      
       x = $sce.trustAsHtml($scope.targetPost.post_content);
       $scope.targetPost.post_content = x;
     }
   });
-
-  // console.log($scope.targetPost);
 
   // sample related post
   $http({
@@ -775,15 +785,11 @@ $scope.isPostInCollection = function(post, collection)
       url:'http://www.magly.ir/HybridAppAPI/relatedPosts.php?postID='+$stateParams.chatId
     }).success(function(data,status,headers,config){
         $scope.relatedPosts = data;
-        $localstorage.setObject('relatedPosts', data);
+        $localstorage.setObject('relatedPosts', $scope.relatedPosts);
       // re-make scope.posts and localStorage
-        // $scope.posts = _.union($scope.posts,data);
     }).error(function(data,status,headers,config){
       console.log('error in update!');
     });
-
-  //
-
 })
 
 .controller('ProfileCtrl', function($ionicLoading, $rootScope, $ionicPopup, $scope, $localstorage, $state, $http, checkUserAuth ) {
