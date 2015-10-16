@@ -39,7 +39,8 @@
     "cordova-plugin-splashscreen",
     "http://github.com/apache/cordova-plugin-whitelist.git",
     "..\\..\\cordova-plugin-whitelist",
-    "..\\..\\SocialSharing-PhoneGap-Plugin"
+    "..\\..\\SocialSharing-PhoneGap-Plugin",
+    "cordova-plugin-file"
   ],
   "cordovaPlatforms": [
     "android"

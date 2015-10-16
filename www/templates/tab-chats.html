@@ -5,7 +5,7 @@
 </ion-nav-buttons>
 <ion-nav-buttons side="right">
   <!-- <a class="button logo"></a>           -->
-  <a class="button button-icon icon ion-compose"></a>          
+  <a class="button button-icon icon ion-compose"></a>
 </ion-nav-buttons>
 <!-- <img src="img/logo2.png" style="position:absolute;z-index:1000;right:0px" /> -->
   <ion-content>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="item item-body" style="border:0px">
-      <div style="direction:rtl;overflow:hidden;height:60px" class="yekan" ng-bind="post.summary"></div>
+      <div style="direction:rtl;overflow:hidden;height:60px;text-align:justify;" class="yekan" ng-bind-html="post.summary + ' ...'"></div>
     </div>
 </div>
    <div ng-if = "1" class="item tabs tabs-secondary tabs-icon-left" style="border:none">

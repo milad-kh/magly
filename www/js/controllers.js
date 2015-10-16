@@ -1,4 +1,4 @@
-(function(ng, _, $){
+(function(root, ng, _, $){
   ng
   .module('starter.controllers', ['localStorage', 'user-auth', 'ngCordova', 'general-actions'])
   .controller('DashCtrl', function($interval, $cordovaToast, $cordovaNetwork, $cordovaDialogs, $cordovaVibration, $ionicLoading, $cordovaSocialSharing, $rootScope, $localstorage, $scope, $http, $state,checkUserAuth, generalActions) {
@@ -63,8 +63,7 @@
     $state.go('tab.chats');
     $rootScope.$broadcast('scrollToTop');
   };
-
-
+  
   $scope.whatClassIsIt = function(index)
   {
     if (index % 2 == 0)
@@ -701,7 +700,6 @@ $scope.isPostInCollection = function(post, collection)
   $scope.$on('$ionicView.afterEnter', function(){
     $scope.showSignIn = checkUserAuth.isUserLogin();
   });
-
   $scope.shareToSocial = function(postID)
   {
     generalActions.shareToSocial(postID);
@@ -1148,4 +1146,4 @@ $scope.isPostInCollection = function(post, collection)
 });
 
 }
-)(this.angular, this._, this.jQuery);
+)(this, this.angular, this._, this.jQuery);
